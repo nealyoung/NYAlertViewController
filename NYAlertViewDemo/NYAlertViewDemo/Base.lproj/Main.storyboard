@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eme-Sg-NKD" customClass="NYRoundRectButton">
+                                <rect key="frame" x="236" y="170" width="128" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="T5A-ap-YKx"/>
+                                    <constraint firstAttribute="width" constant="128" id="THY-uD-791"/>
+                                </constraints>
+                                <state key="normal" title="1 Action">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="alertViewButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g2P-fh-zXC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nzn-nS-eBX" customClass="NYRoundRectButton">
+                                <rect key="frame" x="236" y="240" width="128" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="47n-4n-1lZ"/>
+                                    <constraint firstAttribute="width" constant="128" id="NQq-w3-npj"/>
+                                </constraints>
+                                <state key="normal" title="2 Actions">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="alertViewButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vHc-O0-k5r"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gTT-BJ-E1O" customClass="NYRoundRectButton">
+                                <rect key="frame" x="236" y="310" width="128" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="SXq-23-6HB"/>
+                                    <constraint firstAttribute="width" constant="128" id="zIK-Mu-R3o"/>
+                                </constraints>
+                                <state key="normal" title="3 Actions">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="alertViewButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pQA-JJ-Ffo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fez-Ar-aV8" customClass="NYRoundRectButton">
+                                <rect key="frame" x="202" y="30" width="196" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="9bT-eA-S4H"/>
+                                    <constraint firstAttribute="width" constant="196" id="9vV-t1-bGT"/>
+                                </constraints>
+                                <state key="normal" title="System Alert Controller">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="systemAlertViewButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jYR-bc-ucY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJF-qU-O6G" customClass="NYRoundRectButton">
+                                <rect key="frame" x="236" y="100" width="128" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="4tC-g3-BZt"/>
+                                    <constraint firstAttribute="width" constant="128" id="qz1-s8-hb5"/>
+                                </constraints>
+                                <state key="normal" title="No Actions">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="alertViewButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EAP-U2-Kfj"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="nzn-nS-eBX" secondAttribute="centerX" id="5vp-Oj-Mpp"/>
+                            <constraint firstAttribute="centerX" secondItem="oJF-qU-O6G" secondAttribute="centerX" id="CtD-z2-uPu"/>
+                            <constraint firstItem="Eme-Sg-NKD" firstAttribute="top" secondItem="oJF-qU-O6G" secondAttribute="bottom" constant="30" id="KgM-Ho-Vgu"/>
+                            <constraint firstAttribute="centerX" secondItem="gTT-BJ-E1O" secondAttribute="centerX" id="RDR-rj-Kng"/>
+                            <constraint firstItem="oJF-qU-O6G" firstAttribute="top" secondItem="fez-Ar-aV8" secondAttribute="bottom" constant="30" id="U3b-tB-mYK"/>
+                            <constraint firstItem="fez-Ar-aV8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="X9m-JI-A2E"/>
+                            <constraint firstAttribute="centerX" secondItem="Eme-Sg-NKD" secondAttribute="centerX" id="aKE-k4-5B9"/>
+                            <constraint firstItem="gTT-BJ-E1O" firstAttribute="top" secondItem="nzn-nS-eBX" secondAttribute="bottom" constant="30" id="agt-cS-UbL"/>
+                            <constraint firstAttribute="centerX" secondItem="fez-Ar-aV8" secondAttribute="centerX" id="ai7-UK-36e"/>
+                            <constraint firstItem="nzn-nS-eBX" firstAttribute="top" secondItem="Eme-Sg-NKD" secondAttribute="bottom" constant="30" id="zaZ-JL-trE"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
