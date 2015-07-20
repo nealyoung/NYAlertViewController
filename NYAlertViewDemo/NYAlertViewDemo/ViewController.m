@@ -14,11 +14,36 @@
 
 @end
 
+
+typedef NS_ENUM(NSInteger, AlertExampleTableViewSection) {
+    AlertExampleTableViewSectionStandard = 0,
+    AlertExampleTableViewSectionCustom,
+    ALERT_EXAMPLE_TABLE_VIEW_SECTION_COUNT
+};
+
+typedef NS_ENUM(NSInteger, StandardAlertTableViewRow) {
+    StandardAlertTableViewRowNoActions = 0,
+    STANDARD_ALERT_TABLE_VIEW_USER_ROW_COUNT
+};
+
+typedef NS_ENUM(NSInteger, CustomAlertTableViewRow) {
+    CustomAlertTableViewRowNoActions = 0,
+    CUSTOM_ALERT_TABLE_VIEW_USER_ROW_COUNT
+};
+
+static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIdentifier";
+
 @implementation ViewController
 
-- (IBAction)systemAlertViewButtonPressed:(id)sender {
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kTableViewCellReuseIdentifier];
+}
+
+- (void)showStandardAlertView {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Example Title", nil)
-                                                                             message:NSLocalizedString(@"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.", nil)
+                                                                             message:NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla.", nil)
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     alertController.view.tintColor = self.view.tintColor;
@@ -42,12 +67,21 @@
                                                       }]];
     
     [self presentViewController:alertController animated:YES completion:nil];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"Text Field", nil);
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"Text Field", nil);
+    }];
 }
 
-- (IBAction)alertViewButtonPressed:(UIButton *)sender {
+- (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Example Title", nil);
-alertViewController.message = NSLocalizedString(@"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper.", nil);
+alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla.", nil);
     
     alertViewController.buttonCornerRadius = 20.0f;
     alertViewController.view.tintColor = self.view.tintColor;
@@ -57,11 +91,11 @@ alertViewController.message = NSLocalizedString(@"Cras justo odio, dapibus ac fa
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
     
-    for (int i = 0; i < sender.tag; i++) {
+    for (int i = 0; i < actionCount; i++) {
         NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
         UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
         
-        if (i == sender.tag - 1) {
+        if (i == actionCount - 1) {
             actionTitle = NSLocalizedString(@"Cancel", nil);
             actionStyle = UIAlertActionStyleCancel;
         }
@@ -72,6 +106,76 @@ alertViewController.message = NSLocalizedString(@"Cras justo odio, dapibus ac fa
     }
     
     [self presentViewController:alertViewController animated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return ALERT_EXAMPLE_TABLE_VIEW_SECTION_COUNT;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == AlertExampleTableViewSectionStandard) {
+        return NSLocalizedString(@"UIAlertController", nil);
+    } else {
+        return NSLocalizedString(@"NYAlertViewController", nil);
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == AlertExampleTableViewSectionStandard) {
+        return STANDARD_ALERT_TABLE_VIEW_USER_ROW_COUNT;
+    } else {
+        return CUSTOM_ALERT_TABLE_VIEW_USER_ROW_COUNT;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTableViewCellReuseIdentifier forIndexPath:indexPath];
+    
+    switch (indexPath.section) {
+        case AlertExampleTableViewSectionStandard:
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = NSLocalizedString(@"No Actions", nil);
+                    break;
+            }
+            break;
+            
+        case 1:
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = NSLocalizedString(@"No Actions", nil);
+                    break;
+            }
+            break;
+    }
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case AlertExampleTableViewSectionStandard:
+            switch (indexPath.row) {
+                case StandardAlertTableViewRowNoActions:
+                    [self showStandardAlertView];
+                    break;
+            }
+            break;
+            
+        case AlertExampleTableViewSectionCustom:
+            switch (indexPath.row) {
+                case CustomAlertTableViewRowNoActions:
+                    [self showCustomAlertViewWithActionCount:2];
+                    break;
+            }
+            break;
+    }
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
