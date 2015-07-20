@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EAC7B551B5CB4A2003D0272 /* NYAlertTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC7B541B5CB4A2003D0272 /* NYAlertTextView.m */; };
 		0EF9AD671B5B15C7000C7F1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD661B5B15C7000C7F1D /* main.m */; };
 		0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD691B5B15C7000C7F1D /* AppDelegate.m */; };
 		0EF9AD6D1B5B15C7000C7F1D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD6C1B5B15C7000C7F1D /* ViewController.m */; };
@@ -35,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EAC7B511B5C759B003D0272 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		0EAC7B531B5CB4A2003D0272 /* NYAlertTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertTextView.h; sourceTree = "<group>"; };
+		0EAC7B541B5CB4A2003D0272 /* NYAlertTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertTextView.m; sourceTree = "<group>"; };
 		0EF9AD611B5B15C7000C7F1D /* NYAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD651B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EF9AD661B5B15C7000C7F1D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 		0EF9AD641B5B15C7000C7F1D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0EAC7B511B5C759B003D0272 /* Reveal.framework */,
 				0EF9AD651B5B15C7000C7F1D /* Info.plist */,
 				0EF9AD661B5B15C7000C7F1D /* main.m */,
 			);
@@ -151,6 +156,8 @@
 				0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */,
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
+				0EAC7B531B5CB4A2003D0272 /* NYAlertTextView.h */,
+				0EAC7B541B5CB4A2003D0272 /* NYAlertTextView.m */,
 				0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */,
 				0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */,
 				0EF9AD911B5B1785000C7F1D /* NYModalDismissalAnimationController.h */,
@@ -279,6 +286,7 @@
 				0EF9ADA21B5B1785000C7F1D /* NYRoundRectButton.m in Sources */,
 				0EF9ADA11B5B1785000C7F1D /* NYModalPresentationManager.m in Sources */,
 				0EF9AD9F1B5B1785000C7F1D /* NYModalPresentationAnimationController.m in Sources */,
+				0EAC7B551B5CB4A2003D0272 /* NYAlertTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,8 +414,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NYAlertViewDemo",
+				);
 				INFOPLIST_FILE = NYAlertViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -416,6 +434,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/NYAlertViewDemo",
+				);
 				INFOPLIST_FILE = NYAlertViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -475,6 +497,7 @@
 				0EF9AD861B5B15C7000C7F1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0EF9AD871B5B15C7000C7F1D /* Build configuration list for PBXNativeTarget "NYAlertViewDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +506,7 @@
 				0EF9AD891B5B15C7000C7F1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

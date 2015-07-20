@@ -12,20 +12,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Xl7-Tg-89r">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xl7-Tg-89r" id="tbR-sq-yQ2">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="kuq-2r-gC6" id="PyC-Ph-Snn"/>
                             <outlet property="delegate" destination="kuq-2r-gC6" id="TOz-VX-OnW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="z2p-VN-iYy"/>
+                    <navigationItem key="navigationItem" title="NYAlertViewController" id="z2p-VN-iYy"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nkO-eP-2z9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

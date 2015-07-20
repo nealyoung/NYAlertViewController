@@ -114,23 +114,23 @@
 
 - (void)setMessage:(NSString *)message {
     _message = message;
-    self.view.messageLabel.text = message;
+    self.view.messageTextView.text = message;
 }
 
 - (UIFont *)titleFont {
-    return self.view.titleFont;
+    return self.view.titleLabel.font;
 }
 
 - (void)setTitleFont:(UIFont *)titleFont {
-    self.view.titleFont = titleFont;
+    self.view.titleLabel.font = titleFont;
 }
 
 - (UIFont *)messageFont {
-    return self.view.messageFont;
+    return self.view.messageTextView.font;
 }
 
 - (void)setMessageFont:(UIFont *)messageFont {
-    self.view.messageFont = messageFont;
+    self.view.messageTextView.font = messageFont;
 }
 
 - (UIFont *)buttonTitleFont {
@@ -147,6 +147,38 @@
 
 - (void)setCancelButtonTitleFont:(UIFont *)cancelButtonTitleFont {
     self.view.cancelButtonTitleFont = cancelButtonTitleFont;
+}
+
+- (UIColor *)titleColor {
+    return self.view.titleLabel.textColor;
+}
+
+- (void)setTitleColor:(UIColor *)titleColor {
+    self.view.titleLabel.textColor = titleColor;
+}
+
+- (UIColor *)messageColor {
+    return self.view.messageTextView.textColor;
+}
+
+- (void)setMessageColor:(UIColor *)messageColor {
+    self.view.messageTextView.textColor = messageColor;
+}
+
+- (UIColor *)buttonColor {
+    return self.view.buttonColor;
+}
+
+- (void)setButtonColor:(UIColor *)buttonColor {
+    self.view.buttonColor = buttonColor;
+}
+
+- (UIColor *)cancelButtonColor {
+    return self.view.cancelButtonColor;
+}
+
+- (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
+    self.view.cancelButtonColor = cancelButtonColor;
 }
 
 - (CGFloat)alertViewCornerRadius {

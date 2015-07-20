@@ -8,6 +8,7 @@
 #import "NYAlertView.h"
 
 #import "NYAlertAction.h"
+#import "NYAlertTextView.h"
 #import "NYRoundRectButton.h"
 
 @interface NYAlertView ()
@@ -26,10 +27,11 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.titleFont = [UIFont boldSystemFontOfSize:18.0f];
-        self.messageFont = [UIFont systemFontOfSize:16.0f];
         self.buttonTitleFont = [UIFont systemFontOfSize:16.0f];
         self.cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
+        
+        self.buttonColor = [UIColor darkGrayColor];
+        self.cancelButtonColor = [UIColor darkGrayColor];
         
         self.buttonCornerRadius = 4.0f;
         
@@ -41,21 +43,23 @@
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.titleLabel.font = self.titleFont;
+        self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.textColor = [UIColor darkGrayColor];
         self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
         [self.alertBackgroundView addSubview:self.titleLabel];
         
-        _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [self.messageLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.messageLabel setContentHuggingPriority:0 forAxis:UILayoutConstraintAxisVertical];
-        self.messageLabel.numberOfLines = 0;
-        self.messageLabel.textAlignment = NSTextAlignmentCenter;
-        self.messageLabel.textColor = [UIColor darkGrayColor];
-        self.messageLabel.font = self.messageFont;
-        self.messageLabel.text = NSLocalizedString(@"Message Label", nil);
-        [self.alertBackgroundView addSubview:self.messageLabel];
+        _messageTextView = [[NYAlertTextView alloc] initWithFrame:CGRectZero];
+        [self.messageTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        self.messageTextView.backgroundColor = [UIColor clearColor];
+        [self.messageTextView setContentHuggingPriority:0 forAxis:UILayoutConstraintAxisVertical];
+        [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+        self.messageTextView.editable = NO;
+        self.messageTextView.textAlignment = NSTextAlignmentCenter;
+        self.messageTextView.textColor = [UIColor darkGrayColor];
+        self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
+        [self.alertBackgroundView addSubview:self.messageTextView];
         
         _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -86,43 +90,51 @@
                                                         multiplier:0.0f
                                                           constant:alertBackgroundViewWidth]];
         
-        self.backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                                      attribute:NSLayoutAttributeCenterY
-                                                                                      relatedBy:NSLayoutRelationEqual
-                                                                                         toItem:self
-                                                                                      attribute:NSLayoutAttributeCenterY
-                                                                                     multiplier:1.0f
-                                                                                       constant:0.0f];
+        _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                 multiplier:1.0f
+                                                                                   constant:0.0f];
         
         [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
+        
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationLessThanOrEqual
+                                                            toItem:self
+                                                         attribute:NSLayoutAttributeHeight
+                                                        multiplier:0.9f
+                                                          constant:0.0f]];
         
         [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_titleLabel]-|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_titleLabel)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_messageLabel]-|"
-                                                                                    options:0
-                                                                                    metrics:nil
-                                                                                      views:NSDictionaryOfVariableBindings(_messageLabel)]];
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_messageTextView]-|"
+                                                                                         options:0
+                                                                                         metrics:nil
+                                                                                           views:NSDictionaryOfVariableBindings(_messageTextView)]];
         
         [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentViewContainerView]|"
-                                                                                    options:0
-                                                                                    metrics:nil
-                                                                                      views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
+                                                                                         options:0
+                                                                                         metrics:nil
+                                                                                           views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
         
         [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_actionButtonContainerView]|"
-                                                                                    options:0
-                                                                                    metrics:nil
-                                                                                      views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
+                                                                                         options:0
+                                                                                         metrics:nil
+                                                                                           views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageLabel][_contentViewContainerView]-[_actionButtonContainerView]-|"
-                                                                                    options:0
-                                                                                    metrics:nil
-                                                                                      views:NSDictionaryOfVariableBindings(_titleLabel,
-                                                                                                                           _messageLabel,
-                                                                                                                           _contentViewContainerView,
-                                                                                                                           _actionButtonContainerView)]];
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView]-[_actionButtonContainerView]-|"
+                                                                                         options:0
+                                                                                         metrics:nil
+                                                                                           views:NSDictionaryOfVariableBindings(_titleLabel,
+                                                                                                                                _messageTextView,
+                                                                                                                                _contentViewContainerView,
+                                                                                                                                _actionButtonContainerView)]];
     }
     
     return self;
@@ -137,18 +149,6 @@
     }
     
     return NO;
-}
-
-- (void)setTitleFont:(UIFont *)titleFont {
-    _titleFont = titleFont;
-    
-    self.titleLabel.font = titleFont;
-}
-
-- (void)setMessageFont:(UIFont *)messageFont {
-    _messageFont = messageFont;
-    
-    self.messageLabel.font = messageFont;
 }
 
 - (void)setButtonTitleFont:(UIFont *)buttonTitleFont {
@@ -171,6 +171,30 @@
         
         if (action.style == UIAlertActionStyleCancel) {
             button.titleLabel.font = cancelButtonTitleFont;
+        }
+    }];
+}
+
+- (void)setButtonColor:(UIColor *)buttonColor {
+    _buttonColor = buttonColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style != UIAlertActionStyleCancel) {
+            button.tintColor = buttonColor;
+        }
+    }];
+}
+
+- (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
+    _cancelButtonColor = cancelButtonColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleCancel) {
+            button.tintColor = cancelButtonColor;
         }
     }];
 }
@@ -231,8 +255,9 @@
         }
         
         if (action.style == UIAlertActionStyleCancel) {
-//            [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//            button.tintColor = [UIColor darkGrayColor];
+            //            [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+            
+            button.tintColor = self.cancelButtonColor;
         } else if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             button.tintColor = [UIColor redColor];

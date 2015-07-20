@@ -19,6 +19,11 @@
 @property (nonatomic) UIFont *buttonTitleFont;
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 
+@property (nonatomic) UIColor *titleColor;
+@property (nonatomic) UIColor *messageColor;
+@property (nonatomic) UIColor *buttonColor;
+@property (nonatomic) UIColor *cancelButtonColor;
+
 @property (nonatomic) CGFloat alertViewCornerRadius;
 @property (nonatomic) CGFloat buttonCornerRadius;
 

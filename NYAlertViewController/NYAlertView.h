@@ -10,19 +10,20 @@
 @interface NYAlertView : UIView
 
 @property UILabel *titleLabel;
-@property UILabel *messageLabel;
+@property UITextView *messageTextView;
 @property (nonatomic) UIView *contentView;
 
-@property (nonatomic) UIFont *titleFont;
-@property (nonatomic) UIFont *messageFont;
 @property (nonatomic) UIFont *buttonTitleFont;
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 
+@property (nonatomic) UIColor *buttonColor;
+@property (nonatomic) UIColor *cancelButtonColor;
+
 @property (nonatomic) CGFloat buttonCornerRadius;
 
-@property UIView *alertBackgroundView;
+@property (nonatomic, readonly) UIView *alertBackgroundView;
 
-@property NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
+@property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 
 @property (nonatomic) NSArray *actions;
 

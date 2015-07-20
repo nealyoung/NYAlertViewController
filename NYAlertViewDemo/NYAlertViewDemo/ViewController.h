@@ -10,6 +10,4 @@
 
 @interface ViewController : UITableViewController
 
-- (IBAction)systemAlertViewButtonPressed:(id)sender;
-
 @end
