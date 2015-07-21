@@ -20,8 +20,8 @@
 
 - (CGSize)intrinsicContentSize {
     CGSize intrinsicContentSize = self.contentSize;
-    intrinsicContentSize.width += (self.textContainerInset.left + self.textContainerInset.right ) / 2.0f;
-    intrinsicContentSize.height += (self.textContainerInset.top + self.textContainerInset.bottom) / 2.0f;
+//    intrinsicContentSize.width += (self.textContainerInset.left + self.textContainerInset.right ) / 2.0f;
+//    intrinsicContentSize.height += (self.textContainerInset.top + self.textContainerInset.bottom) / 2.0f;
     
     return intrinsicContentSize;
 }

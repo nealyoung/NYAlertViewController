@@ -269,6 +269,7 @@ alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultric
                     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
                     
                     alertViewController.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+                    alertViewController.alertViewCornerRadius = 10.0f;
                     
                     alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
                     alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
