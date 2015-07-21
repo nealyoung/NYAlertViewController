@@ -35,12 +35,12 @@
         self.cancelButtonColor = [UIColor darkGrayColor];
         self.cancelButtonTitleColor = [UIColor whiteColor];
         
-        self.buttonCornerRadius = 4.0f;
+        self.buttonCornerRadius = 6.0f;
         
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        self.alertBackgroundView.layer.cornerRadius = 4.0f;
+        self.alertBackgroundView.layer.cornerRadius = 6.0f;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];

@@ -70,7 +70,6 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     alertViewController.title = NSLocalizedString(@"Example Title", nil);
 alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
     
-    alertViewController.buttonCornerRadius = 20.0f;
     alertViewController.view.tintColor = self.view.tintColor;
 
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
