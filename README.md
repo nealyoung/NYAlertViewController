@@ -2,7 +2,7 @@
 
 NYAlertViewController is a UIViewController subclass that presents customizable alert views using an API similar to that of UIAlertController.
 
-![Example](https://github.com/nealyoung/NYAlertController/raw/master/header.png)
+![Example](https://github.com/nealyoung/NYAlertViewController/raw/master/header.png)
 
 ### Features
 * Feature 1
