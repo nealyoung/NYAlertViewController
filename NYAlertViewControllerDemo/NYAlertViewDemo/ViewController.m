@@ -119,8 +119,8 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     alertViewController.buttonCornerRadius = 20.0f;
     alertViewController.view.tintColor = self.view.tintColor;
     
-    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:19.0f];
-    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:19.0f];
+    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
     
