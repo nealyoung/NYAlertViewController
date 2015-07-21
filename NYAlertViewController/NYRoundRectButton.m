@@ -126,17 +126,16 @@
     
     self.layer.borderColor = self.tintColor.CGColor;
     self.layer.borderWidth = 1.0f;
-//    self.layer.cornerRadius = 5.0f;
     
     if (self.state == UIControlStateHighlighted) {
         self.layer.backgroundColor = self.tintColor.CGColor;
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     } else {
         if (self.type == NYRoundRectButtonTypeBordered) {
             self.layer.backgroundColor = nil;
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
         } else {
-            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
     }
 }

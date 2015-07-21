@@ -17,7 +17,9 @@
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 
 @property (nonatomic) UIColor *buttonColor;
+@property (nonatomic) UIColor *buttonTitleColor;
 @property (nonatomic) UIColor *cancelButtonColor;
+@property (nonatomic) UIColor *cancelButtonTitleColor;
 
 @property (nonatomic) CGFloat buttonCornerRadius;
 

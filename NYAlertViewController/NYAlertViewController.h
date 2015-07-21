@@ -23,6 +23,9 @@
 @property (nonatomic) UIColor *messageColor;
 @property (nonatomic) UIColor *buttonColor;
 @property (nonatomic) UIColor *cancelButtonColor;
+@property (nonatomic) UIColor *buttonTitleColor;
+@property (nonatomic) UIColor *cancelButtonTitleColor;
+
 
 @property (nonatomic) CGFloat alertViewCornerRadius;
 @property (nonatomic) CGFloat buttonCornerRadius;

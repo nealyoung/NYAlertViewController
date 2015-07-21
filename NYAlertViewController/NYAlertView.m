@@ -31,7 +31,9 @@
         self.cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
         
         self.buttonColor = [UIColor darkGrayColor];
+        self.buttonTitleColor = [UIColor whiteColor];
         self.cancelButtonColor = [UIColor darkGrayColor];
+        self.cancelButtonTitleColor = [UIColor whiteColor];
         
         self.buttonCornerRadius = 4.0f;
         
@@ -187,6 +189,18 @@
     }];
 }
 
+- (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
+    _buttonTitleColor = buttonTitleColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style != UIAlertActionStyleCancel) {
+            [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
+        }
+    }];
+}
+
 - (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
     _cancelButtonColor = cancelButtonColor;
     
@@ -195,6 +209,18 @@
         
         if (action.style == UIAlertActionStyleCancel) {
             button.tintColor = cancelButtonColor;
+        }
+    }];
+}
+
+- (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
+    _cancelButtonTitleColor = cancelButtonTitleColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleCancel) {
+            [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
         }
     }];
 }
@@ -255,12 +281,14 @@
         }
         
         if (action.style == UIAlertActionStyleCancel) {
-            //            [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            
+            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
             button.tintColor = self.cancelButtonColor;
         } else if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             button.tintColor = [UIColor redColor];
+        } else {
+            [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
+            button.tintColor = self.buttonColor;
         }
         
         [buttons addObject:button];

@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger, StandardAlertTableViewRow) {
 typedef NS_ENUM(NSInteger, CustomAlertTableViewRow) {
     CustomAlertTableViewRowNoActions = 0,
     CustomAlertTableViewRowLongMessage,
+    CustomAlertTableViewRow1Action,
+    CustomAlertTableViewRow2Actions,
+    CustomAlertTableViewRow3Actions,
     CustomAlertTableViewRowExample1,
     CUSTOM_ALERT_TABLE_VIEW_USER_ROW_COUNT
 };
@@ -140,6 +143,18 @@ alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultric
                     cell.textLabel.text = NSLocalizedString(@"No Actions", nil);
                     break;
                     
+                case CustomAlertTableViewRow1Action:
+                    cell.textLabel.text = NSLocalizedString(@"1 Action", nil);
+                    break;
+                    
+                case CustomAlertTableViewRow2Actions:
+                    cell.textLabel.text = NSLocalizedString(@"2 Actions", nil);
+                    break;
+                    
+                case CustomAlertTableViewRow3Actions:
+                    cell.textLabel.text = NSLocalizedString(@"3 Actions", nil);
+                    break;
+                    
                 case CustomAlertTableViewRowLongMessage:
                     cell.textLabel.text = NSLocalizedString(@"Long Message", nil);
                     break;
@@ -171,13 +186,67 @@ alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultric
 
             switch (indexPath.row) {
                 case CustomAlertTableViewRowNoActions:
-//                    alertViewController.title = @"hi";
+                    alertViewController.title = @"hi";
 //                    [self showCustomAlertViewWithActionCount:2];
                     break;
                     
                 case CustomAlertTableViewRowLongMessage: {
                     alertViewController.title = NSLocalizedString(@"Long Message", nil);
                     alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla.", nil);
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                            style:UIAlertActionStyleCancel
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
+                    break;
+                }
+                    
+                case CustomAlertTableViewRow1Action: {
+                    alertViewController.title = NSLocalizedString(@"1 Action", nil);
+                    alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.", nil);
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                            style:UIAlertActionStyleCancel
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
+                    break;
+                }
+                    
+                case CustomAlertTableViewRow2Actions: {
+                    alertViewController.title = NSLocalizedString(@"2 Actions", nil);
+                    alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.", nil);
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Continue", nil)
+                                                                            style:UIAlertActionStyleDefault
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                            style:UIAlertActionStyleCancel
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
+                    break;
+                }
+                    
+                case CustomAlertTableViewRow3Actions: {
+                    alertViewController.title = NSLocalizedString(@"3 Actions", nil);
+                    alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.", nil);
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Action 1", nil)
+                                                                            style:UIAlertActionStyleDefault
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
+                    
+                    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Action 2", nil)
+                                                                            style:UIAlertActionStyleDefault
+                                                                          handler:^(NYAlertAction *action) {
+                                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                                          }]];
                     
                     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                                             style:UIAlertActionStyleCancel
@@ -204,6 +273,7 @@ alertViewController.message = NSLocalizedString(@"Nullam id dolor id nibh ultric
                     alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
                     alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
                     alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+                    alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
                     
                     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Done", nil)
                                                                         style:UIAlertActionStyleCancel

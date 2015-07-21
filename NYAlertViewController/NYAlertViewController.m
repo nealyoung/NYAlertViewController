@@ -181,6 +181,22 @@
     self.view.cancelButtonColor = cancelButtonColor;
 }
 
+- (UIColor *)buttonTitleColor {
+    return self.view.buttonTitleColor;
+}
+
+- (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
+    self.view.buttonTitleColor = buttonTitleColor;
+}
+
+- (UIColor *)cancelButtonTitleColor {
+    return self.view.cancelButtonTitleColor;
+}
+
+- (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
+    self.view.cancelButtonTitleColor = cancelButtonTitleColor;
+}
+
 - (CGFloat)alertViewCornerRadius {
     return self.view.alertBackgroundView.layer.cornerRadius;
 }
