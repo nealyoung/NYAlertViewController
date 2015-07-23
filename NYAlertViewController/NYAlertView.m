@@ -37,6 +37,8 @@
         
         self.buttonCornerRadius = 6.0f;
         
+        self.maximumWidth = 480.0f;
+        
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
@@ -84,6 +86,10 @@
         
         CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
                                                CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+        
+        if (alertBackgroundViewWidth > self.maximumWidth) {
+            alertBackgroundViewWidth = self.maximumWidth;
+        }
         
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                          attribute:NSLayoutAttributeWidth
@@ -198,6 +204,7 @@
         
         if (action.style != UIAlertActionStyleCancel) {
             [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:buttonTitleColor forState:UIControlStateHighlighted];
         }
     }];
 }
@@ -222,6 +229,7 @@
         
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:cancelButtonTitleColor forState:UIControlStateHighlighted];
         }
     }];
 }

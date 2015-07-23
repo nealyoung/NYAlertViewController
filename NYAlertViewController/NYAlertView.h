@@ -29,4 +29,6 @@
 
 @property (nonatomic) NSArray *actions;
 
+@property (nonatomic) CGFloat maximumWidth;
+
 @end

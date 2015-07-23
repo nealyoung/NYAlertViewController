@@ -128,10 +128,20 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     
     alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
+    
+    alertViewController.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    alertViewController.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
     alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
     
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Done", nil)
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(NYAlertAction *action) {
                                                               [self dismissViewControllerAnimated:YES completion:nil];
