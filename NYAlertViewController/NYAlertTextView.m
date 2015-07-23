@@ -10,6 +10,14 @@
 
 @implementation NYAlertTextView
 
+- (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
+    self = [super initWithFrame:frame textContainer:textContainer];
+    
+    self.textContainerInset = UIEdgeInsetsZero;
+    
+    return self;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     

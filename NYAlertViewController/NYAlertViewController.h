@@ -26,7 +26,6 @@
 @property (nonatomic) UIColor *buttonTitleColor;
 @property (nonatomic) UIColor *cancelButtonTitleColor;
 
-
 @property (nonatomic) CGFloat alertViewCornerRadius;
 @property (nonatomic) CGFloat buttonCornerRadius;
 

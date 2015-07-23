@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 
+#import <MapKit/MapKit.h>
 #import "NYAlertViewController.h"
 
 @interface ViewController ()
@@ -17,27 +18,6 @@
 - (void)showCustomUIAlertView;
 
 @end
-
-typedef NS_ENUM(NSInteger, AlertExampleTableViewSection) {
-    AlertExampleTableViewSectionStandard = 0,
-    AlertExampleTableViewSectionCustom,
-    ALERT_EXAMPLE_TABLE_VIEW_SECTION_COUNT
-};
-
-typedef NS_ENUM(NSInteger, StandardAlertTableViewRow) {
-    StandardAlertTableViewRowNoActions = 0,
-    STANDARD_ALERT_TABLE_VIEW_USER_ROW_COUNT
-};
-
-typedef NS_ENUM(NSInteger, CustomAlertTableViewRow) {
-    CustomAlertTableViewRowNoActions = 0,
-    CustomAlertTableViewRowLongMessage,
-    CustomAlertTableViewRow1Action,
-    CustomAlertTableViewRow2Actions,
-    CustomAlertTableViewRow3Actions,
-    CustomAlertTableViewRowExample1,
-    CUSTOM_ALERT_TABLE_VIEW_USER_ROW_COUNT
-};
 
 static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIdentifier";
 
@@ -134,6 +114,30 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     
     alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
+    [mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    mapView.zoomEnabled = NO;
+    mapView.scrollEnabled = NO;
+    mapView.layer.cornerRadius = 6.0f;
+    
+    CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
+    mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
+    [contentView addSubview:mapView];
+    
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapView(180)]|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
+    
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[mapView]-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
+    
+    alertViewController.alertViewContentView = contentView;
     
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
                                                             style:UIAlertActionStyleDefault

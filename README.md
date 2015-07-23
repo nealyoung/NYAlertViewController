@@ -5,7 +5,7 @@ NYAlertViewController is a UIViewController subclass that presents customizable 
 ![Example](https://github.com/nealyoung/NYAlertViewController/raw/master/header.png)
 
 ### Features
-* Feature 1
+* Includes content view property for adding custom views to your alert view
 
 ### Installation
 #### Manual
@@ -36,7 +36,7 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
                                                           [self dismissViewControllerAnimated:YES completion:nil];
                                                       }]];
 
-// Present the view controller
+// Present the alert view controller
 [self presentViewController:alertViewController animated:YES];
 ```
 

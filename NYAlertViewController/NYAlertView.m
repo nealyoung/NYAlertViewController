@@ -246,18 +246,21 @@
     [self.contentView removeFromSuperview];
     
     _contentView = contentView;
-    [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.contentViewContainerView addSubview:self.contentView];
     
-    [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|"
-                                                                                          options:0
-                                                                                          metrics:nil
-                                                                                            views:NSDictionaryOfVariableBindings(_contentView)]];
-    
-    [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentView]|"
-                                                                                          options:0
-                                                                                          metrics:nil
-                                                                                            views:NSDictionaryOfVariableBindings(_contentView)]];
+    if (contentView) {
+        [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.contentViewContainerView addSubview:self.contentView];
+        
+        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|"
+                                                                                              options:0
+                                                                                              metrics:nil
+                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
+        
+        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[_contentView]-2-|"
+                                                                                              options:0
+                                                                                              metrics:nil
+                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
+    }
 }
 
 - (void)actionButtonPressed:(NYRoundRectButton *)button {
@@ -291,12 +294,14 @@
         
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
             button.tintColor = self.cancelButtonColor;
         } else if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             button.tintColor = [UIColor redColor];
         } else {
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
             button.tintColor = self.buttonColor;
         }
         
