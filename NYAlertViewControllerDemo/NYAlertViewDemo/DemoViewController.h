@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DemoViewController.h
 //  NYAlertViewDemo
 //
 //  Created by Nealon Young on 7/18/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UITableViewController
+@interface DemoViewController : UITableViewController
 
 @end

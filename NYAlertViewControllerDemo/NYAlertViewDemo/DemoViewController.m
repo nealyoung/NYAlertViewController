@@ -1,19 +1,20 @@
 //
-//  ViewController.m
+//  DemoViewController.m
 //  NYAlertViewDemo
 //
 //  Created by Nealon Young on 7/18/15.
 //  Copyright (c) 2015 Nealon Young. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "DemoViewController.h"
 
 #import <MapKit/MapKit.h>
 #import "NYAlertViewController.h"
 
-@interface ViewController ()
+@interface DemoViewController ()
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount;
+- (void)showCustomContentViewAlertView;
 - (void)showLongMessageAlertView;
 - (void)showCustomUIAlertView;
 
@@ -21,7 +22,7 @@
 
 static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIdentifier";
 
-@implementation ViewController
+@implementation DemoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -74,6 +75,45 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
+- (void)showCustomContentViewAlertView {
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    
+    alertViewController.title = NSLocalizedString(@"Content View", nil);
+    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
+    [mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    mapView.zoomEnabled = NO;
+    mapView.scrollEnabled = NO;
+    mapView.layer.cornerRadius = 6.0f;
+    
+    CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
+    mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
+    [contentView addSubview:mapView];
+    
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapView(180)]|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
+    
+    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[mapView]-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
+    
+    alertViewController.alertViewContentView = contentView;
+    
+    [self presentViewController:alertViewController animated:YES completion:nil];
+}
+
 - (void)showLongMessageAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
 
@@ -115,30 +155,6 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
     
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
-    [mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    mapView.zoomEnabled = NO;
-    mapView.scrollEnabled = NO;
-    mapView.layer.cornerRadius = 6.0f;
-    
-    CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
-    mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
-    [contentView addSubview:mapView];
-    
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapView(180)]|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
-    
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[mapView]-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
-    
-    alertViewController.alertViewContentView = contentView;
-    
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(NYAlertAction *action) {
@@ -175,10 +191,14 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
             break;
             
         case 4:
-            [self showLongMessageAlertView];
+            [self showCustomContentViewAlertView];
             break;
             
         case 5:
+            [self showLongMessageAlertView];
+            break;
+            
+        case 6:
             [self showCustomUIAlertView];
             break;
     }
