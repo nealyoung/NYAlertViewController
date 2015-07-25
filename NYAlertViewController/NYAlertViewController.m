@@ -160,12 +160,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.backgroundDimmingView.alpha = 0.7f;
-        
-        //        self.presentingViewController.view.transform = CGAffineTransformMakeScale(0.8f, 0.8f);
     }
                                            completion:nil];
-    
-    //    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (BOOL)shouldPresentInFullscreen {
@@ -177,12 +173,16 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)presentationTransitionDidEnd:(BOOL)completed {
+    [super presentationTransitionDidEnd:completed];
+    
     if (!completed) {
         [self.backgroundDimmingView removeFromSuperview];
     }
 }
 
 - (void)dismissalTransitionWillBegin {
+    [super dismissalTransitionWillBegin];
+    
     id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.backgroundDimmingView.alpha = 0.0f;
@@ -195,18 +195,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)containerViewWillLayoutSubviews {
+    [super containerViewWillLayoutSubviews];
+    
     [self presentedView].frame = [self frameOfPresentedViewInContainerView];
 }
 
-//- (void)containerViewWillLayoutSubviews {
-//    [super containerViewWillLayoutSubviews];
-//    self.presentedView.frame = CGRectInset(self.containerView.bounds, 18.0f, 24.0f);
-//    
-//    NSLog(@"%@", NSStringFromCGSize(self.containerView.frame.size));
-//    NSLog(@"Will Layout Container Subviews");
-//}
-
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
+    [super dismissalTransitionDidEnd:completed];
+    
     if (completed) {
         [self.backgroundDimmingView removeFromSuperview];
     }
