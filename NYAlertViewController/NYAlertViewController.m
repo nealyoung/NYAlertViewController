@@ -8,10 +8,217 @@
 #import "NYAlertViewController.h"
 
 #import "NYAlertView.h"
-#import "NYModalPresentationManager.h"
-#import "NYRoundRectButton.h"
+//#import "NYModalPresentationManager.h"
+#import "NYAlertViewButton.h"
 
-@interface NYAlertViewController () <UIGestureRecognizerDelegate>
+@interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
+
+@property CGFloat duration;
+
+@end
+
+static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
+
+@implementation NYAlertViewPresentationAnimationController
+
+- (instancetype)init {
+    self = [super init];
+    
+    if (self) {
+        self.duration = kDefaultPresentationAnimationDuration;
+    }
+    
+    return self;
+}
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    CGRect initialFrame = [transitionContext finalFrameForViewController:toViewController];
+    
+    initialFrame.origin.y = -(initialFrame.size.height + initialFrame.origin.y);
+    toViewController.view.frame = initialFrame;
+    
+    [[transitionContext containerView] addSubview:toViewController.view];
+    
+    CATransform3D transform = CATransform3DIdentity;
+    transform.m34 = -1.0f / 600.0f;
+    transform = CATransform3DRotate(transform, M_PI_4 * 1.3f, 1.0f, 0.0f, 0.0f);
+    
+    toViewController.view.layer.zPosition = 100.0f;
+    toViewController.view.layer.transform = transform;
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                          delay:0.0f
+         usingSpringWithDamping:0.76f
+          initialSpringVelocity:0.2f
+                        options:0
+                     animations:^{
+                         toViewController.view.layer.transform = CATransform3DIdentity;
+                         toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
+                     }
+                     completion:^(BOOL finished) {
+                         [transitionContext completeTransition:YES];
+                     }];
+}
+
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return self.duration;
+}
+
+@end
+
+@interface NYAlertViewDismissalAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
+
+@property CGFloat duration;
+
+@end
+
+static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
+
+@implementation NYAlertViewDismissalAnimationController
+
+- (instancetype)init {
+    self = [super init];
+    
+    if (self) {
+        self.duration = kDefaultDismissalAnimationDuration;
+    }
+    
+    return self;
+}
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    //    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    CGRect finalFrame = [transitionContext finalFrameForViewController:fromViewController];
+    
+    finalFrame.origin.y = 1.2f * CGRectGetHeight([transitionContext containerView].frame);
+    //    [toViewController.view layoutIfNeeded];
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                          delay:0.0f
+         usingSpringWithDamping:0.8f
+          initialSpringVelocity:0.1f
+                        options:0
+                     animations:^{
+                         fromViewController.view.frame = finalFrame;
+                     }
+                     completion:^(BOOL finished) {
+                         [transitionContext completeTransition:YES];
+                     }];
+}
+
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+    return self.duration;
+}
+
+@end
+
+@interface NYAlertViewPresentationController : UIPresentationController
+
+@property CGFloat presentedViewControllerHorizontalInset;
+@property CGFloat presentedViewControllerVerticalInset;
+
+@end
+
+@interface NYAlertViewPresentationController ()
+
+@property UIView *backgroundDimmingView;
+
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer;
+
+@end
+
+@implementation NYAlertViewPresentationController
+
+- (void)presentationTransitionWillBegin {
+    self.presentedViewController.view.layer.cornerRadius = 6.0f;
+    self.presentedViewController.view.layer.masksToBounds = YES;
+    
+    self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.backgroundDimmingView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.backgroundDimmingView.alpha = 0.0f;
+    self.backgroundDimmingView.backgroundColor = [UIColor blackColor];
+    [self.containerView addSubview:self.backgroundDimmingView];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundDimmingView]|"
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
+    
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundDimmingView]|"
+                                                                               options:0
+                                                                               metrics:nil
+                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
+    [self.backgroundDimmingView addGestureRecognizer:tapGestureRecognizer];
+    
+    // Shrink the presenting view controller, and animate in the dark background view
+    id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
+    [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.backgroundDimmingView.alpha = 0.7f;
+        
+        //        self.presentingViewController.view.transform = CGAffineTransformMakeScale(0.8f, 0.8f);
+    }
+                                           completion:nil];
+    
+    //    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
+- (BOOL)shouldPresentInFullscreen {
+    return NO;
+}
+
+- (BOOL)shouldRemovePresentersView {
+    return NO;
+}
+
+- (void)presentationTransitionDidEnd:(BOOL)completed {
+    if (!completed) {
+        [self.backgroundDimmingView removeFromSuperview];
+    }
+}
+
+- (void)dismissalTransitionWillBegin {
+    id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
+    [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.backgroundDimmingView.alpha = 0.0f;
+        
+        self.presentingViewController.view.transform = CGAffineTransformIdentity;
+    }
+                                           completion:nil];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
+- (void)containerViewWillLayoutSubviews {
+    [self presentedView].frame = [self frameOfPresentedViewInContainerView];
+}
+
+//- (void)containerViewWillLayoutSubviews {
+//    [super containerViewWillLayoutSubviews];
+//    self.presentedView.frame = CGRectInset(self.containerView.bounds, 18.0f, 24.0f);
+//    
+//    NSLog(@"%@", NSStringFromCGSize(self.containerView.frame.size));
+//    NSLog(@"Will Layout Container Subviews");
+//}
+
+- (void)dismissalTransitionDidEnd:(BOOL)completed {
+    if (completed) {
+        [self.backgroundDimmingView removeFromSuperview];
+    }
+}
+
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+@end
+
+@interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
 @property NYAlertView *view;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
@@ -34,7 +241,7 @@
     _actions = [NSArray array];
     
     self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = [[NYModalPresentationManager alloc] init];
+    self.transitioningDelegate = self;
     
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
     panGestureRecognizer.delegate = self;
@@ -220,6 +427,25 @@
 - (void)buttonPressed:(UIButton *)sender {
     NYAlertAction *action = self.actions[sender.tag];
     action.handler(action);
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
+                                                      presentingViewController:(UIViewController *)presenting
+                                                          sourceViewController:(UIViewController *)source {
+    return [[NYAlertViewPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                   presentingController:(UIViewController *)presenting
+                                                                       sourceController:(UIViewController *)source {
+    return [[NYAlertViewPresentationAnimationController alloc] init];
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    NYAlertViewDismissalAnimationController *animationController = [[NYAlertViewDismissalAnimationController alloc] init];
+    return animationController;
 }
 
 #pragma mark - UIGestureRecognizerDelegate

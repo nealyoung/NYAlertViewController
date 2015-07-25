@@ -1,14 +1,13 @@
 //
-//  NYRoundRectButton.m
-//  LockMinder
+//  NYAlertViewButton.m
 //
 //  Created by Nealon Young on 7/15/15.
 //  Copyright (c) 2015 Nealon Young. All rights reserved.
 //
 
-#import "NYRoundRectButton.h"
+#import "NYAlertViewButton.h"
 
-@implementation NYRoundRectButton
+@implementation NYAlertViewButton
 
 + (id)buttonWithType:(UIButtonType)buttonType {
     return [super buttonWithType:UIButtonTypeCustom];

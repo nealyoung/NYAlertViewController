@@ -1,12 +1,9 @@
 //
-//  NYRoundRectButton.h
-//  LockMinder
+//  NYAlertViewButton.h
 //
 //  Created by Nealon Young on 7/15/15.
 //  Copyright (c) 2015 Nealon Young. All rights reserved.
 //
-
-#import <UIKit/UIKit.h>
 
 #import <UIKit/UIKit.h>
 
@@ -16,7 +13,7 @@ typedef NS_ENUM(NSInteger, NYRoundRectButtonType) {
 };
 
 IB_DESIGNABLE
-@interface NYRoundRectButton : UIButton
+@interface NYAlertViewButton : UIButton
 
 @property (nonatomic) NYRoundRectButtonType type;
 

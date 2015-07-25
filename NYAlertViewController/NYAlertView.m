@@ -8,8 +8,36 @@
 #import "NYAlertView.h"
 
 #import "NYAlertAction.h"
-#import "NYAlertTextView.h"
-#import "NYRoundRectButton.h"
+#import "NYAlertViewButton.h"
+
+@interface NYAlertTextView : UITextView
+
+@end
+
+@implementation NYAlertTextView
+
+- (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
+    self = [super initWithFrame:frame textContainer:textContainer];
+    
+    self.textContainerInset = UIEdgeInsetsZero;
+    
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (!CGSizeEqualToSize(self.bounds.size, [self intrinsicContentSize])) {
+        [self invalidateIntrinsicContentSize];
+    }
+}
+
+- (CGSize)intrinsicContentSize {
+    return self.contentSize;
+}
+
+@end
+
 
 @interface NYAlertView ()
 
@@ -17,7 +45,7 @@
 @property UIView *actionButtonContainerView;
 @property (nonatomic) NSArray *actionButtons;
 
-- (void)actionButtonPressed:(NYRoundRectButton *)button;
+- (void)actionButtonPressed:(NYAlertViewButton *)button;
 
 @end
 
@@ -237,7 +265,7 @@
 - (void)setButtonCornerRadius:(CGFloat)buttonCornerRadius {
     _buttonCornerRadius = buttonCornerRadius;
     
-    for (NYRoundRectButton *button in self.actionButtons) {
+    for (NYAlertViewButton *button in self.actionButtons) {
         button.cornerRadius = buttonCornerRadius;
     }
 }
@@ -263,7 +291,7 @@
     }
 }
 
-- (void)actionButtonPressed:(NYRoundRectButton *)button {
+- (void)actionButtonPressed:(NYAlertViewButton *)button {
     NYAlertAction *action = self.actions[button.tag];
     action.handler(action);
 }
@@ -277,7 +305,7 @@
     for (int i = 0; i < [actions count]; i++) {
         UIAlertAction *action = actions[i];
         
-        NYRoundRectButton *button = [[NYRoundRectButton alloc] initWithFrame:CGRectZero];
+        NYAlertViewButton *button = [[NYAlertViewButton alloc] initWithFrame:CGRectZero];
         
         button.tag = i;
         [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
