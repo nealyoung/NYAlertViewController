@@ -8,7 +8,6 @@
 #import "NYAlertViewController.h"
 
 #import "NYAlertView.h"
-//#import "NYModalPresentationManager.h"
 #import "NYAlertViewButton.h"
 
 @interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
@@ -309,6 +308,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.alertBackgroundView.backgroundColor = alertViewBackgroundColor;
 }
 
+#pragma mark - Getters/Setters
+
 - (void)setTitle:(NSString *)title {
     [super setTitle:title];
     
@@ -447,10 +448,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    // Don't recognize the pan gesture in the button, so users can move their finger away after touch down
+    // Don't recognize the pan gesture in the button, so users can move their finger away after touching down
     if (([touch.view isKindOfClass:[UIButton class]])) {
         return NO;
     }
+    
     return YES;
 }
 

@@ -1,12 +1,13 @@
 # NYAlertViewController
 
-NYAlertViewController is a UIViewController subclass that presents customizable alert views using an API similar to that of UIAlertController.
+Highly customizable replacement for UIAlertController/UIAlertView
 
 ![Example](https://github.com/nealyoung/NYAlertViewController/raw/master/header.png)
 
 ### Features
 * Includes content view property for adding custom views to your alert view
-* Support for rotation and iPad screen sizes
+* Block-based API similar to that of UIAlertController
+* Support for all screen orientations and iPad screen sizes
 
 ### Installation
 #### Manual
