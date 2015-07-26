@@ -8,7 +8,6 @@
 #import "NYAlertViewController.h"
 
 #import "NYAlertView.h"
-#import "NYAlertViewButton.h"
 
 @interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
 

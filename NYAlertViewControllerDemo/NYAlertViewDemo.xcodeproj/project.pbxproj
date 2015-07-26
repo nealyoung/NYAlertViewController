@@ -17,7 +17,6 @@
 		0EF9AD9B1B5B1785000C7F1D /* NYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */; };
 		0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */; };
 		0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */; };
-		0EF9ADA21B5B1785000C7F1D /* NYAlertViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD9A1B5B1785000C7F1D /* NYAlertViewButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +50,6 @@
 		0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertView.m; sourceTree = "<group>"; };
 		0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewController.h; sourceTree = "<group>"; };
 		0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewController.m; sourceTree = "<group>"; };
-		0EF9AD991B5B1785000C7F1D /* NYAlertViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewButton.h; sourceTree = "<group>"; };
-		0EF9AD9A1B5B1785000C7F1D /* NYAlertViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,8 +140,6 @@
 				0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */,
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
-				0EF9AD991B5B1785000C7F1D /* NYAlertViewButton.h */,
-				0EF9AD9A1B5B1785000C7F1D /* NYAlertViewButton.m */,
 			);
 			name = NYAlertViewController;
 			path = ../../NYAlertViewController;
@@ -256,7 +251,6 @@
 				0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */,
 				0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */,
 				0EF9AD9B1B5B1785000C7F1D /* NYAlertAction.m in Sources */,
-				0EF9ADA21B5B1785000C7F1D /* NYAlertViewButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

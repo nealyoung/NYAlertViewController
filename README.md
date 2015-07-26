@@ -5,8 +5,8 @@ Highly customizable replacement for UIAlertController/UIAlertView
 ![Example](https://github.com/nealyoung/NYAlertViewController/raw/master/header.png)
 
 ### Features
-* Includes content view property for adding custom views to your alert view
-* Block-based API similar to that of UIAlertController
+* Includes content view property for adding custom views to the alert view
+* Block-based API similar to UIAlertController/UIAlertAction
 * Support for all screen orientations and iPad screen sizes
 
 ### Installation
@@ -29,7 +29,13 @@ alertViewController.title = NSLocalizedString(@"Custom UI", nil);
 alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
 
 // Customize appearance as desired
+alertViewController.buttonCornerRadius = 20.0f;
+alertViewController.view.tintColor = self.view.tintColor;
 
+alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:19.0f];
+alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
+alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
 
 // Add alert actions
 [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Done", nil)
