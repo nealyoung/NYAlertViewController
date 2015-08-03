@@ -244,6 +244,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     [self.view addGestureRecognizer:panGestureRecognizer];
 }
 
+- (CGFloat)maximumWidth {
+    return self.view.maximumWidth;
+}
+
+- (void)setMaximumWidth:(CGFloat)maximumWidth {
+    self.view.maximumWidth = maximumWidth;
+}
+
 - (UIView *)alertViewContentView {
     return self.view.contentView;
 }

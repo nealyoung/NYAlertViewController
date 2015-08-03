@@ -28,6 +28,11 @@
 @property (nonatomic) UIColor *alertViewBackgroundColor;
 
 /**
+ The maximum width of the presented alert view
+ */
+@property (nonatomic) CGFloat maximumWidth;
+
+/**
  The font used to display the title in the alert view
  
  @see message
