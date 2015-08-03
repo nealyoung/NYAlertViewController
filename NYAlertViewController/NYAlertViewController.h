@@ -11,6 +11,18 @@
 @interface NYAlertViewController : UIViewController
 
 /**
+ The message displayed under the alert view's title
+ */
+@property (nonatomic) NSString *message;
+
+/**
+ The custom view displayed in the presented alert view
+ 
+ @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
+ */
+@property (nonatomic) UIView *alertViewContentView;
+
+/**
  A Boolean value that determines whether the user can swipe up or down on the presented alert view to dismiss the alert view controller without any action handlers being executed
  
  @discussion The default value is NO
@@ -18,24 +30,19 @@
 @property (nonatomic) BOOL swipeDismissalGestureEnabled;
 
 /**
- The message displayed under the alert view's title
- */
-@property (nonatomic) NSString *message;
-
-/**
  The background color of the alert view
  */
 @property (nonatomic) UIColor *alertViewBackgroundColor;
 
 /**
- The maximum width of the presented alert view
+ The maximum width at which to display the presented alert view
  */
 @property (nonatomic) CGFloat maximumWidth;
 
 /**
  The font used to display the title in the alert view
  
- @see message
+ @see title
  */
 @property (nonatomic) UIFont *titleFont;
 
@@ -47,7 +54,7 @@
 @property (nonatomic) UIFont *messageFont;
 
 /**
- The font used for buttons (actions with style NYAlertActionStyleDefault or NYAlertActionStyleDestructive) in the alert view
+ The font used for buttons (actions with style NYAlertActionStyleDefault) in the alert view
  */
 @property (nonatomic) UIFont *buttonTitleFont;
 
@@ -57,17 +64,21 @@
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 
 /**
- The font used for destructive buttons (actions with style NYAlertActionStyleCancel) in the alert view
+ The font used for destructive buttons (actions with style NYAlertActionStyleDestructive) in the alert view
  */
 @property (nonatomic) UIFont *destructiveButtonTitleFont;
 
 /**
  The color used to display the alert view's title
+ 
+ @see title
  */
 @property (nonatomic) UIColor *titleColor;
 
 /**
  The color used to display the alert view's message
+ 
+ @see message
  */
 @property (nonatomic) UIColor *messageColor;
 
@@ -111,11 +122,15 @@
  */
 @property (nonatomic) CGFloat buttonCornerRadius;
 
+/**
+ An array of NYAlertAction objects representing the actions that the user can take in response to the alert view
+ */
 @property (nonatomic, readonly) NSArray *actions;
-@property (nonatomic) UIView *alertViewContentView;
 
 /**
  Add an alert action object to be displayed in the alert view
+ 
+ @param action The action object to display in the alert view to be presented
  */
 - (void)addAction:(NYAlertAction *)action;
 
