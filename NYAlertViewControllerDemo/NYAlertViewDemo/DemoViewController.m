@@ -14,7 +14,8 @@
 @interface DemoViewController ()
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount;
-- (void)showCustomContentViewAlertView;
+- (void)showMapViewAlertView;
+- (void)showDatePickerAlertView;
 - (void)showLongMessageAlertView;
 - (void)showCustomUIAlertView;
 
@@ -36,6 +37,12 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     alertController.view.tintColor = self.view.tintColor;
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Destroy", nil)
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction *action) {
+                                                          [self dismissViewControllerAnimated:YES completion:nil];
+                                                      }]];
     
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                         style:UIAlertActionStyleCancel
@@ -62,6 +69,7 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
         NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
         UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
         
+        // Set up the final action as a cancel button
         if (i == actionCount - 1) {
             actionTitle = NSLocalizedString(@"Cancel", nil);
             actionStyle = UIAlertActionStyleCancel;
@@ -75,11 +83,17 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
-- (void)showCustomContentViewAlertView {
+- (void)showMapViewAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     
     alertViewController.title = NSLocalizedString(@"Content View", nil);
     alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
+                                                            style:UIAlertActionStyleDestructive
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
     
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
@@ -114,6 +128,31 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
+- (void)showDatePickerAlertView {
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    
+    alertViewController.title = NSLocalizedString(@"Content View", nil);
+    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    
+    alertViewController.alertViewContentView = datePicker;
+    
+    [self presentViewController:alertViewController animated:YES completion:nil];
+}
+
 - (void)showLongMessageAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
 
@@ -138,7 +177,7 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
     alertViewController.buttonCornerRadius = 20.0f;
     alertViewController.view.tintColor = self.view.tintColor;
     
-    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:19.0f];
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
@@ -191,14 +230,18 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
             break;
             
         case 4:
-            [self showCustomContentViewAlertView];
+            [self showMapViewAlertView];
             break;
             
         case 5:
-            [self showLongMessageAlertView];
+            [self showDatePickerAlertView];
             break;
             
         case 6:
+            [self showLongMessageAlertView];
+            break;
+            
+        case 7:
             [self showCustomUIAlertView];
             break;
     }

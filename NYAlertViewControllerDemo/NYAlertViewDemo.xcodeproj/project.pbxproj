@@ -95,10 +95,10 @@
 				0EF9AD691B5B15C7000C7F1D /* AppDelegate.m */,
 				0EF9AD6B1B5B15C7000C7F1D /* DemoViewController.h */,
 				0EF9AD6C1B5B15C7000C7F1D /* DemoViewController.m */,
+				0EF9AD8A1B5B1785000C7F1D /* NYAlertViewController */,
 				0EF9AD6E1B5B15C7000C7F1D /* Main.storyboard */,
 				0EF9AD731B5B15C7000C7F1D /* LaunchScreen.xib */,
 				0EF9AD711B5B15C7000C7F1D /* Images.xcassets */,
-				0EF9AD8A1B5B1785000C7F1D /* NYAlertViewController */,
 				0EF9AD641B5B15C7000C7F1D /* Supporting Files */,
 			);
 			path = NYAlertViewDemo;

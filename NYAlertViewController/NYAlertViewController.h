@@ -10,28 +10,108 @@
 
 @interface NYAlertViewController : UIViewController
 
+/**
+ A Boolean value that determines whether the user can swipe up or down on the presented alert view to dismiss the alert view controller without any action handlers being executed
+ 
+ @discussion The default value is NO
+ */
+@property (nonatomic) BOOL swipeDismissalGestureEnabled;
+
+/**
+ The message displayed under the alert view's title
+ */
 @property (nonatomic) NSString *message;
 
+/**
+ The background color of the alert view
+ */
 @property (nonatomic) UIColor *alertViewBackgroundColor;
 
+/**
+ The font used to display the title in the alert view
+ 
+ @see message
+ */
 @property (nonatomic) UIFont *titleFont;
+
+/**
+ The font used to display the messsage in the alert view
+ 
+ @see message
+ */
 @property (nonatomic) UIFont *messageFont;
+
+/**
+ The font used for buttons (actions with style NYAlertActionStyleDefault or NYAlertActionStyleDestructive) in the alert view
+ */
 @property (nonatomic) UIFont *buttonTitleFont;
+
+/**
+ The font used for cancel buttons (actions with style NYAlertActionStyleCancel) in the alert view
+ */
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 
+/**
+ The font used for destructive buttons (actions with style NYAlertActionStyleCancel) in the alert view
+ */
+@property (nonatomic) UIFont *destructiveButtonTitleFont;
+
+/**
+ The color used to display the alert view's title
+ */
 @property (nonatomic) UIColor *titleColor;
+
+/**
+ The color used to display the alert view's message
+ */
 @property (nonatomic) UIColor *messageColor;
+
+/**
+ The background color for the alert view's buttons corresponsing to default style actions
+ */
 @property (nonatomic) UIColor *buttonColor;
+
+/**
+ The background color for the alert view's buttons corresponsing to cancel style actions
+ */
 @property (nonatomic) UIColor *cancelButtonColor;
+
+/**
+ The background color for the alert view's buttons corresponsing to destructive style actions
+ */
+@property (nonatomic) UIColor *destructiveButtonColor;
+
+/**
+ The color used to display the title for buttons corresponsing to default style actions
+ */
 @property (nonatomic) UIColor *buttonTitleColor;
+
+/**
+ The color used to display the title for buttons corresponsing to cancel style actions
+ */
 @property (nonatomic) UIColor *cancelButtonTitleColor;
 
+/**
+ The color used to display the title for buttons corresponsing to destructive style actions
+ */
+@property (nonatomic) UIColor *destructiveButtonTitleColor;
+
+/**
+ The radius of the displayed alert view's corners
+ */
 @property (nonatomic) CGFloat alertViewCornerRadius;
+
+/**
+ The radius of button corners
+ */
 @property (nonatomic) CGFloat buttonCornerRadius;
 
 @property (nonatomic, readonly) NSArray *actions;
 @property (nonatomic) UIView *alertViewContentView;
 
+/**
+ Add an alert action object to be displayed in the alert view
+ */
 - (void)addAction:(NYAlertAction *)action;
 
 @end

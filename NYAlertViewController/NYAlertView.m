@@ -187,8 +187,9 @@ IB_DESIGNABLE
 
 @interface NYAlertView ()
 
-@property UIView *contentViewContainerView;
-@property UIView *actionButtonContainerView;
+@property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
+@property (nonatomic) UIView *contentViewContainerView;
+@property (nonatomic) UIView *actionButtonContainerView;
 @property (nonatomic) NSArray *actionButtons;
 
 - (void)actionButtonPressed:(NYAlertViewButton *)button;
@@ -203,11 +204,14 @@ IB_DESIGNABLE
     if (self) {
         self.buttonTitleFont = [UIFont systemFontOfSize:16.0f];
         self.cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
+        self.destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
         
         self.buttonColor = [UIColor darkGrayColor];
         self.buttonTitleColor = [UIColor whiteColor];
         self.cancelButtonColor = [UIColor darkGrayColor];
         self.cancelButtonTitleColor = [UIColor whiteColor];
+        self.destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
+        self.destructiveButtonTitleColor = [UIColor whiteColor];
         
         self.buttonCornerRadius = 6.0f;
         
@@ -265,13 +269,15 @@ IB_DESIGNABLE
             alertBackgroundViewWidth = self.maximumWidth;
         }
         
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                         attribute:NSLayoutAttributeWidth
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:nil
-                                                         attribute:NSLayoutAttributeNotAnAttribute
-                                                        multiplier:0.0f
-                                                          constant:alertBackgroundViewWidth]];
+        _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:0.0f
+                                                                        constant:alertBackgroundViewWidth];
+        
+        [self addConstraint:self.alertBackgroundWidthConstraint];
         
         _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                                                   attribute:NSLayoutAttributeCenterY
@@ -334,6 +340,11 @@ IB_DESIGNABLE
     return NO;
 }
 
+- (void)setMaximumWidth:(CGFloat)maximumWidth {
+    _maximumWidth = maximumWidth;
+    self.alertBackgroundWidthConstraint.constant = maximumWidth;
+}
+
 - (void)setButtonTitleFont:(UIFont *)buttonTitleFont {
     _buttonTitleFont = buttonTitleFont;
     
@@ -354,6 +365,18 @@ IB_DESIGNABLE
         
         if (action.style == UIAlertActionStyleCancel) {
             button.titleLabel.font = cancelButtonTitleFont;
+        }
+    }];
+}
+
+- (void)setDestructiveButtonTitleFont:(UIFont *)destructiveButtonTitleFont {
+    _destructiveButtonTitleFont = destructiveButtonTitleFont;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleDestructive) {
+            button.titleLabel.font = destructiveButtonTitleFont;
         }
     }];
 }
@@ -404,6 +427,31 @@ IB_DESIGNABLE
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateHighlighted];
+        }
+    }];
+}
+
+- (void)setDestructiveButtonColor:(UIColor *)destructiveButtonColor {
+    _destructiveButtonColor = destructiveButtonColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleDestructive) {
+            button.tintColor = destructiveButtonColor;
+        }
+    }];
+}
+
+- (void)setDestructiveButtonTitleColor:(UIColor *)destructiveButtonTitleColor {
+    _destructiveButtonTitleColor = destructiveButtonTitleColor;
+    
+    [self.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleDestructive) {
+            [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateHighlighted];
         }
     }];
 }
@@ -461,22 +509,20 @@ IB_DESIGNABLE
         [button setTitle:action.title forState:UIControlStateNormal];
         
         if (action.style == UIAlertActionStyleCancel) {
-            button.titleLabel.font = self.cancelButtonTitleFont;
-        } else {
-            button.titleLabel.font = self.buttonTitleFont;
-        }
-        
-        if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
             button.tintColor = self.cancelButtonColor;
+            button.titleLabel.font = self.cancelButtonTitleFont;
         } else if (action.style == UIAlertActionStyleDestructive) {
-            [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-            button.tintColor = [UIColor redColor];
+            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateHighlighted];
+            button.tintColor = self.destructiveButtonColor;
+            button.titleLabel.font = self.destructiveButtonTitleFont;
         } else {
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
             button.tintColor = self.buttonColor;
+            button.titleLabel.font = self.buttonTitleFont;
         }
         
         [buttons addObject:button];

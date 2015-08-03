@@ -215,6 +215,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
 @property NYAlertView *view;
+@property UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer;
@@ -239,6 +240,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
     panGestureRecognizer.delegate = self;
+    panGestureRecognizer.enabled = self.swipeDismissalGestureEnabled;
     [self.view addGestureRecognizer:panGestureRecognizer];
 }
 
@@ -248,6 +250,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setAlertViewContentView:(UIView *)alertViewContentView {
     self.view.contentView = alertViewContentView;
+}
+
+- (void)setSwipeDismissalGestureEnabled:(BOOL)swipeDismissalGestureEnabled {
+    _swipeDismissalGestureEnabled = swipeDismissalGestureEnabled;
+    
+    self.panGestureRecognizer.enabled = swipeDismissalGestureEnabled;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
@@ -352,6 +360,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.cancelButtonTitleFont = cancelButtonTitleFont;
 }
 
+- (UIFont *)destructiveButtonTitleFont {
+    return self.view.destructiveButtonTitleFont;
+}
+
+- (void)setDestructiveButtonTitleFont:(UIFont *)destructiveButtonTitleFont {
+    self.view.destructiveButtonTitleFont = destructiveButtonTitleFont;
+}
+
 - (UIColor *)titleColor {
     return self.view.titleLabel.textColor;
 }
@@ -384,6 +400,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.cancelButtonColor = cancelButtonColor;
 }
 
+- (UIColor *)destructiveButtonColor {
+    return self.view.destructiveButtonColor;
+}
+
+- (void)setDestructiveButtonColor:(UIColor *)destructiveButtonColor {
+    self.view.destructiveButtonColor = destructiveButtonColor;
+}
+
 - (UIColor *)buttonTitleColor {
     return self.view.buttonTitleColor;
 }
@@ -398,6 +422,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
     self.view.cancelButtonTitleColor = cancelButtonTitleColor;
+}
+
+- (UIColor *)destructiveButtonTitleColor {
+    return self.view.destructiveButtonTitleColor;
+}
+
+- (void)setDestructiveButtonTitleColor:(UIColor *)destructiveButtonTitleColor {
+    self.view.destructiveButtonTitleColor = destructiveButtonTitleColor;
 }
 
 - (CGFloat)alertViewCornerRadius {
