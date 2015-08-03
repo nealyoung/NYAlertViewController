@@ -7,7 +7,7 @@
 
 #import "NYAlertView.h"
 
-#import "NYAlertAction.h"
+#import "NYAlertViewController.h"
 
 @interface NYAlertTextView : UITextView
 

@@ -9,6 +9,18 @@
 
 #import "NYAlertView.h"
 
+@implementation NYAlertAction
+
++ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler {
+    NYAlertAction *action = [[NYAlertAction alloc] init];
+    action.title = title;
+    action.style = style;
+    action.handler = handler;
+    
+    return action;
+}
+@end
+
 @interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property CGFloat duration;

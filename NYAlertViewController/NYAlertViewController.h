@@ -6,7 +6,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NYAlertAction.h"
+
+@interface NYAlertAction : NSObject
+
++ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler;
+
+@property (nonatomic) NSString *title;
+@property (nonatomic) UIAlertActionStyle style;
+@property (nonatomic, strong) void (^handler)(NYAlertAction *action);
+
+@end
 
 @interface NYAlertViewController : UIViewController
 

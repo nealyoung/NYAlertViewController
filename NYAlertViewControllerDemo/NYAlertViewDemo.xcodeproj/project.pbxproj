@@ -14,7 +14,6 @@
 		0EF9AD721B5B15C7000C7F1D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EF9AD711B5B15C7000C7F1D /* Images.xcassets */; };
 		0EF9AD751B5B15C7000C7F1D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EF9AD731B5B15C7000C7F1D /* LaunchScreen.xib */; };
 		0EF9AD811B5B15C7000C7F1D /* NYAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD801B5B15C7000C7F1D /* NYAlertViewDemoTests.m */; };
-		0EF9AD9B1B5B1785000C7F1D /* NYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */; };
 		0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */; };
 		0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */; };
 /* End PBXBuildFile section */
@@ -44,8 +43,6 @@
 		0EF9AD7A1B5B15C7000C7F1D /* NYAlertViewDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NYAlertViewDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD7F1B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EF9AD801B5B15C7000C7F1D /* NYAlertViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewDemoTests.m; sourceTree = "<group>"; };
-		0EF9AD8B1B5B1785000C7F1D /* NYAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertAction.h; sourceTree = "<group>"; };
-		0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertAction.m; sourceTree = "<group>"; };
 		0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertView.h; sourceTree = "<group>"; };
 		0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertView.m; sourceTree = "<group>"; };
 		0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewController.h; sourceTree = "<group>"; };
@@ -136,8 +133,6 @@
 			children = (
 				0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */,
 				0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */,
-				0EF9AD8B1B5B1785000C7F1D /* NYAlertAction.h */,
-				0EF9AD8C1B5B1785000C7F1D /* NYAlertAction.m */,
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
 			);
@@ -250,7 +245,6 @@
 				0EF9AD671B5B15C7000C7F1D /* main.m in Sources */,
 				0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */,
 				0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */,
-				0EF9AD9B1B5B1785000C7F1D /* NYAlertAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
