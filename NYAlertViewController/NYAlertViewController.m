@@ -130,6 +130,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @property CGFloat presentedViewControllerHorizontalInset;
 @property CGFloat presentedViewControllerVerticalInset;
+@property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
 
 @end
 
@@ -219,7 +220,9 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.backgroundTapDismissalGestureEnabled) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end
@@ -276,6 +279,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _swipeDismissalGestureEnabled = swipeDismissalGestureEnabled;
     
     self.panGestureRecognizer.enabled = swipeDismissalGestureEnabled;
+}
+
+- (void)setBackgroundTapDismissalGestureEnabled:(BOOL)backgroundTapDismissalGestureEnabled {
+    _backgroundTapDismissalGestureEnabled = backgroundTapDismissalGestureEnabled;
+    
+    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController *)self.presentationController;
+    presentationController.backgroundTapDismissalGestureEnabled = backgroundTapDismissalGestureEnabled;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {

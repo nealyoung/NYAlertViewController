@@ -13,6 +13,7 @@
 
 @interface DemoViewController ()
 
+- (void)showStandardAlertView;
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount;
 - (void)showMapViewAlertView;
 - (void)showDatePickerAlertView;

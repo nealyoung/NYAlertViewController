@@ -32,6 +32,13 @@
 @property (nonatomic) UIView *alertViewContentView;
 
 /**
+ A Boolean value that determines whether the user can tap on the dimmed background surrounding the presented alert view to dismiss the alert view controller without any action handlers being executed
+ 
+ @discussion The default value is NO
+ */
+@property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
+
+/**
  A Boolean value that determines whether the user can swipe up or down on the presented alert view to dismiss the alert view controller without any action handlers being executed
  
  @discussion The default value is NO
