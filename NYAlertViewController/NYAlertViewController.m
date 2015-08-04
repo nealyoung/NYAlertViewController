@@ -241,13 +241,27 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @dynamic view;
 
-- (void)loadView {
-    self.view = [[NYAlertView alloc] initWithFrame:CGRectZero];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    if (self) {
+        [self commonInit];
+    }
+    
+    return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     
+    if (self) {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (void)commonInit {
     _actions = [NSArray array];
     
     self.modalPresentationStyle = UIModalPresentationCustom;
@@ -257,6 +271,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     panGestureRecognizer.delegate = self;
     panGestureRecognizer.enabled = self.swipeDismissalGestureEnabled;
     [self.view addGestureRecognizer:panGestureRecognizer];
+}
+
+- (void)loadView {
+    self.view = [[NYAlertView alloc] initWithFrame:CGRectZero];
 }
 
 - (CGFloat)maximumWidth {

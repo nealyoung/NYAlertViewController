@@ -87,9 +87,6 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
 - (void)showMapViewAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     
-    alertViewController.title = NSLocalizedString(@"Content View", nil);
-    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
-    
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
                                                             style:UIAlertActionStyleDestructive
                                                           handler:^(NYAlertAction *action) {
@@ -101,6 +98,9 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
                                                           handler:^(NYAlertAction *action) {
                                                               [self dismissViewControllerAnimated:YES completion:nil];
                                                           }]];
+    
+    alertViewController.title = NSLocalizedString(@"Content View", nil);
+    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
     
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     
