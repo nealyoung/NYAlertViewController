@@ -172,6 +172,9 @@ alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante ve
 - (void)showCustomUIAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
 
+    alertViewController.backgroundTapDismissalGestureEnabled = YES;
+    alertViewController.swipeDismissalGestureEnabled = YES;
+    
     alertViewController.title = NSLocalizedString(@"Custom UI", nil);
     alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
     

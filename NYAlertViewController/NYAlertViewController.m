@@ -281,13 +281,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.panGestureRecognizer.enabled = swipeDismissalGestureEnabled;
 }
 
-- (void)setBackgroundTapDismissalGestureEnabled:(BOOL)backgroundTapDismissalGestureEnabled {
-    _backgroundTapDismissalGestureEnabled = backgroundTapDismissalGestureEnabled;
-    
-    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController *)self.presentationController;
-    presentationController.backgroundTapDismissalGestureEnabled = backgroundTapDismissalGestureEnabled;
-}
-
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
     
@@ -492,7 +485,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
                                                       presentingViewController:(UIViewController *)presenting
                                                           sourceViewController:(UIViewController *)source {
-    return [[NYAlertViewPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+    NYAlertViewPresentationController *presentationController = [[NYAlertViewPresentationController alloc] initWithPresentedViewController:presented
+                                                                                                                  presentingViewController:presenting];
+    presentationController.backgroundTapDismissalGestureEnabled = self.backgroundTapDismissalGestureEnabled;
+    return presentationController;
 }
 
 - (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
