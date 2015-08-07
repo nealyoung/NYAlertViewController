@@ -20,6 +20,11 @@
 @interface NYAlertViewController : UIViewController
 
 /**
+ Creates an alert view controller with the specified title and message
+ */
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
+
+/**
  The message displayed under the alert view's title
  */
 @property (nonatomic) NSString *message;

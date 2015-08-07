@@ -241,6 +241,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @dynamic view;
 
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message {
+    NYAlertViewController *alertController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    alertController.title = title;
+    alertController.message = message;
+    
+    return alertController;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
@@ -267,10 +275,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.modalPresentationStyle = UIModalPresentationCustom;
     self.transitioningDelegate = self;
     
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
-    panGestureRecognizer.delegate = self;
-    panGestureRecognizer.enabled = self.swipeDismissalGestureEnabled;
-    [self.view addGestureRecognizer:panGestureRecognizer];
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
+    self.panGestureRecognizer.delegate = self;
+    self.panGestureRecognizer.enabled = NO;
+    [self.view addGestureRecognizer:self.panGestureRecognizer];
 }
 
 - (void)loadView {

@@ -1,6 +1,6 @@
 # NYAlertViewController
 
-Highly customizable replacement for UIAlertController/UIAlertView
+NYAlertViewController is a replacement for UIAlertController/UIAlertView with support for content views and UI customization.
 
 ![Example](https://github.com/nealyoung/NYAlertViewController/raw/master/header.png)
 
