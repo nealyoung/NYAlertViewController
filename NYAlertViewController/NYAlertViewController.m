@@ -131,12 +131,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @property CGFloat presentedViewControllerHorizontalInset;
 @property CGFloat presentedViewControllerVerticalInset;
 @property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
+@property UIView *backgroundDimmingView;
 
 @end
 
 @interface NYAlertViewPresentationController ()
-
-@property UIView *backgroundDimmingView;
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer;
 
@@ -201,8 +200,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         self.presentingViewController.view.transform = CGAffineTransformIdentity;
     }
                                            completion:nil];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 - (void)containerViewWillLayoutSubviews {
@@ -272,6 +269,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)commonInit {
     _actions = [NSArray array];
     
+    _showsStatusBar = YES;
+    
     self.modalPresentationStyle = UIModalPresentationCustom;
     self.transitioningDelegate = self;
     
@@ -283,6 +282,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)loadView {
     self.view = [[NYAlertView alloc] initWithFrame:CGRectZero];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return !self.showsStatusBar;
 }
 
 - (CGFloat)maximumWidth {
@@ -310,6 +313,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
     
+    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
+    
+    CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
+    presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
+    
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat verticalGestureVelocity = [gestureRecognizer velocityInView:self.view].y;
         
@@ -332,6 +340,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                   initialSpringVelocity:0.2f
                                 options:0
                              animations:^{
+                                 presentationController.backgroundDimmingView.alpha = 0.0f;
                                  [self.view layoutIfNeeded];
                              }
                              completion:^(BOOL finished) {
@@ -345,6 +354,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                   initialSpringVelocity:0.4f
                                 options:0
                              animations:^{
+                                 presentationController.backgroundDimmingView.alpha = 0.7f;
                                  [self.view layoutIfNeeded];
                              }
                              completion:nil];

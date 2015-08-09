@@ -30,6 +30,13 @@
 @property (nonatomic) NSString *message;
 
 /**
+ A Boolean value that determines whether the status bar is visible when the alert view is presented
+ 
+ @discussion The default value is YES
+ */
+@property (nonatomic) BOOL showsStatusBar;
+
+/**
  The custom view displayed in the presented alert view
  
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
