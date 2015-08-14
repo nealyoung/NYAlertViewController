@@ -206,6 +206,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     [super containerViewWillLayoutSubviews];
     
     [self presentedView].frame = [self frameOfPresentedViewInContainerView];
+    self.backgroundDimmingView.frame = self.containerView.bounds;
 }
 
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
