@@ -167,7 +167,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     [self.backgroundDimmingView addGestureRecognizer:tapGestureRecognizer];
     
     // Shrink the presenting view controller, and animate in the dark background view
-    id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
+    id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.backgroundDimmingView.alpha = 0.7f;
     }
@@ -193,7 +193,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)dismissalTransitionWillBegin {
     [super dismissalTransitionWillBegin];
     
-    id <UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
+    id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         self.backgroundDimmingView.alpha = 0.0f;
         
@@ -265,6 +265,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     }
     
     return self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    // Necessary to avoid retain cycle - http://stackoverflow.com/a/21218703/1227862
+    self.transitioningDelegate = nil;
+    [super viewDidDisappear:animated];
 }
 
 - (void)commonInit {
