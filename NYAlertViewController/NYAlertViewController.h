@@ -131,7 +131,7 @@
 @property (nonatomic) UIColor *buttonTitleColor;
 
 /**
- The color used to display the title for buttons corresponsing to cancel style actions
+ The color used to display the title for buttons corresponding to cancel style actions
  */
 @property (nonatomic) UIColor *cancelButtonTitleColor;
 
@@ -155,6 +155,11 @@
  */
 @property (nonatomic, readonly) NSArray *actions;
 
+/**
+ An array of UITextField objects displayed by the alert view
+ 
+ @see addTextFieldWithConfigurationHandler:
+ */
 @property (nonatomic, readonly) NSArray *textFields;
 
 /**
@@ -164,6 +169,11 @@
  */
 - (void)addAction:(NYAlertAction *)action;
 
+/**
+ Add a text field object to be displayed in the alert view
+ 
+ @param configurationHandler A block used to configure the text field. The block takes the text field object as a parameter, and can modify the properties of the text field prior to being displayed.
+ */
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
 
 @end
