@@ -32,7 +32,11 @@
 }
 
 - (CGSize)intrinsicContentSize {
-    return self.contentSize;
+    if ([self.text length]) {
+        return self.contentSize;
+    } else {
+        return CGSizeZero;
+    }
 }
 
 @end
@@ -189,6 +193,7 @@ IB_DESIGNABLE
 
 @property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
+@property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
 @property (nonatomic) NSArray *actionButtons;
 
@@ -248,6 +253,11 @@ IB_DESIGNABLE
         [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         [self.alertBackgroundView addSubview:self.contentViewContainerView];
+        
+        _textFieldContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self.textFieldContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [self.alertBackgroundView addSubview:self.textFieldContainerView];
         
         _actionButtonContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -312,17 +322,23 @@ IB_DESIGNABLE
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
         
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textFieldContainerView]|"
+                                                                                         options:0
+                                                                                         metrics:nil
+                                                                                           views:NSDictionaryOfVariableBindings(_textFieldContainerView)]];
+        
         [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_actionButtonContainerView]|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView]-[_actionButtonContainerView]-|"
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_titleLabel,
                                                                                                                                 _messageTextView,
                                                                                                                                 _contentViewContainerView,
+                                                                                                                                _textFieldContainerView,
                                                                                                                                 _actionButtonContainerView)]];
     }
     
@@ -532,6 +548,48 @@ IB_DESIGNABLE
     self.actionButtons = buttons;
 }
 
+- (void)setTextFields:(NSArray *)textFields {
+    for (UITextField *textField in self.textFields) {
+        [textField removeFromSuperview];
+    }
+    
+    _textFields = textFields;
+    
+    for (int i = 0; i < [textFields count]; i++) {
+        UITextField *textField = textFields[i];
+        [textField setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.textFieldContainerView addSubview:textField];
+        
+        [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[textField]-|"
+                                                                                            options:0
+                                                                                            metrics:nil
+                                                                                              views:NSDictionaryOfVariableBindings(textField)]];
+        
+        // Pin the first text field to the top of the text field container view
+        if (i == 0) {
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[textField]"
+                                                                                                options:0
+                                                                                                metrics:nil
+                                                                                                  views:NSDictionaryOfVariableBindings(_contentViewContainerView, textField)]];
+        } else {
+            UITextField *previousTextField = textFields[i - 1];
+            
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[previousTextField]-[textField]"
+                                                                                                options:0
+                                                                                                metrics:nil
+                                                                                                  views:NSDictionaryOfVariableBindings(previousTextField, textField)]];
+        }
+        
+        // Pin the final text field to the bottom of the text field container view
+        if (i == ([textFields count] - 1)) {
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[textField]|"
+                                                                                                options:0
+                                                                                                metrics:nil
+                                                                                                  views:NSDictionaryOfVariableBindings(textField)]];
+        }
+    }
+}
+
 - (void)setActionButtons:(NSArray *)actionButtons {
     for (UIButton *button  in self.actionButtons) {
         [button removeFromSuperview];
@@ -560,7 +618,7 @@ IB_DESIGNABLE
                                                                                                metrics:nil
                                                                                                  views:NSDictionaryOfVariableBindings(firstButton, lastButton)]];
         
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[firstButton(40)]|"
+        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[firstButton(40)]|"
                                                                                                options:0
                                                                                                metrics:nil
                                                                                                  views:NSDictionaryOfVariableBindings(_contentViewContainerView, firstButton)]];
@@ -586,7 +644,7 @@ IB_DESIGNABLE
                                                                                                      views:NSDictionaryOfVariableBindings(actionButton)]];
             
             if (i == 0) {
-                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[actionButton]"
+                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[actionButton]"
                                                                                                        options:0
                                                                                                        metrics:nil
                                                                                                          views:NSDictionaryOfVariableBindings(_contentViewContainerView, actionButton)]];

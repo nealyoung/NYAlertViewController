@@ -155,11 +155,15 @@
  */
 @property (nonatomic, readonly) NSArray *actions;
 
+@property (nonatomic, readonly) NSArray *textFields;
+
 /**
  Add an alert action object to be displayed in the alert view
  
  @param action The action object to display in the alert view to be presented
  */
 - (void)addAction:(NYAlertAction *)action;
+
+- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
 
 @end

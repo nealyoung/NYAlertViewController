@@ -29,7 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0EAC7B511B5C759B003D0272 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		0E8A2D4C1B9148D40057CC67 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		0EF9AD611B5B15C7000C7F1D /* NYAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD651B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EF9AD661B5B15C7000C7F1D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 		0EF9AD641B5B15C7000C7F1D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0EAC7B511B5C759B003D0272 /* Reveal.framework */,
+				0E8A2D4C1B9148D40057CC67 /* Reveal.framework */,
 				0EF9AD651B5B15C7000C7F1D /* Info.plist */,
 				0EF9AD661B5B15C7000C7F1D /* main.m */,
 			);

@@ -15,6 +15,7 @@
 
 - (void)showStandardAlertView;
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount;
+- (void)showTextFieldAlertView;
 - (void)showMapViewAlertView;
 - (void)showDatePickerAlertView;
 - (void)showLongMessageAlertView;
@@ -34,10 +35,17 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 
 - (void)showStandardAlertView {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Example Title", nil)
-                                                                             message:NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.", nil)
+                                                                             message:NSLocalizedString(@"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus.", nil)
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
-    alertController.view.tintColor = self.view.tintColor;
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Username";
+    }];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Password";
+        textField.secureTextEntry = YES;
+    }];
     
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Destroy", nil)
                                                         style:UIAlertActionStyleDestructive
@@ -83,6 +91,35 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
             [self dismissViewControllerAnimated:YES completion:nil];
         }]];
     }
+    
+    [self presentViewController:alertViewController animated:YES completion:nil];
+}
+
+- (void)showTextFieldAlertView {
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    alertViewController.title = NSLocalizedString(@"Login", nil);
+    alertViewController.message = nil;
+
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(NYAlertAction *action) {
+                                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                                          }]];
+    
+    [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"Username", nil);
+    }];
+    
+    [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"Password", nil);
+        textField.secureTextEntry = YES;
+    }];
     
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
@@ -237,18 +274,22 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
             break;
             
         case 4:
-            [self showMapViewAlertView];
+            [self showTextFieldAlertView];
             break;
             
         case 5:
-            [self showDatePickerAlertView];
+            [self showMapViewAlertView];
             break;
             
         case 6:
-            [self showLongMessageAlertView];
+            [self showDatePickerAlertView];
             break;
             
         case 7:
+            [self showLongMessageAlertView];
+            break;
+            
+        case 8:
             [self showCustomUIAlertView];
             break;
     }

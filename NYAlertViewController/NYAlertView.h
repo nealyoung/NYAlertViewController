@@ -32,5 +32,6 @@
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 
 @property (nonatomic) NSArray *actions;
+@property (nonatomic) NSArray *textFields;
 
 @end

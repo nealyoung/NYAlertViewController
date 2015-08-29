@@ -19,6 +19,7 @@
     
     return action;
 }
+
 @end
 
 @interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
@@ -275,6 +276,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)commonInit {
     _actions = [NSArray array];
+    _textFields = [NSArray array];
     
     _showsStatusBar = YES;
     
@@ -373,6 +375,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     [super viewWillAppear:animated];
     
     self.view.actions = self.actions;
+    self.view.textFields = self.textFields;
 }
 
 - (void)setAlertViewBackgroundColor:(UIColor *)alertViewBackgroundColor {
@@ -516,6 +519,15 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)addAction:(UIAlertAction *)action {
     _actions = [self.actions arrayByAddingObject:action];
+}
+
+- (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    
+    configurationHandler(textField);
+    
+    _textFields = [self.textFields arrayByAddingObject:textField];
 }
 
 - (void)buttonPressed:(UIButton *)sender {
