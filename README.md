@@ -8,6 +8,8 @@ NYAlertViewController is a replacement for UIAlertController/UIAlertView with su
 * Includes content view property for adding custom views to the alert view
 * Block-based API similar to UIAlertController/UIAlertAction
 * Support for all screen orientations and iPad screen sizes
+* Easily add text fields with simple API identical to UIAlertController
+* Choose between fade (similar to UIAlertController) or slide transition animations
 
 ### Installation
 #### Manual

@@ -17,6 +17,13 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
+    /** Fade in the alert view */
+    NYAlertViewControllerTransitionStyleFade,
+    /** Slide the alert view from the top of the view */
+    NYAlertViewControllerTransitionStyleSlideFromTop
+};
+
 @interface NYAlertViewController : UIViewController
 
 /**
@@ -42,6 +49,11 @@
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
  */
 @property (nonatomic) UIView *alertViewContentView;
+
+/**
+ The transition style used to animate the alert view's presentation/dismissal transitions. The default value is NYAlertViewControllerTransitionStyleSlideFromTop.
+ */
+@property (nonatomic) NYAlertViewControllerTransitionStyle transitionStyle;
 
 /**
  A Boolean value that determines whether the user can tap on the dimmed background surrounding the presented alert view to dismiss the alert view controller without any action handlers being executed

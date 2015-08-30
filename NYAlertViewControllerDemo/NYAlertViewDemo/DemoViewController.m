@@ -71,6 +71,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
     alertViewController.swipeDismissalGestureEnabled = YES;
+    alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
