@@ -65,7 +65,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Example Title", nil);
-    alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
     
@@ -100,6 +100,11 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Login", nil);
     alertViewController.message = nil;
+    
+    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
+    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
+    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
+    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
 
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                             style:UIAlertActionStyleDefault
@@ -115,10 +120,12 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Username", nil);
+        textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
     }];
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Password", nil);
+        textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         textField.secureTextEntry = YES;
     }];
     
