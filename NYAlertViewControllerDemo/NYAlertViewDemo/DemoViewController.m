@@ -106,11 +106,24 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
 
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
+    NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    submitAction.enabled = NO;
+    [alertViewController addAction:submitAction];
+    
+    // Disable the submit action until the user has filled out both text fields
+    [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      UITextField *usernameTextField = [alertViewController.textFields firstObject];
+                                                      UITextField *passwordTextField = [alertViewController.textFields lastObject];
+                                                      
+                                                      submitAction.enabled = ([usernameTextField.text length] && [passwordTextField.text length]);
+                                                  }];
     
     [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                             style:UIAlertActionStyleCancel
