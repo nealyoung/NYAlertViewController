@@ -113,16 +113,15 @@
 - (void)setEnabled:(BOOL)enabled {
     [super setEnabled:enabled];
     
-    if (!enabled) {
-        self.backgroundColor = [UIColor lightGrayColor];
-        self.layer.borderColor = self.tintColor.CGColor;
-        [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    } else {
-        self.backgroundColor = self.tintColor;
-        self.layer.borderColor = self.tintColor.CGColor;
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-    }
+//    if (!enabled) {
+//        self.backgroundColor = [UIColor lightGrayColor];
+//        self.layer.borderColor = self.tintColor.CGColor;
+//        [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    } else {
+//        self.backgroundColor = self.tintColor;
+//        self.layer.borderColor = self.tintColor.CGColor;
+//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    }
 }
 
 - (void)tintColorDidChange {

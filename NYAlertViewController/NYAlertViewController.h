@@ -110,6 +110,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) UIFont *destructiveButtonTitleFont;
 
 /**
+ The font used for buttons corresponding to disabled actions
+ */
+@property (nonatomic) UIFont *disabledButtonTitleFont;
+
+/**
  The color used to display the alert view's title
  
  @see title
@@ -139,6 +144,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) UIColor *destructiveButtonColor;
 
 /**
+ The background color for the alert view's buttons corresponsing to disabled actions
+ */
+@property (nonatomic) UIColor *disabledButtonColor;
+
+/**
  The color used to display the title for buttons corresponsing to default style actions
  */
 @property (nonatomic) UIColor *buttonTitleColor;
@@ -152,6 +162,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  The color used to display the title for buttons corresponsing to destructive style actions
  */
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
+
+/**
+ The color used to display the title for buttons corresponsing to disabled actions
+ */
+@property (nonatomic) UIColor *disabledButtonTitleColor;
 
 /**
  The radius of the displayed alert view's corners

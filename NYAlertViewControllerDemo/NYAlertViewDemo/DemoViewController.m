@@ -99,7 +99,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 - (void)showTextFieldAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertViewController.title = NSLocalizedString(@"Login", nil);
-    alertViewController.message = nil;
+    alertViewController.message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
     
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];

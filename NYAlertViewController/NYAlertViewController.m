@@ -336,6 +336,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
     _destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
+    _disabledButtonTitleFont = [UIFont systemFontOfSize:16.0f];
     
     _buttonColor = [UIColor darkGrayColor];
     _buttonTitleColor = [UIColor whiteColor];
@@ -343,6 +344,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _cancelButtonTitleColor = [UIColor whiteColor];
     _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
     _destructiveButtonTitleColor = [UIColor whiteColor];
+    _disabledButtonColor = [UIColor lightGrayColor];
+    _disabledButtonTitleColor = [UIColor whiteColor];
     
     _buttonCornerRadius = 6.0f;
     
@@ -459,7 +462,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     for (int i = 0; i < [self.actions count]; i++) {
         NYAlertAction *action = self.actions[i];
         
-        NYAlertViewButton *button = [[NYAlertViewButton alloc] initWithFrame:CGRectZero];
+        NYAlertViewButton *button = [NYAlertViewButton buttonWithType:UIButtonTypeCustom];
         
         button.tag = i;
         [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -469,6 +472,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         button.cornerRadius = self.buttonCornerRadius;
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
         [button setTitle:action.title forState:UIControlStateNormal];
+        
+        if (!action.enabled) {
+            [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
+            [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
+            
+            button.titleLabel.font = self.disabledButtonTitleFont;
+        }
         
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
@@ -568,6 +578,18 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     }];
 }
 
+- (void)setDisabledButtonTitleFont:(UIFont *)disabledButtonTitleFont {
+    _disabledButtonTitleFont = disabledButtonTitleFont;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (!action.enabled) {
+            button.titleLabel.font = disabledButtonTitleFont;
+        }
+    }];
+}
+
 - (UIColor *)titleColor {
     return self.view.titleLabel.textColor;
 }
@@ -620,6 +642,18 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     }];
 }
 
+- (void)setDisabledButtonColor:(UIColor *)disabledButtonColor {
+    _disabledButtonColor = disabledButtonColor;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (!action.enabled) {
+            [button setBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
+        }
+    }];
+}
+
 - (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
     _buttonTitleColor = buttonTitleColor;
     
@@ -655,6 +689,19 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateHighlighted];
+        }
+    }];
+}
+
+- (void)setDisabledButtonTitleColor:(UIColor *)disabledButtonTitleColor {
+    _disabledButtonTitleColor = disabledButtonTitleColor;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (!action.enabled) {
+            [button setTitleColor:disabledButtonTitleColor forState:UIControlStateNormal];
+            [button setTitleColor:disabledButtonTitleColor forState:UIControlStateHighlighted];
         }
     }];
 }
