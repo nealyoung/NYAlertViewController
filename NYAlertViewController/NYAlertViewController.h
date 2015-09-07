@@ -110,11 +110,6 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) UIFont *destructiveButtonTitleFont;
 
 /**
- The font used for buttons corresponding to disabled actions
- */
-@property (nonatomic) UIFont *disabledButtonTitleFont;
-
-/**
  The color used to display the alert view's title
  
  @see title

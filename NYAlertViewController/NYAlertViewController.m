@@ -336,7 +336,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
     _destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
-    _disabledButtonTitleFont = [UIFont systemFontOfSize:16.0f];
     
     _buttonColor = [UIColor darkGrayColor];
     _buttonTitleColor = [UIColor whiteColor];
@@ -473,12 +472,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
         [button setTitle:action.title forState:UIControlStateNormal];
         
-        if (!action.enabled) {
-            [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
-            [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
-            
-            button.titleLabel.font = self.disabledButtonTitleFont;
-        }
+        [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
+        [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
         
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
@@ -574,18 +569,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         
         if (action.style == UIAlertActionStyleDestructive) {
             button.titleLabel.font = destructiveButtonTitleFont;
-        }
-    }];
-}
-
-- (void)setDisabledButtonTitleFont:(UIFont *)disabledButtonTitleFont {
-    _disabledButtonTitleFont = disabledButtonTitleFont;
-    
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-        
-        if (!action.enabled) {
-            button.titleLabel.font = disabledButtonTitleFont;
         }
     }];
 }
