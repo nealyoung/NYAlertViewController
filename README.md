@@ -19,7 +19,7 @@ Add the files to your project manually by dragging the NYAlertViewController dir
 Add `pod 'NYAlertViewController'` to your Podfile, and run `pod install`.
 
 ### Usage Examples
-An Objectve-C example project demonstrating customization options is included in the NYAlertViewControllerDemo directory.
+An Objective-C example project demonstrating customization options is included in the NYAlertViewControllerDemo directory.
 
 #### Objective-C
 
