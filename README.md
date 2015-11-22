@@ -44,8 +44,8 @@ alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size
 alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
 alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
 
-alertViewController.swipeDismissalGestureEnabled = YES:
-alertViewController.backgroundTapDismissalGestureEnabled = YES:
+alertViewController.swipeDismissalGestureEnabled = YES;
+alertViewController.backgroundTapDismissalGestureEnabled = YES;
 
 // Add alert actions
 [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Done", nil)
@@ -55,7 +55,7 @@ alertViewController.backgroundTapDismissalGestureEnabled = YES:
                                                       }]];
 
 // Present the alert view controller
-[self presentViewController:alertViewController animated:YES];
+[self presentViewController:alertViewController animated:YES completion:nil];
 ```
 
 #### Swift
