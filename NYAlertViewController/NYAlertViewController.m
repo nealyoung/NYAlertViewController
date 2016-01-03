@@ -7,8 +7,6 @@
 
 #import "NYAlertViewController.h"
 
-#import "NYAlertView.h"
-
 @interface NYAlertAction ()
 
 @property (weak, nonatomic) UIButton *actionButton;
@@ -299,7 +297,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
-@property NYAlertView *view;
 @property UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
 
@@ -319,10 +316,29 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return alertController;
 }
 
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message backgroundView:(UIView *)backgroundView{
+    NYAlertViewController *alertController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil backgroundView:backgroundView];
+    alertController.title = title;
+    alertController.message = message;
+    
+    return alertController;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil backgroundView:(UIView *)backgroundView{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    if (self) {
+        self.view = [[NYAlertView alloc] initWithFrame:backgroundView.frame backgroundView:backgroundView];
         [self commonInit];
     }
     
@@ -467,6 +483,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)setAlertViewBackgroundColor:(UIColor *)alertViewBackgroundColor {
+    
     _alertViewBackgroundColor = alertViewBackgroundColor;
     
     self.view.alertBackgroundView.backgroundColor = alertViewBackgroundColor;

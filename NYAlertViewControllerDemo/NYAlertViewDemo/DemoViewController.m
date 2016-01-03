@@ -59,13 +59,16 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                           [self dismissViewControllerAnimated:YES completion:nil];
                                                       }]];
     
+    alertController.view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"small-napkin"]];
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil backgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"small-napkin"]]];
+    alertViewController.view.flexibleWidth = NO;
     alertViewController.title = NSLocalizedString(@"Example Title", nil);
-    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style!", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
     alertViewController.backgroundTapDismissalGestureEnabled = YES;

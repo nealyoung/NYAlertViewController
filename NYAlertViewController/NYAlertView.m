@@ -232,16 +232,28 @@
 
 @implementation NYAlertView
 
+
+- (instancetype)initWithFrame:(CGRect)frame backgroundView:(UIView *)backgroundView{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.alertBackgroundView = backgroundView;
+        self = [self initWithFrame:frame];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
         self.maximumWidth = 480.0f;
         
-        _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        if (!_alertBackgroundView) {
+            _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+            self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
+            self.alertBackgroundView.layer.cornerRadius = 6.0f;
+        }
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        self.alertBackgroundView.layer.cornerRadius = 6.0f;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -288,22 +300,24 @@
                                                         multiplier:1.0f
                                                           constant:0.0f]];
         
-        CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
-                                               CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
-        
-        if (alertBackgroundViewWidth > self.maximumWidth) {
-            alertBackgroundViewWidth = self.maximumWidth;
+        if (self.flexibleWidth) {
+            CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
+                                                   CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+            
+            if (alertBackgroundViewWidth > self.maximumWidth) {
+                alertBackgroundViewWidth = self.maximumWidth;
+            }
+            
+            _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                                          multiplier:0.0f
+                                                                            constant:alertBackgroundViewWidth];
+            
+            [self addConstraint:self.alertBackgroundWidthConstraint];
         }
-        
-        _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:0.0f
-                                                                        constant:alertBackgroundViewWidth];
-        
-        [self addConstraint:self.alertBackgroundWidthConstraint];
         
         _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                                                   attribute:NSLayoutAttributeCenterY

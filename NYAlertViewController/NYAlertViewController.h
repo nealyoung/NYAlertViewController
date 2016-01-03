@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NYAlertView.h"
 
 @interface NYAlertAction : NSObject
 
@@ -33,6 +34,16 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  Creates an alert view controller with the specified title and message
  */
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
+
+/**
+ Creates an alert view controller with the specified backgroundView
+ */
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil backgroundView:(UIView *)backgroundView;
+
+/**
+ Creates an alert view controller with the specified title ,message, and backgroundView
+ */
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message backgroundView:(UIView *)backgroundView;
 
 /**
  The message displayed under the alert view's title
@@ -186,6 +197,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  @see addTextFieldWithConfigurationHandler:
  */
 @property (nonatomic, readonly) NSArray *textFields;
+
+/**
+ An instance of NYAlertView to represent the view of this controller
+ */
+@property (nonatomic, strong) NYAlertView *view;
 
 /**
  Add an alert action object to be displayed in the alert view
