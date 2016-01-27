@@ -45,6 +45,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) BOOL showsStatusBar;
 
 /**
+ A Boolean value that determines whether the Buttons should be stacked verticaly even if there are just two buttons
+ */
+@property (nonatomic) BOOL showsButtonsVerticaly;
+
+/**
  The custom view displayed in the presented alert view
  
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.

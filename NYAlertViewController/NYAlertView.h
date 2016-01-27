@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 @property (nonatomic) UIColor *destructiveButtonColor;
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
 
+@property (nonatomic) BOOL showsButtonsVerticaly;
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 

@@ -494,8 +494,8 @@
     
     _actionButtons = actionButtons;
     
-    // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
-    if ([actionButtons count] == 2) {
+    // If there are 2 actions and showsButtonsVerticaly is not set to YES, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
+    if ([actionButtons count] == 2 && !self.showsButtonsVerticaly) {
         UIButton *firstButton = actionButtons[0];
         UIButton *lastButton = actionButtons[1];
         

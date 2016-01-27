@@ -385,6 +385,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return !self.showsStatusBar;
 }
 
+- (BOOL)showsButtonsVerticaly {
+    return self.view.showsButtonsVerticaly;
+}
+
+- (void)setShowsButtonsVerticaly:(BOOL)showsButtonsVerticaly {
+    self.view.showsButtonsVerticaly = showsButtonsVerticaly;
+}
+
 - (CGFloat)maximumWidth {
     return self.view.maximumWidth;
 }
