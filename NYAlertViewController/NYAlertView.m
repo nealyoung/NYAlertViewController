@@ -238,6 +238,8 @@
     if (self) {
         self.maximumWidth = 480.0f;
         
+        self.titleNumberOfLines = 2; //default value for title lines number
+        
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
@@ -246,7 +248,7 @@
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.titleLabel.numberOfLines = 2;
+        self.titleLabel.numberOfLines = self.titleNumberOfLines;
         self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.textColor = [UIColor darkGrayColor];
@@ -371,6 +373,11 @@
     }
     
     return NO;
+}
+
+- (void)setTitleNumberOfLines:(NSInteger)titleNumberOfLines
+{
+    self.titleLabel.numberOfLines = titleNumberOfLines;
 }
 
 - (void)setMaximumWidth:(CGFloat)maximumWidth {

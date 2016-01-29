@@ -37,6 +37,12 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 /**
  The message displayed under the alert view's title
  */
+@property (nonatomic) NSInteger titleLabelNumberOfLines;
+
+
+/**
+ The message displayed under the alert view's title
+ */
 @property (nonatomic) NSString *message;
 
 /**

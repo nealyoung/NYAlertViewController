@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 
 @interface NYAlertView : UIView
 
+@property (nonatomic) NSInteger titleNumberOfLines;
 @property UILabel *titleLabel;
 @property UITextView *messageTextView;
 @property (nonatomic) UIView *contentView;
