@@ -16,6 +16,10 @@
 		0EF9AD811B5B15C7000C7F1D /* NYAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD801B5B15C7000C7F1D /* NYAlertViewDemoTests.m */; };
 		0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */; };
 		0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */; };
+		1100CF4C1D10AD1E00D1900A /* NYAlertViewPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1100CF4B1D10AD1E00D1900A /* NYAlertViewPresentationController.m */; };
+		1100CF4F1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1100CF4E1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.m */; };
+		1100CF521D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1100CF511D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.m */; };
+		1100CF551D10AF3200D1900A /* NYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1100CF541D10AF3200D1900A /* NYAlertAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,14 @@
 		0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertView.m; sourceTree = "<group>"; };
 		0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewController.h; sourceTree = "<group>"; };
 		0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewController.m; sourceTree = "<group>"; };
+		1100CF4A1D10AD1E00D1900A /* NYAlertViewPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationController.h; sourceTree = "<group>"; };
+		1100CF4B1D10AD1E00D1900A /* NYAlertViewPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewPresentationController.m; sourceTree = "<group>"; };
+		1100CF4D1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewDismissalAnimationController.h; sourceTree = "<group>"; };
+		1100CF4E1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewDismissalAnimationController.m; sourceTree = "<group>"; };
+		1100CF501D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationAnimationController.h; sourceTree = "<group>"; };
+		1100CF511D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewPresentationAnimationController.m; sourceTree = "<group>"; };
+		1100CF531D10AF3200D1900A /* NYAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYAlertAction.h; sourceTree = "<group>"; };
+		1100CF541D10AF3200D1900A /* NYAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYAlertAction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +145,14 @@
 			children = (
 				0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */,
 				0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */,
+				1100CF4A1D10AD1E00D1900A /* NYAlertViewPresentationController.h */,
+				1100CF4B1D10AD1E00D1900A /* NYAlertViewPresentationController.m */,
+				1100CF501D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.h */,
+				1100CF511D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.m */,
+				1100CF4D1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.h */,
+				1100CF4E1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.m */,
+				1100CF531D10AF3200D1900A /* NYAlertAction.h */,
+				1100CF541D10AF3200D1900A /* NYAlertAction.m */,
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
 			);
@@ -241,7 +261,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */,
+				1100CF521D10AE4B00D1900A /* NYAlertViewPresentationAnimationController.m in Sources */,
 				0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */,
+				1100CF551D10AF3200D1900A /* NYAlertAction.m in Sources */,
+				1100CF4F1D10ADC300D1900A /* NYAlertViewDismissalAnimationController.m in Sources */,
+				1100CF4C1D10AD1E00D1900A /* NYAlertViewPresentationController.m in Sources */,
 				0EF9AD671B5B15C7000C7F1D /* main.m in Sources */,
 				0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */,
 				0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */,
@@ -372,6 +396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NYAlertViewDemo",
@@ -393,6 +418,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NYAlertViewDemo",

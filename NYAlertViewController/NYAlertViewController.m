@@ -9,297 +9,13 @@
 
 #import "NYAlertView.h"
 
-@interface NYAlertAction ()
-
-@property (weak, nonatomic) UIButton *actionButton;
-
-@end
-
-@implementation NYAlertAction
-
-+ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler {
-    NYAlertAction *action = [[NYAlertAction alloc] init];
-    action.title = title;
-    action.style = style;
-    action.handler = handler;
-    
-    return action;
-}
-
-- (instancetype)init {
-    self = [super init];
-    
-    if (self) {
-        _enabled = YES;
-    }
-    
-    return self;
-}
-
-- (void)setEnabled:(BOOL)enabled {
-    _enabled = enabled;
-    
-    self.actionButton.enabled = enabled;
-}
-
-@end
-
-@interface NYAlertViewPresentationAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
-
-@property NYAlertViewControllerTransitionStyle transitionStyle;
-@property CGFloat duration;
-
-@end
-
-static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
-
-@implementation NYAlertViewPresentationAnimationController
-
-- (instancetype)init {
-    self = [super init];
-    
-    if (self) {
-        self.duration = kDefaultPresentationAnimationDuration;
-    }
-    
-    return self;
-}
-
-- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop || self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromBottom) {
-        UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-        
-        CGRect initialFrame = [transitionContext finalFrameForViewController:toViewController];
-        
-        initialFrame.origin.y = self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop ? -(initialFrame.size.height + initialFrame.origin.y) : (initialFrame.size.height + initialFrame.origin.y);
-        toViewController.view.frame = initialFrame;
-        
-        [[transitionContext containerView] addSubview:toViewController.view];
-        
-        // If we're using the slide from top transition, apply a 3D rotation effect to the alert view as it animates in
-        if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop) {
-            CATransform3D transform = CATransform3DIdentity;
-            transform.m34 = -1.0f / 600.0f;
-            transform = CATransform3DRotate(transform,  M_PI_4 * 1.3f, 1.0f, 0.0f, 0.0f);
-            
-            toViewController.view.layer.zPosition = 100.0f;
-            toViewController.view.layer.transform = transform;
-        }
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                              delay:0.0f
-             usingSpringWithDamping:0.76f
-              initialSpringVelocity:0.2f
-                            options:0
-                         animations:^{
-                             toViewController.view.layer.transform = CATransform3DIdentity;
-                             toViewController.view.layer.opacity = 1.0f;
-                             toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
-                         }
-                         completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
-                         }];
-    } else {
-        UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-        
-        toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
-        [[transitionContext containerView] addSubview:toViewController.view];
-        
-        toViewController.view.layer.transform = CATransform3DMakeScale(1.2f, 1.2f, 1.2f);
-        toViewController.view.layer.opacity = 0.0f;
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                         animations:^{
-                             toViewController.view.layer.transform = CATransform3DIdentity;
-                             toViewController.view.layer.opacity = 1.0f;
-                         }
-                         completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
-                         }];
-    }
-}
-
-- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    switch (self.transitionStyle) {
-        case NYAlertViewControllerTransitionStyleFade:
-            return 0.3f;
-            break;
-            
-        case NYAlertViewControllerTransitionStyleSlideFromTop:
-        case NYAlertViewControllerTransitionStyleSlideFromBottom:
-            return 0.6f;
-    }
-}
-
-@end
-
-@interface NYAlertViewDismissalAnimationController : NSObject <UIViewControllerAnimatedTransitioning>
-
-@property NYAlertViewControllerTransitionStyle transitionStyle;
-@property CGFloat duration;
-
-@end
-
-static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
-
-@implementation NYAlertViewDismissalAnimationController
-
-- (instancetype)init {
-    self = [super init];
-    
-    if (self) {
-        self.duration = kDefaultDismissalAnimationDuration;
-    }
-    
-    return self;
-}
-
-- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop || self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromBottom) {
-        UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        
-        CGRect finalFrame = [transitionContext finalFrameForViewController:fromViewController];
-        finalFrame.origin.y = 1.2f * CGRectGetHeight([transitionContext containerView].frame);
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                              delay:0.0f
-             usingSpringWithDamping:0.8f
-              initialSpringVelocity:0.1f
-                            options:0
-                         animations:^{
-                             fromViewController.view.frame = finalFrame;
-                         }
-                         completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
-                         }];
-    } else {
-        UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        
-        [UIView animateWithDuration:[self transitionDuration:transitionContext]
-                         animations:^{
-                             fromViewController.view.layer.opacity = 0.0f;
-                         }
-                         completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
-                         }];
-    }
-}
-
-- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
-    switch (self.transitionStyle) {
-        case NYAlertViewControllerTransitionStyleFade:
-            return 0.3f;
-            break;
-            
-        case NYAlertViewControllerTransitionStyleSlideFromTop:
-        case NYAlertViewControllerTransitionStyleSlideFromBottom:
-            return 0.6f;
-    }}
-
-@end
-
-@interface NYAlertViewPresentationController : UIPresentationController
-
-@property CGFloat presentedViewControllerHorizontalInset;
-@property CGFloat presentedViewControllerVerticalInset;
-@property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
-@property UIView *backgroundDimmingView;
-
-@end
-
-@interface NYAlertViewPresentationController ()
-
-- (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer;
-
-@end
-
-@implementation NYAlertViewPresentationController
-
-- (void)presentationTransitionWillBegin {
-    self.presentedViewController.view.layer.cornerRadius = 6.0f;
-    self.presentedViewController.view.layer.masksToBounds = YES;
-    
-    self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.backgroundDimmingView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.backgroundDimmingView.alpha = 0.0f;
-    self.backgroundDimmingView.backgroundColor = [UIColor blackColor];
-    [self.containerView addSubview:self.backgroundDimmingView];
-    
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundDimmingView]|"
-                                                                               options:0
-                                                                               metrics:nil
-                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
-    
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundDimmingView]|"
-                                                                               options:0
-                                                                               metrics:nil
-                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
-    
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
-    [self.backgroundDimmingView addGestureRecognizer:tapGestureRecognizer];
-    
-    // Shrink the presenting view controller, and animate in the dark background view
-    id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
-    [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.backgroundDimmingView.alpha = 0.7f;
-    }
-                                           completion:nil];
-}
-
-- (BOOL)shouldPresentInFullscreen {
-    return NO;
-}
-
-- (BOOL)shouldRemovePresentersView {
-    return NO;
-}
-
-- (void)presentationTransitionDidEnd:(BOOL)completed {
-    [super presentationTransitionDidEnd:completed];
-    
-    if (!completed) {
-        [self.backgroundDimmingView removeFromSuperview];
-    }
-}
-
-- (void)dismissalTransitionWillBegin {
-    [super dismissalTransitionWillBegin];
-    
-    id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
-    [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.backgroundDimmingView.alpha = 0.0f;
-        
-        self.presentingViewController.view.transform = CGAffineTransformIdentity;
-    }
-                                           completion:nil];
-}
-
-- (void)containerViewWillLayoutSubviews {
-    [super containerViewWillLayoutSubviews];
-    
-    [self presentedView].frame = [self frameOfPresentedViewInContainerView];
-    self.backgroundDimmingView.frame = self.containerView.bounds;
-}
-
-- (void)dismissalTransitionDidEnd:(BOOL)completed {
-    [super dismissalTransitionDidEnd:completed];
-    
-    if (completed) {
-        [self.backgroundDimmingView removeFromSuperview];
-    }
-}
-
-- (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer {
-    if (self.backgroundTapDismissalGestureEnabled) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
-@end
+#import "NYAlertViewPresentationController.h"
+#import "NYAlertViewPresentationAnimationController.h"
+#import "NYAlertViewDismissalAnimationController.h"
 
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
-@property NYAlertView *view;
+@property (nonatomic, strong) NYAlertView *view;
 @property UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
 
@@ -319,10 +35,29 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return alertController;
 }
 
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message backgroundView:(UIView *)backgroundView{
+    NYAlertViewController *alertController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil backgroundView:backgroundView];
+    alertController.title = title;
+    alertController.message = message;
+    
+    return alertController;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if (self) {
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil backgroundView:(UIView *)backgroundView{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
+    if (self) {
+        self.view = [[NYAlertView alloc] initWithFrame:backgroundView.frame backgroundView:backgroundView];
         [self commonInit];
     }
     
@@ -350,6 +85,9 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _textFields = [NSArray array];
     
     _showsStatusBar = YES;
+    
+    _dimViewColor = [UIColor blackColor];
+    _dimViewAlpha = .7f;
     
     _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
@@ -385,6 +123,22 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return !self.showsStatusBar;
 }
 
+- (BOOL)showButtonsAlwaysVertically {
+    return self.view.showButtonsAlwaysVertically;
+}
+
+- (void)setShowButtonsAlwaysVertically:(BOOL)showButtonsAlwaysVertically {
+    self.view.showButtonsAlwaysVertically = showButtonsAlwaysVertically;
+}
+
+- (BOOL)flexibleWidth {
+    return self.view.flexibleWidth;
+}
+
+- (void)setFlexibleWidth:(BOOL)flexibleWidth {
+    self.view.flexibleWidth = flexibleWidth;
+}
+
 - (CGFloat)maximumWidth {
     return self.view.maximumWidth;
 }
@@ -413,7 +167,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
     
     CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
-    presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
+    presentationController.backgroundDimmingView.alpha = self.dimViewAlpha - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat verticalGestureVelocity = [gestureRecognizer velocityInView:self.view].y;
@@ -451,7 +205,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                   initialSpringVelocity:0.4f
                                 options:0
                              animations:^{
-                                 presentationController.backgroundDimmingView.alpha = 0.7f;
+                                 presentationController.backgroundDimmingView.alpha = self.dimViewAlpha;
                                  [self.view layoutIfNeeded];
                              }
                              completion:nil];
@@ -748,6 +502,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                                                           sourceViewController:(UIViewController *)source {
     NYAlertViewPresentationController *presentationController = [[NYAlertViewPresentationController alloc] initWithPresentedViewController:presented
                                                                                                                   presentingViewController:presenting];
+    presentationController.backgroundDimmingViewColor = self.dimViewColor;
+    presentationController.backgroundDimmingViewFinalAlpha = self.dimViewAlpha;
     presentationController.backgroundTapDismissalGestureEnabled = self.backgroundTapDismissalGestureEnabled;
     return presentationController;
 }

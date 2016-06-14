@@ -43,12 +43,17 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 @property (nonatomic) UIColor *destructiveButtonColor;
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
 
+@property (nonatomic) BOOL showButtonsAlwaysVertically;
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 
-@property (nonatomic, readonly) UIView *alertBackgroundView;
+@property (nonatomic, strong) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
+
+@property (nonatomic, assign) BOOL flexibleWidth;
+
+- (instancetype)initWithFrame:(CGRect)frame backgroundView:(UIView *)backgroundView;
 
 //@property (nonatomic) NSArray *actions;
 @property (nonatomic) NSArray *actionButtons;

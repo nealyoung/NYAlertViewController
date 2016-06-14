@@ -59,13 +59,16 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                           [self dismissViewControllerAnimated:YES completion:nil];
                                                       }]];
     
+    alertController.view = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"small-napkin"]];
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    NYAlertViewController *alertViewController = actionCount==0?[[NYAlertViewController alloc] initWithNibName:nil bundle:nil backgroundView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"small-napkin"]]] : [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];;
+    
     alertViewController.title = NSLocalizedString(@"Example Title", nil);
-    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style!", nil);
     
     alertViewController.view.tintColor = self.view.tintColor;
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
@@ -97,6 +100,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 
 - (void)showTextFieldAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    
     alertViewController.title = NSLocalizedString(@"Login", nil);
     alertViewController.message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
     
@@ -216,7 +220,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 
 - (void)showLongMessageAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-
+    
     alertViewController.title = NSLocalizedString(@"Long Message", nil);
     alertViewController.message = NSLocalizedString(@"This alert view uses the slide from bottom transition style!\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna.", nil);
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleSlideFromBottom;
@@ -233,6 +237,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 - (void)showCustomUIAlertView {
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
 
+    [alertViewController setFlexibleWidth:YES];
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
     alertViewController.swipeDismissalGestureEnabled = YES;
     
@@ -246,6 +251,8 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
+    
+    alertViewController.showButtonsAlwaysVertically = YES;
     
     alertViewController.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
     alertViewController.alertViewCornerRadius = 10.0f;
