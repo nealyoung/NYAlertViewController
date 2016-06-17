@@ -73,6 +73,13 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) BOOL swipeDismissalGestureEnabled;
 
 /**
+ A Boolean value that determines if the buttons should be stacked vertically.
+ 
+ @discussion By default, two buttons are shown side by side, three or more are stacked. This will allow just two buttons to be stacked.
+ */
+@property (nonatomic) BOOL alwaysStackButtonsVertically;
+
+/**
  The background color of the alert view
  */
 @property (nonatomic) UIColor *alertViewBackgroundColor;
