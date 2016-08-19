@@ -189,6 +189,8 @@
 				TargetAttributes = {
 					0EF9AD601B5B15C7000C7F1D = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 67KHQV9P3P;
+						DevelopmentTeamName = "Nealon Young (Personal Team)";
 					};
 					0EF9AD791B5B15C7000C7F1D = {
 						CreatedOnToolsVersion = 6.4;
@@ -385,6 +387,7 @@
 					"-framework",
 					Reveal,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nealonyoung.NYAlertViewControllerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -400,6 +403,7 @@
 				INFOPLIST_FILE = NYAlertViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nealonyoung.NYAlertViewControllerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

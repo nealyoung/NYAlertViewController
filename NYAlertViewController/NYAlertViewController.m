@@ -155,6 +155,22 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    if ([transitionContext isInteractive]) {
+        NYAlertViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]
+                         animations:^{
+//                             NYAlertView *alertView = (NYAlertView *)fromViewController.view;
+//                             alertView.backgroundViewVerticalCenteringConstraint.constant = CGRectGetHeight(fromViewController.view.bounds);
+                             fromViewController.view.layer.opacity = 0.0f;
+                         }
+                         completion:^(BOOL finished) {
+                             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+                         }];
+
+        return;
+    }
+
     if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop || self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromBottom) {
         UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
         
@@ -170,7 +186,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                              fromViewController.view.frame = finalFrame;
                          }
                          completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
+                             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
                          }];
     } else {
         UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
@@ -180,7 +196,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                              fromViewController.view.layer.opacity = 0.0f;
                          }
                          completion:^(BOOL finished) {
-                             [transitionContext completeTransition:YES];
+                             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
                          }];
     }
 }
@@ -302,6 +318,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @property NYAlertView *view;
 @property UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
+@property (nonatomic, strong) UIPercentDrivenInteractiveTransition *dismissalInteractiveTransition;
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer;
 
@@ -408,55 +425,87 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
+    CGFloat progress = [gestureRecognizer translationInView:self.alertViewContentView].y / (CGRectGetHeight(self.view.bounds) / 3.0f);
+    progress = MIN(1.0f, MAX(0.0f, fabs(progress)));
+
+    NSLog(@"%f", progress);
+
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
-    
-    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
-    
-    CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
-    presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        CGFloat verticalGestureVelocity = [gestureRecognizer velocityInView:self.view].y;
-        
-        // If the gesture is moving fast enough, animate the alert view offscreen and dismiss the view controller. Otherwise, animate the alert view back to its initial position
-        if (fabs(verticalGestureVelocity) > 500.0f) {
-            CGFloat backgroundViewYPosition;
-            
-            if (verticalGestureVelocity > 500.0f) {
-                backgroundViewYPosition = CGRectGetHeight(self.view.frame);
-            } else {
-                backgroundViewYPosition = -CGRectGetHeight(self.view.frame);
-            }
-            
-            CGFloat animationDuration = 500.0f / fabs(verticalGestureVelocity);
-            
-            self.view.backgroundViewVerticalCenteringConstraint.constant = backgroundViewYPosition;
-            [UIView animateWithDuration:animationDuration
-                                  delay:0.0f
-                 usingSpringWithDamping:0.8f
-                  initialSpringVelocity:0.2f
-                                options:0
-                             animations:^{
-                                 presentationController.backgroundDimmingView.alpha = 0.0f;
-                                 [self.view layoutIfNeeded];
-                             }
-                             completion:^(BOOL finished) {
-                                 [self dismissViewControllerAnimated:YES completion:nil];
-                             }];
+
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        // Create a interactive transition and pop the view controller
+        self.dismissalInteractiveTransition = [[UIPercentDrivenInteractiveTransition alloc] init];
+//        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        // Update the interactive transition's progress
+        [self.dismissalInteractiveTransition updateInteractiveTransition:progress];
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+        if (progress < 0.8f) {
+//            self.dismissalInteractiveTransition.completionSpeed = 0.999;
+
+            self.view.backgroundViewVerticalCenteringConstraint.constant = 0;
+            [self.view setNeedsUpdateConstraints];
+
+            [UIView animateWithDuration:0.8f animations:^{
+                [self.view layoutIfNeeded];
+            }];
+
+            [self.dismissalInteractiveTransition cancelInteractiveTransition];
         } else {
-            self.view.backgroundViewVerticalCenteringConstraint.constant = 0.0f;
-            [UIView animateWithDuration:0.5f
-                                  delay:0.0f
-                 usingSpringWithDamping:0.8f
-                  initialSpringVelocity:0.4f
-                                options:0
-                             animations:^{
-                                 presentationController.backgroundDimmingView.alpha = 0.7f;
-                                 [self.view layoutIfNeeded];
-                             }
-                             completion:nil];
+            [self.dismissalInteractiveTransition finishInteractiveTransition];
         }
+
+        self.dismissalInteractiveTransition = nil;
     }
+//
+//    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
+//    
+//    CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
+//    presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
+//    
+//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+//        CGFloat verticalGestureVelocity = [gestureRecognizer velocityInView:self.view].y;
+//        
+//        // If the gesture is moving fast enough, animate the alert view offscreen and dismiss the view controller. Otherwise, animate the alert view back to its initial position
+//        if (fabs(verticalGestureVelocity) > 500.0f) {
+//            CGFloat backgroundViewYPosition;
+//            
+//            if (verticalGestureVelocity > 500.0f) {
+//                backgroundViewYPosition = CGRectGetHeight(self.view.frame);
+//            } else {
+//                backgroundViewYPosition = -CGRectGetHeight(self.view.frame);
+//            }
+//            
+//            CGFloat animationDuration = 500.0f / fabs(verticalGestureVelocity);
+//            
+//            self.view.backgroundViewVerticalCenteringConstraint.constant = backgroundViewYPosition;
+//            [UIView animateWithDuration:animationDuration
+//                                  delay:0.0f
+//                 usingSpringWithDamping:0.8f
+//                  initialSpringVelocity:0.2f
+//                                options:0
+//                             animations:^{
+//                                 presentationController.backgroundDimmingView.alpha = 0.0f;
+//                                 [self.view layoutIfNeeded];
+//                             }
+//                             completion:^(BOOL finished) {
+//                                 [self dismissViewControllerAnimated:YES completion:nil];
+//                             }];
+//        } else {
+//            self.view.backgroundViewVerticalCenteringConstraint.constant = 0.0f;
+//            [UIView animateWithDuration:0.5f
+//                                  delay:0.0f
+//                 usingSpringWithDamping:0.8f
+//                  initialSpringVelocity:0.4f
+//                                options:0
+//                             animations:^{
+//                                 presentationController.backgroundDimmingView.alpha = 0.7f;
+//                                 [self.view layoutIfNeeded];
+//                             }
+//                             completion:nil];
+//        }
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -764,6 +813,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     NYAlertViewDismissalAnimationController *dismissalAnimationController = [[NYAlertViewDismissalAnimationController alloc] init];
     dismissalAnimationController.transitionStyle = self.transitionStyle;
     return dismissalAnimationController;
+}
+
+- (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
+    return self.dismissalInteractiveTransition;
 }
 
 #pragma mark - UIGestureRecognizerDelegate

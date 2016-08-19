@@ -9,6 +9,7 @@
 #import "DemoViewController.h"
 
 #import <MapKit/MapKit.h>
+#import "NYAlertView.h"
 #import "NYAlertViewController.h"
 
 @interface DemoViewController ()
