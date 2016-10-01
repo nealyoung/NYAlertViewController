@@ -398,7 +398,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (UIView *)alertViewBackgroundView {
-    return self.view.alertViewBackgroundView;
+    return self.view.alertBackgroundView;
 }
 
 - (void)setAlertViewContentView:(UIView *)alertViewContentView {
