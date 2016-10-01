@@ -52,6 +52,13 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) UIView *alertViewContentView;
 
 /**
+ Returns the background view created automatically.
+ 
+ @discussion This is the actual view that holds the NYAlertView itself. You can modify the border properties, shadows etc. of this view to customize the appearance of the alert.
+ */
+-(UIView*)alertViewBackgroundView;
+
+/**
  The transition style used to animate the alert view's presentation/dismissal transitions.
  
  @discussion The default value is NYAlertViewControllerTransitionStyleSlideFromTop.
