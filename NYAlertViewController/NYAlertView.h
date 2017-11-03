@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 
 @interface NYAlertView : UIView
 
+@property (nonatomic) NSInteger titleNumberOfLines;
 @property UILabel *titleLabel;
 @property UITextView *messageTextView;
 @property (nonatomic) UIView *contentView;
@@ -43,6 +44,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 @property (nonatomic) UIColor *destructiveButtonColor;
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
 
+@property (nonatomic) BOOL showsButtonsVerticaly;
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 

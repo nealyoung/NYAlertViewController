@@ -385,6 +385,19 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return !self.showsStatusBar;
 }
 
+- (void)setTitleLabelNumberOfLines:(NSInteger)titleLabelNumberOfLines
+{
+    self.view.titleNumberOfLines = titleLabelNumberOfLines;
+}
+
+- (BOOL)showsButtonsVerticaly {
+    return self.view.showsButtonsVerticaly;
+}
+
+- (void)setShowsButtonsVerticaly:(BOOL)showsButtonsVerticaly {
+    self.view.showsButtonsVerticaly = showsButtonsVerticaly;
+}
+
 - (CGFloat)maximumWidth {
     return self.view.maximumWidth;
 }

@@ -37,12 +37,23 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 /**
  The message displayed under the alert view's title
  */
+@property (nonatomic) NSInteger titleLabelNumberOfLines;
+
+
+/**
+ The message displayed under the alert view's title
+ */
 @property (nonatomic) NSString *message;
 
 /**
  A Boolean value that determines whether the status bar is visible when the alert view is presented
  */
 @property (nonatomic) BOOL showsStatusBar;
+
+/**
+ A Boolean value that determines whether the Buttons should be stacked verticaly even if there are just two buttons
+ */
+@property (nonatomic) BOOL showsButtonsVerticaly;
 
 /**
  The custom view displayed in the presented alert view
