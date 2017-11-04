@@ -355,12 +355,22 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
     _destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
     
+    _buttonBorderWidth = 0.0;
+    _cancelButtonBorderWidth = 0.0;
+    _destructiveButtonBorderWidth = 0.0;
+    
+    _buttonBorderColor = [UIColor darkGrayColor];
     _buttonColor = [UIColor darkGrayColor];
     _buttonTitleColor = [UIColor whiteColor];
+    
+    _cancelButtonBorderColor = [UIColor darkGrayColor];
     _cancelButtonColor = [UIColor darkGrayColor];
     _cancelButtonTitleColor = [UIColor whiteColor];
+    
+    _destructiveButtonBorderColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
     _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
     _destructiveButtonTitleColor = [UIColor whiteColor];
+    
     _disabledButtonColor = [UIColor lightGrayColor];
     _disabledButtonTitleColor = [UIColor whiteColor];
     
@@ -466,9 +476,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.textFields = self.textFields;
 }
 
+- (UIColor *)alertViewBackgroundColor {
+    return self.view.alertBackgroundView.backgroundColor;
+}
+
 - (void)setAlertViewBackgroundColor:(UIColor *)alertViewBackgroundColor {
-    _alertViewBackgroundColor = alertViewBackgroundColor;
-    
     self.view.alertBackgroundView.backgroundColor = alertViewBackgroundColor;
 }
 
@@ -494,18 +506,30 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
         
         if (action.style == UIAlertActionStyleCancel) {
+            button.type = (_cancelButtonBorderWidth > 0) ? NYAlertViewButtonTypeBordered : NYAlertViewButtonTypeFilled;
+            [button setBorderWidth:_cancelButtonBorderWidth];
+            [button setBorderColor:_cancelButtonBorderColor];
+            [button setBorderedTitleColor:self.cancelButtonTitleColor];
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
             [button setBackgroundColor:self.cancelButtonColor forState:UIControlStateNormal];
 
             button.titleLabel.font = self.cancelButtonTitleFont;
         } else if (action.style == UIAlertActionStyleDestructive) {
+            button.type = (_destructiveButtonBorderWidth > 0) ? NYAlertViewButtonTypeBordered : NYAlertViewButtonTypeFilled;
+            [button setBorderWidth:_destructiveButtonBorderWidth];
+            [button setBorderColor:_destructiveButtonBorderColor];
+            [button setBorderedTitleColor:self.destructiveButtonTitleColor];
             [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateHighlighted];
             [button setBackgroundColor:self.destructiveButtonColor forState:UIControlStateNormal];
 
             button.titleLabel.font = self.destructiveButtonTitleFont;
         } else {
+            button.type = (_buttonBorderWidth > 0) ? NYAlertViewButtonTypeBordered : NYAlertViewButtonTypeFilled;
+            [button setBorderWidth:_buttonBorderWidth];
+            [button setBorderColor:_buttonBorderColor];
+            [button setBorderedTitleColor:self.buttonTitleColor];
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
             [button setBackgroundColor:self.buttonColor forState:UIControlStateNormal];
@@ -605,6 +629,78 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setMessageColor:(UIColor *)messageColor {
     self.view.messageTextView.textColor = messageColor;
+}
+
+- (void)setButtonBorderColor:(UIColor *)buttonBorderColor {
+    _buttonBorderColor = buttonBorderColor;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style != UIAlertActionStyleCancel) {
+            [button.layer setBorderColor:buttonBorderColor.CGColor];
+        }
+    }];
+}
+
+- (void)setCancelButtonBorderColor:(UIColor *)cancelButtonBorderColor {
+    _cancelButtonBorderColor = cancelButtonBorderColor;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleCancel) {
+            [button.layer setBorderColor:cancelButtonBorderColor.CGColor];
+        }
+    }];
+}
+
+- (void)setDestructiveButtonBorderColor:(UIColor *)destructiveButtonBorderColor {
+    _destructiveButtonBorderColor = destructiveButtonBorderColor;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleDestructive) {
+            [button.layer setBorderColor:destructiveButtonBorderColor.CGColor];
+        }
+    }];
+}
+
+- (void)setButtonBorderWidth:(CGFloat)buttonBorderWidth {
+    _buttonBorderWidth = buttonBorderWidth;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style != UIAlertActionStyleCancel) {
+            [button.layer setBorderWidth:buttonBorderWidth];
+        }
+    }];
+}
+
+- (void)setCancelButtonBorderWidth:(CGFloat)cancelButtonBorderWidth {
+    _cancelButtonBorderWidth = cancelButtonBorderWidth;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleCancel) {
+            [button.layer setBorderWidth:cancelButtonBorderWidth];
+        }
+    }];
+}
+
+- (void)setDestructiveButtonBorderWidth:(CGFloat)destructiveButtonBorderWidth {
+    _destructiveButtonBorderWidth = destructiveButtonBorderWidth;
+    
+    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+        NYAlertAction *action = self.actions[idx];
+        
+        if (action.style == UIAlertActionStyleDestructive) {
+            [button.layer setBorderWidth:destructiveButtonBorderWidth];
+        }
+    }];
 }
 
 - (void)setButtonColor:(UIColor *)buttonColor {

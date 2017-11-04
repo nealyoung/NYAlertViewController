@@ -198,10 +198,10 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-    self.layer.borderColor = self.tintColor.CGColor;
+    self.layer.borderColor = _borderColor ? _borderColor.CGColor : self.tintColor.CGColor;
     
     if (self.type == NYAlertViewButtonTypeBordered) {
-        self.layer.borderWidth = 1.0f;
+        self.layer.borderWidth = (_borderWidth > 0) ? _borderWidth : 1.0f;
     } else {
         self.layer.borderWidth = 0.0f;
     }
@@ -212,7 +212,7 @@
     } else {
         if (self.type == NYAlertViewButtonTypeBordered) {
             self.layer.backgroundColor = nil;
-            [self setTitleColor:self.tintColor forState:UIControlStateNormal];
+            [self setTitleColor:_borderedTitleColor ? _borderedTitleColor : self.tintColor forState:UIControlStateNormal];
         } else {
             //            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }

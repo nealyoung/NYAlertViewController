@@ -126,6 +126,36 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) UIColor *messageColor;
 
 /**
+ The border color for the alert view's buttons corresponsing to default style actions
+ */
+@property (nonatomic) UIColor *buttonBorderColor;
+
+/**
+ The border color for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) UIColor *cancelButtonBorderColor;
+
+/**
+ The border color for the alert view's buttons corresponsing to destructive style actions
+ */
+@property (nonatomic) UIColor *destructiveButtonBorderColor;
+
+/**
+ The border width for the alert view's buttons corresponsing to default style actions
+ */
+@property (nonatomic) CGFloat buttonBorderWidth;
+
+/**
+ The border width for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) CGFloat cancelButtonBorderWidth;
+
+/**
+ The border width for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) CGFloat destructiveButtonBorderWidth;
+
+/**
  The background color for the alert view's buttons corresponsing to default style actions
  */
 @property (nonatomic) UIColor *buttonColor;
