@@ -227,6 +227,7 @@
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
+@property (nonatomic) UITextField *activeTextField;
 
 @end
 
@@ -356,6 +357,23 @@
                                                                                                                                 _contentViewContainerView,
                                                                                                                                 _textFieldContainerView,
                                                                                                                                 _actionButtonContainerView)]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShowNotification:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHideNotification:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(textFieldDidBeginEditingNotification:)
+                                                     name:UITextFieldTextDidBeginEditingNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(textFieldDidEndEditingNotification:)
+                                                     name:UITextFieldTextDidEndEditingNotification
+                                                   object:nil];
     }
     
     return self;
@@ -562,6 +580,53 @@
             }
         }
     }
+}
+
+#pragma mark - Notifications
+
+- (void)keyboardWillShowNotification:(NSNotification *)notification
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ) {
+        CGSize origKeySize = keyboardSize;
+        keyboardSize.height = origKeySize.width;
+        keyboardSize.width = origKeySize.height;
+    }
+
+    CGFloat keyboardTop = [[UIScreen mainScreen] bounds].size.height - keyboardSize.height;
+    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:_activeTextField];
+    CGFloat textFieldBottom = textFieldPosition.y + _activeTextField.frame.size.height;
+    
+    if (textFieldBottom > keyboardTop) {
+        _backgroundViewVerticalCenteringConstraint.constant = keyboardTop - textFieldBottom;
+        [self setNeedsUpdateConstraints];
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            [self layoutIfNeeded];
+        }];
+    }
+}
+
+- (void)keyboardWillHideNotification:(NSNotification *)notification
+{
+    _backgroundViewVerticalCenteringConstraint.constant = 0.0f;
+    [self setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        [self layoutIfNeeded];
+    }];
+}
+
+- (void)textFieldDidBeginEditingNotification:(NSNotification *)notification
+{
+    _activeTextField = notification.object;
+}
+
+- (void)textFieldDidEndEditingNotification:(NSNotification *)notification
+{
+    _activeTextField = nil;
 }
 
 @end
