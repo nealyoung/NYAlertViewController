@@ -46,6 +46,8 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 
+@property (nonatomic) BOOL alwaysStackButtonsVertically;
+
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;

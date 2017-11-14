@@ -350,6 +350,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _textFields = [NSArray array];
     
     _showsStatusBar = YES;
+    _alwaysStackButtonsVertically = NO;
     
     _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
@@ -405,6 +406,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     _swipeDismissalGestureEnabled = swipeDismissalGestureEnabled;
     
     self.panGestureRecognizer.enabled = swipeDismissalGestureEnabled;
+}
+
+- (void)setAlwaysStackButtonsVertically:(BOOL)alwaysStackButtonsVertically {
+    _alwaysStackButtonsVertically = alwaysStackButtonsVertically;
+    
+    self.view.alwaysStackButtonsVertically = alwaysStackButtonsVertically;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
