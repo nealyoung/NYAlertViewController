@@ -524,6 +524,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)actionButtonPressed:(UIButton *)button {
     NYAlertAction *action = self.actions[button.tag];
     action.handler(action);
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Getters/Setters
