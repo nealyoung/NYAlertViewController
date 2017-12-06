@@ -7,8 +7,6 @@
 
 #import "NYAlertViewController.h"
 
-#import "NYAlertView.h"
-
 @interface NYAlertAction ()
 
 @property (weak, nonatomic) UIButton *actionButton;
@@ -299,7 +297,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
-@property NYAlertView *view;
 @property UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) id<UIViewControllerTransitioningDelegate> transitioningDelegate;
 
@@ -561,6 +558,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)setMessage:(NSString *)message {
     _message = message;
     self.view.messageTextView.text = message;
+}
+
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    _attributedMessage = attributedMessage;
+    self.view.messageTextView.attributedText = attributedMessage;
 }
 
 - (UIFont *)titleFont {

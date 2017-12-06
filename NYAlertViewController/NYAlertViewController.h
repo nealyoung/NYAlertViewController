@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NYAlertView.h"
 
 @interface NYAlertAction : NSObject
 
@@ -34,10 +35,17 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  */
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
 
+@property (nonatomic) NYAlertView *view;
+
 /**
  The message displayed under the alert view's title
  */
 @property (nonatomic) NSString *message;
+
+/**
+ The attributed message displayed under the alert view's title
+ */
+@property (nonatomic) NSAttributedString *attributedMessage;
 
 /**
  A Boolean value that determines whether the status bar is visible when the alert view is presented
