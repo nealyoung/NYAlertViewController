@@ -202,6 +202,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @property CGFloat presentedViewControllerVerticalInset;
 @property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
 @property UIView *backgroundDimmingView;
+@property void (^dismissBlock)(void);
 
 @end
 
@@ -289,7 +290,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer {
     if (self.backgroundTapDismissalGestureEnabled) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:self.dismissBlock];
     }
 }
 
@@ -847,6 +848,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     NYAlertViewPresentationController *presentationController = [[NYAlertViewPresentationController alloc] initWithPresentedViewController:presented
                                                                                                                   presentingViewController:presenting];
     presentationController.backgroundTapDismissalGestureEnabled = self.backgroundTapDismissalGestureEnabled;
+    presentationController.dismissBlock = self.dismissBlock;
     return presentationController;
 }
 
