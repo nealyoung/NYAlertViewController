@@ -35,7 +35,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  */
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
 
+- (instancetype)initWithAlertViewStyle:(NYAlertViewStyle)style;
+
 @property (nonatomic) NYAlertView *view;
+
+@property (nonatomic) NYAlertViewStyle alertViewStyle;
 
 /**
  The message displayed under the alert view's title

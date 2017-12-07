@@ -309,6 +309,17 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @dynamic view;
 
+- (instancetype)initWithAlertViewStyle:(NYAlertViewStyle)style
+{
+    self = [super init]; // calls initWithNibName:bundle:
+    
+    if (self) {
+        self.alertViewStyle = style;
+    }
+    
+    return self;
+}
+
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message {
     NYAlertViewController *alertController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertController.title = title;
@@ -335,6 +346,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     }
     
     return self;
+}
+
+- (void)viewDidLoad
+{
+    // call here instead of in commonInit to allow initWithAlertViewStyle: to set style
+    // before loadView: call
+    [self.view addGestureRecognizer:self.panGestureRecognizer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -382,11 +400,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
     self.panGestureRecognizer.delegate = self;
     self.panGestureRecognizer.enabled = NO;
-    [self.view addGestureRecognizer:self.panGestureRecognizer];
 }
 
 - (void)loadView {
-    self.view = [[NYAlertView alloc] initWithFrame:CGRectZero];
+    self.view = [[NYAlertView alloc] initWithStyle:self.alertViewStyle];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -496,7 +513,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         
         button.enabled = action.enabled;
         
-        button.cornerRadius = self.buttonCornerRadius;
+        button.cornerRadius = (self.alertViewStyle == NYAlertViewStyleIOSCustom) ? 0 : self.buttonCornerRadius;
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
         [button setTitle:action.title forState:UIControlStateNormal];
         

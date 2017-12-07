@@ -12,6 +12,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
     NYAlertViewButtonTypeBordered
 };
 
+typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
+    NYAlertViewStyleDefault,
+    NYAlertViewStyleIOSCustom
+};
+
 @interface UIButton (BackgroundColor)
 
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state;
@@ -31,6 +36,10 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
 @end
 
 @interface NYAlertView : UIView
+
+- (instancetype)initWithStyle:(NYAlertViewStyle)style;
+
+@property (nonatomic) NYAlertViewStyle style;
 
 @property UILabel *titleLabel;
 @property UITextView *messageTextView;
