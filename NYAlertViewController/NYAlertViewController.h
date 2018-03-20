@@ -220,7 +220,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 /**
  An array of NYAlertAction objects representing the actions that the user can take in response to the alert view
  */
-@property (nonatomic, readonly) NSArray *actions;
+@property (nonatomic, readonly) NSArray<NYAlertAction *> *actions;
 
 /**
  An array of UITextField objects displayed by the alert view
@@ -228,11 +228,6 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  @see addTextFieldWithConfigurationHandler:
  */
 @property (nonatomic, readonly) NSArray *textFields;
-
-/**
- Block called on dismissal
- */
-@property (nonatomic) void (^dismissBlock)(void);
 
 /**
  Add an alert action object to be displayed in the alert view

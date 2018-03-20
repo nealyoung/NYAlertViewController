@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 
 //@property (nonatomic) NSArray *actions;
-@property (nonatomic) NSArray *actionButtons;
+@property (nonatomic) NSArray<UIButton *> *actionButtons;
 
 @property (nonatomic) NSArray *textFields;
 
