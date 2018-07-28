@@ -555,6 +555,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.messageTextView.font = messageFont;
 }
 
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    _attributedMessage = attributedMessage;
+    self.view.messageTextView.attributedText = attributedMessage;
+}
+
 - (void)setButtonTitleFont:(UIFont *)buttonTitleFont {
     _buttonTitleFont = buttonTitleFont;
     
