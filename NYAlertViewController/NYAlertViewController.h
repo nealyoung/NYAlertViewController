@@ -15,6 +15,7 @@
 @property (nonatomic) UIAlertActionStyle style;
 @property (nonatomic, strong) void (^handler)(NYAlertAction *action);
 @property (nonatomic) BOOL enabled;
+@property (nonatomic, strong) NSAttributedString *attributedMessage;
 
 @end
 
