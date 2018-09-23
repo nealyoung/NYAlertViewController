@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		088768A621572405004F427E /* NYAlertViewPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768A521572405004F427E /* NYAlertViewPresentationController.m */; };
+		088768A9215725FC004F427E /* NYAlertViewPresentationAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768A8215725FC004F427E /* NYAlertViewPresentationAnimationController.m */; };
+		088768AC2157263F004F427E /* NYAlertViewDismissalAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768AB2157263F004F427E /* NYAlertViewDismissalAnimationController.m */; };
+		088768AE215726E3004F427E /* NYAlertViewControllerTransitionStyle.h in Sources */ = {isa = PBXBuildFile; fileRef = 088768AD215726E3004F427E /* NYAlertViewControllerTransitionStyle.h */; };
+		088768B3215727E9004F427E /* NYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768B2215727E9004F427E /* NYAlertAction.m */; };
 		0EF9AD671B5B15C7000C7F1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD661B5B15C7000C7F1D /* main.m */; };
 		0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD691B5B15C7000C7F1D /* AppDelegate.m */; };
 		0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD6C1B5B15C7000C7F1D /* DemoViewController.m */; };
@@ -29,6 +34,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		088768A421572405004F427E /* NYAlertViewPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationController.h; sourceTree = "<group>"; };
+		088768A521572405004F427E /* NYAlertViewPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewPresentationController.m; sourceTree = "<group>"; };
+		088768A7215725FC004F427E /* NYAlertViewPresentationAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationAnimationController.h; sourceTree = "<group>"; };
+		088768A8215725FC004F427E /* NYAlertViewPresentationAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewPresentationAnimationController.m; sourceTree = "<group>"; };
+		088768AA2157263F004F427E /* NYAlertViewDismissalAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewDismissalAnimationController.h; sourceTree = "<group>"; };
+		088768AB2157263F004F427E /* NYAlertViewDismissalAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewDismissalAnimationController.m; sourceTree = "<group>"; };
+		088768AD215726E3004F427E /* NYAlertViewControllerTransitionStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewControllerTransitionStyle.h; sourceTree = "<group>"; };
+		088768B1215727E9004F427E /* NYAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertAction.h; sourceTree = "<group>"; };
+		088768B2215727E9004F427E /* NYAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertAction.m; sourceTree = "<group>"; };
 		0E8A2D4C1B9148D40057CC67 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		0EF9AD611B5B15C7000C7F1D /* NYAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD651B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +81,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		088768B021572798004F427E /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				088768A421572405004F427E /* NYAlertViewPresentationController.h */,
+				088768A521572405004F427E /* NYAlertViewPresentationController.m */,
+				088768A7215725FC004F427E /* NYAlertViewPresentationAnimationController.h */,
+				088768A8215725FC004F427E /* NYAlertViewPresentationAnimationController.m */,
+				088768AA2157263F004F427E /* NYAlertViewDismissalAnimationController.h */,
+				088768AB2157263F004F427E /* NYAlertViewDismissalAnimationController.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 		0EF9AD581B5B15C7000C7F1D = {
 			isa = PBXGroup;
 			children = (
@@ -131,8 +158,12 @@
 		0EF9AD8A1B5B1785000C7F1D /* NYAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
+				088768AD215726E3004F427E /* NYAlertViewControllerTransitionStyle.h */,
 				0EF9AD8F1B5B1785000C7F1D /* NYAlertViewController.h */,
 				0EF9AD901B5B1785000C7F1D /* NYAlertViewController.m */,
+				088768B1215727E9004F427E /* NYAlertAction.h */,
+				088768B2215727E9004F427E /* NYAlertAction.m */,
+				088768B021572798004F427E /* Private */,
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
 			);
@@ -241,9 +272,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */,
+				088768B3215727E9004F427E /* NYAlertAction.m in Sources */,
+				088768A9215725FC004F427E /* NYAlertViewPresentationAnimationController.m in Sources */,
 				0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */,
+				088768AC2157263F004F427E /* NYAlertViewDismissalAnimationController.m in Sources */,
+				088768A621572405004F427E /* NYAlertViewPresentationController.m in Sources */,
 				0EF9AD671B5B15C7000C7F1D /* main.m in Sources */,
 				0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */,
+				088768AE215726E3004F427E /* NYAlertViewControllerTransitionStyle.h in Sources */,
 				0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

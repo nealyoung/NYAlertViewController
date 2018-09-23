@@ -1,24 +1,6 @@
 #import <UIKit/UIKit.h>
-
-@interface NYAlertAction : NSObject
-
-+ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler;
-
-@property (nonatomic) NSString *title;
-@property (nonatomic) UIAlertActionStyle style;
-@property (nonatomic, strong) void (^handler)(NYAlertAction *action);
-@property (nonatomic) BOOL enabled;
-
-@end
-
-typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
-    /** Fade in the alert view */
-    NYAlertViewControllerTransitionStyleFade,
-    /** Slide the alert view from the top of the view */
-    NYAlertViewControllerTransitionStyleSlideFromTop,
-    /** Slide the alert view from the bottom of the view */
-    NYAlertViewControllerTransitionStyleSlideFromBottom
-};
+#import "NYAlertAction.h"
+#import "NYAlertViewControllerTransitionStyle.h"
 
 @interface NYAlertViewController : UIViewController
 
