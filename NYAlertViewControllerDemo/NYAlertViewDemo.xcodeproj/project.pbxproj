@@ -381,9 +381,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-lz",
-					"-framework",
-					Reveal,
+					"-weak_framework",
+					RevealServer,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
