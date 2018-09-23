@@ -84,6 +84,8 @@
 		088768B021572798004F427E /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
+				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
 				088768A421572405004F427E /* NYAlertViewPresentationController.h */,
 				088768A521572405004F427E /* NYAlertViewPresentationController.m */,
 				088768A7215725FC004F427E /* NYAlertViewPresentationAnimationController.h */,
@@ -164,8 +166,6 @@
 				088768B1215727E9004F427E /* NYAlertAction.h */,
 				088768B2215727E9004F427E /* NYAlertAction.m */,
 				088768B021572798004F427E /* Private */,
-				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
-				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
 			);
 			name = NYAlertViewController;
 			path = ../../NYAlertViewController;
