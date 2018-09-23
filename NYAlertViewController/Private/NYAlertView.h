@@ -1,21 +1,8 @@
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, NYAlertViewButtonType) {
-    NYAlertViewButtonTypeFilled,
-    NYAlertViewButtonTypeBordered
-};
-
 @interface UIButton (BackgroundColor)
 
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state;
-
-@end
-
-@interface NYAlertViewButton : UIButton
-
-@property (nonatomic) NYAlertViewButtonType type;
-
-@property (nonatomic) CGFloat cornerRadius;
 
 @end
 

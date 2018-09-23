@@ -12,6 +12,7 @@
 		088768AC2157263F004F427E /* NYAlertViewDismissalAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768AB2157263F004F427E /* NYAlertViewDismissalAnimationController.m */; };
 		088768AE215726E3004F427E /* NYAlertViewControllerTransitionStyle.h in Sources */ = {isa = PBXBuildFile; fileRef = 088768AD215726E3004F427E /* NYAlertViewControllerTransitionStyle.h */; };
 		088768B3215727E9004F427E /* NYAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768B2215727E9004F427E /* NYAlertAction.m */; };
+		088768B7215733AA004F427E /* NYAlertViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 088768B6215733AA004F427E /* NYAlertViewButton.m */; };
 		0EF9AD671B5B15C7000C7F1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD661B5B15C7000C7F1D /* main.m */; };
 		0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD691B5B15C7000C7F1D /* AppDelegate.m */; };
 		0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD6C1B5B15C7000C7F1D /* DemoViewController.m */; };
@@ -43,6 +44,8 @@
 		088768AD215726E3004F427E /* NYAlertViewControllerTransitionStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewControllerTransitionStyle.h; sourceTree = "<group>"; };
 		088768B1215727E9004F427E /* NYAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertAction.h; sourceTree = "<group>"; };
 		088768B2215727E9004F427E /* NYAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertAction.m; sourceTree = "<group>"; };
+		088768B5215733AA004F427E /* NYAlertViewButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewButton.h; sourceTree = "<group>"; };
+		088768B6215733AA004F427E /* NYAlertViewButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewButton.m; sourceTree = "<group>"; };
 		0E8A2D4C1B9148D40057CC67 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		0EF9AD611B5B15C7000C7F1D /* NYAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD651B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 			children = (
 				0EF9AD8D1B5B1785000C7F1D /* NYAlertView.h */,
 				0EF9AD8E1B5B1785000C7F1D /* NYAlertView.m */,
+				088768B5215733AA004F427E /* NYAlertViewButton.h */,
+				088768B6215733AA004F427E /* NYAlertViewButton.m */,
 				088768A421572405004F427E /* NYAlertViewPresentationController.h */,
 				088768A521572405004F427E /* NYAlertViewPresentationController.m */,
 				088768A7215725FC004F427E /* NYAlertViewPresentationAnimationController.h */,
@@ -181,6 +186,7 @@
 				0EF9AD5D1B5B15C7000C7F1D /* Sources */,
 				0EF9AD5E1B5B15C7000C7F1D /* Frameworks */,
 				0EF9AD5F1B5B15C7000C7F1D /* Resources */,
+				088768B4215730BE004F427E /* Integrate Reveal Server */,
 			);
 			buildRules = (
 			);
@@ -215,7 +221,7 @@
 		0EF9AD591B5B15C7000C7F1D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Nealon Young";
 				TargetAttributes = {
 					0EF9AD601B5B15C7000C7F1D = {
@@ -266,6 +272,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		088768B4215730BE004F427E /* Integrate Reveal Server */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Integrate Reveal Server";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export REVEAL_SERVER_FILENAME=\"RevealServer.framework\"\n\n# Update this path to point to the location of RevealServer.framework in your project.\nexport REVEAL_SERVER_PATH=\"${SRCROOT}/NYAlertViewDemo/${REVEAL_SERVER_FILENAME}\"\n\n# If configuration is not Debug, skip this script.\n[ \"${CONFIGURATION}\" != \"Debug\" ] && exit 0\n\n# If RevealServer.framework exists at the specified path, run code signing script.\nif [ -d \"${REVEAL_SERVER_PATH}\" ]; then\n\"${REVEAL_SERVER_PATH}/Scripts/copy_and_codesign_revealserver.sh\"\nelse\necho \"Reveal Server not loaded: RevealServer.framework could not be found.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0EF9AD5D1B5B15C7000C7F1D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -273,6 +300,7 @@
 			files = (
 				0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */,
 				088768B3215727E9004F427E /* NYAlertAction.m in Sources */,
+				088768B7215733AA004F427E /* NYAlertViewButton.m in Sources */,
 				088768A9215725FC004F427E /* NYAlertViewPresentationAnimationController.m in Sources */,
 				0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */,
 				088768AC2157263F004F427E /* NYAlertViewDismissalAnimationController.m in Sources */,
@@ -330,19 +358,30 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -374,13 +413,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -420,6 +469,7 @@
 					"-weak_framework",
 					RevealServer,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nealonyoung.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -435,6 +485,7 @@
 				INFOPLIST_FILE = NYAlertViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nealonyoung.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -453,6 +504,7 @@
 				);
 				INFOPLIST_FILE = NYAlertViewDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nealonyoung.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NYAlertViewDemo.app/NYAlertViewDemo";
 			};
@@ -468,6 +520,7 @@
 				);
 				INFOPLIST_FILE = NYAlertViewDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nealonyoung.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NYAlertViewDemo.app/NYAlertViewDemo";
 			};
