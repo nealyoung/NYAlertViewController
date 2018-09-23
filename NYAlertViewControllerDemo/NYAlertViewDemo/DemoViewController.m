@@ -1,11 +1,3 @@
-//
-//  DemoViewController.m
-//  NYAlertViewDemo
-//
-//  Created by Nealon Young on 7/18/15.
-//  Copyright (c) 2015 Nealon Young. All rights reserved.
-//
-
 #import "DemoViewController.h"
 
 #import <MapKit/MapKit.h>
@@ -71,12 +63,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     alertViewController.backgroundTapDismissalGestureEnabled = YES;
     alertViewController.swipeDismissalGestureEnabled = YES;
     alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
-    
-    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
-    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
-    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
-    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
-    
+
     for (int i = 0; i < actionCount; i++) {
         NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
         UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
@@ -100,11 +87,6 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     alertViewController.title = NSLocalizedString(@"Login", nil);
     alertViewController.message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
     
-    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:alertViewController.titleFont.pointSize];
-    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.messageFont.pointSize];
-    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
-    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
-
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(NYAlertAction *action) {

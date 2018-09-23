@@ -1,10 +1,3 @@
-//
-//  NYAlertView.m
-//
-//  Created by Nealon Young on 7/13/15.
-//  Copyright (c) 2015 Nealon Young. All rights reserved.
-//
-
 #import "NYAlertView.h"
 
 #import "NYAlertViewController.h"
