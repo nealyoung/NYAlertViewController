@@ -114,12 +114,10 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Username", nil);
-        textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
     }];
     
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Password", nil);
-        textField.font = [UIFont fontWithName:@"AvenirNext-Regular" size:16.0f];
         textField.secureTextEntry = YES;
     }];
     

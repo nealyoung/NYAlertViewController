@@ -60,18 +60,18 @@
     
     _showsStatusBar = YES;
     
-    _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
-    _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    _destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
+    _buttonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    _destructiveButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     
     _buttonColor = [UIColor darkGrayColor];
-    _buttonTitleColor = [UIColor whiteColor];
+    _buttonTitleColor = [UIColor darkGrayColor];
     _cancelButtonColor = [UIColor darkGrayColor];
-    _cancelButtonTitleColor = [UIColor whiteColor];
+    _cancelButtonTitleColor = [UIColor darkGrayColor];
     _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
-    _destructiveButtonTitleColor = [UIColor whiteColor];
+    _destructiveButtonTitleColor = [UIColor darkGrayColor];
     _disabledButtonColor = [UIColor lightGrayColor];
-    _disabledButtonTitleColor = [UIColor whiteColor];
+    _disabledButtonTitleColor = [UIColor lightGrayColor];
     
     _buttonCornerRadius = 6.0f;
     
@@ -202,7 +202,6 @@
         [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
         [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
 
-
         switch (action.style) {
             case UIAlertActionStyleDefault:
                 [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
@@ -227,7 +226,7 @@
                 break;
         }
 
-        [buttons addObject:button];        
+        [buttons addObject:button];
         action.actionButton = button;
     }
     
@@ -322,10 +321,10 @@
 
 - (void)setButtonColor:(UIColor *)buttonColor {
     _buttonColor = buttonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button setBackgroundColor:buttonColor forState:UIControlStateNormal];
         }
@@ -334,10 +333,10 @@
 
 - (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
     _cancelButtonColor = cancelButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button setBackgroundColor:cancelButtonColor forState:UIControlStateNormal];
         }
@@ -346,10 +345,10 @@
 
 - (void)setDestructiveButtonColor:(UIColor *)destructiveButtonColor {
     _destructiveButtonColor = destructiveButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button setBackgroundColor:destructiveButtonColor forState:UIControlStateNormal];
         }
@@ -358,10 +357,10 @@
 
 - (void)setDisabledButtonColor:(UIColor *)disabledButtonColor {
     _disabledButtonColor = disabledButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (!action.enabled) {
             [button setBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
         }
@@ -370,10 +369,10 @@
 
 - (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
     _buttonTitleColor = buttonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:buttonTitleColor forState:UIControlStateHighlighted];
@@ -383,10 +382,10 @@
 
 - (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
     _cancelButtonTitleColor = cancelButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateHighlighted];
@@ -396,10 +395,10 @@
 
 - (void)setDestructiveButtonTitleColor:(UIColor *)destructiveButtonTitleColor {
     _destructiveButtonTitleColor = destructiveButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateHighlighted];
@@ -409,10 +408,10 @@
 
 - (void)setDisabledButtonTitleColor:(UIColor *)disabledButtonTitleColor {
     _disabledButtonTitleColor = disabledButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (!action.enabled) {
             [button setTitleColor:disabledButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:disabledButtonTitleColor forState:UIControlStateHighlighted];

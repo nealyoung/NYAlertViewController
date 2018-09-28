@@ -2,7 +2,9 @@
 
 @interface NYAlertAction : NSObject
 
-+ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler;
++ (instancetype)actionWithTitle:(NSString *)title
+                          style:(UIAlertActionStyle)style
+                        handler:(void (^)(NYAlertAction *action))handler;
 
 @property (nonatomic) NSString *title;
 @property (nonatomic) UIAlertActionStyle style;

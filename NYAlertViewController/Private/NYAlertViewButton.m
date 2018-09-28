@@ -35,9 +35,9 @@
     self.cornerRadius = 4.0f;
     self.clipsToBounds = YES;
 
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
+//    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
 
     [self tintColorDidChange];
 }
@@ -60,22 +60,32 @@
     //        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    }
 }
-
-- (void)tintColorDidChange {
-    [super tintColorDidChange];
-
-    if (self.type == NYAlertViewButtonTypeFilled) {
-        if (self.enabled) {
-            [self setBackgroundColor:self.tintColor];
-        }
-    } else {
-        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
-    }
-
-    self.layer.borderColor = self.tintColor.CGColor;
-
-    [self setNeedsDisplay];
-}
+//
+//- (void)tintColorDidChange {
+//    [super tintColorDidChange];
+//
+//    switch (self.type) {
+//        case NYAlertViewButtonTypeRoundRect:
+//            if (self.enabled) {
+//                [self setBackgroundColor:self.tintColor];
+//            }
+//            break;
+//        default:
+//            break;
+//    }
+//
+////    if (self.type == NYAlertViewButtonTypeFilled) {
+////        if (self.enabled) {
+////            [self setBackgroundColor:self.tintColor];
+////        }
+////    } else {
+////        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
+////    }
+//
+//    self.layer.borderColor = self.tintColor.CGColor;
+//
+//    [self setNeedsDisplay];
+//}
 
 - (CGFloat)cornerRadius {
     return self.layer.cornerRadius;
@@ -114,7 +124,7 @@
         return CGSizeZero;
     }
 
-    return CGSizeMake([super intrinsicContentSize].width + 12.0f, 30.0f);
+    return CGSizeMake([super intrinsicContentSize].width + 12.0f, 44.0f);
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -144,7 +154,7 @@
     }
 
     if (self.state == UIControlStateHighlighted) {
-        self.layer.backgroundColor = self.tintColor.CGColor;
+//        self.layer.backgroundColor = self.tintColor.CGColor;
         //        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     } else {
         if (self.type == NYAlertViewButtonTypeBordered) {
