@@ -32,8 +32,6 @@
         _actions = actions;
         _textFields = [NSArray array];
 
-        _showsStatusBar = YES;
-
         _buttonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         _destructiveButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -71,10 +69,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.alertBackgroundView.backgroundColor = self.configuration.alertViewBackgroundColor;
+    self.view.alertBackgroundView.layer.cornerRadius = self.configuration.alertViewCornerRadius;
+    self.view.separatorColor = self.configuration.separatorColor;
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return !self.showsStatusBar;
+    return !self.configuration.showsStatusBar;
 }
 
 - (CGFloat)maximumWidth {
@@ -388,14 +388,6 @@
 //        }
 //    }];
 //}
-
-- (CGFloat)alertViewCornerRadius {
-    return self.view.alertBackgroundView.layer.cornerRadius;
-}
-
-- (void)setAlertViewCornerRadius:(CGFloat)alertViewCornerRadius {
-    self.view.alertBackgroundView.layer.cornerRadius = alertViewCornerRadius;
-}
 
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];

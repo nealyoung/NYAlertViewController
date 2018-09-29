@@ -13,10 +13,11 @@
         _swipeDismissalGestureEnabled = NO;
 
         _alertViewBackgroundColor = [UIColor whiteColor];
+        _alertViewCornerRadius = 6.0f;
         _separatorColor = [UIColor lightGrayColor];
         _buttonTitleColor = [UIColor darkGrayColor];
         _cancelButtonTitleColor = [UIColor darkGrayColor];
-        _destructiveButtonTitleColor = [UIColor darkGrayColor];
+        _destructiveButtonTitleColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
         _disabledButtonTitleColor = [UIColor lightGrayColor];
     }
 
@@ -24,8 +25,7 @@
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    id copy = [[[self class] allocWithZone:zone] init];
-    
+    // TODO: Implement this
     return self;
 }
 

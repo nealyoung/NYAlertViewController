@@ -29,11 +29,6 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 @property (nonatomic) NSString *message;
 
 /**
- A Boolean value that determines whether the status bar is visible when the alert view is presented.
- */
-@property (nonatomic) BOOL showsStatusBar;
-
-/**
  The custom view displayed in the presented alert view
  
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
@@ -109,21 +104,16 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 @property (nonatomic) UIColor *disabledButtonColor;
 
 /**
- The radius of the displayed alert view's corners
- */
-@property (nonatomic) CGFloat alertViewCornerRadius;
-
-/**
  An array of NYAlertAction objects representing the actions that the user can take in response to the alert view
  */
-@property (nonatomic, readonly) NSArray *actions;
+@property (nonatomic, readonly) NSArray<NYAlertAction *> *actions;
 
 /**
  An array of UITextField objects displayed by the alert view
  
  @see addTextFieldWithConfigurationHandler:
  */
-@property (nonatomic, readonly) NSArray *textFields;
+@property (nonatomic, readonly) NSArray<UITextField *> *textFields;
 
 /**
  Add a text field object to be displayed in the alert view

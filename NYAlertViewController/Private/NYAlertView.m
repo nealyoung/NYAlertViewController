@@ -24,7 +24,6 @@
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        self.alertBackgroundView.layer.cornerRadius = 6.0f;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -70,7 +69,7 @@
         [self.actionButtonContainerView addSubview:self.actionButtonStackView];
 
         UIView *separatorView = [[UIView alloc] init];
-        separatorView.backgroundColor = [UIColor lightGrayColor];
+        separatorView.backgroundColor = self.separatorColor;
         [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.alertBackgroundView addSubview:separatorView];
         [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
@@ -306,7 +305,7 @@
         if (idx > 0) {
             // Add separator view
             UIView *separatorView = [[UIView alloc] init];
-            separatorView.backgroundColor = [UIColor lightGrayColor];
+            separatorView.backgroundColor = self.separatorColor;
             [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
             if (self.actionButtonStackView.axis == UILayoutConstraintAxisVertical) {

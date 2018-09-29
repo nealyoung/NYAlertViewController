@@ -41,6 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIColor *alertViewBackgroundColor;
 
 /**
+ The radius of the displayed alert view's corners
+ */
+@property (nonatomic) CGFloat alertViewCornerRadius;
+
+/**
  The color used for separators between action buttons.
 
  @discussion The default value is the system light gray color

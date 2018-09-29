@@ -10,6 +10,8 @@
 @property (nonatomic) UIFont *cancelButtonTitleFont;
 @property (nonatomic) UIFont *destructiveButtonTitleFont;
 
+@property (nonatomic) UIColor *separatorColor;
+
 @property (nonatomic) UIColor *buttonColor;
 @property (nonatomic) UIColor *buttonTitleColor;
 @property (nonatomic) UIColor *cancelButtonColor;
