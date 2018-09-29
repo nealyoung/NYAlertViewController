@@ -369,7 +369,13 @@
             UIView *separatorView = [[UIView alloc] init];
             separatorView.backgroundColor = [UIColor lightGrayColor];
             [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
-            [separatorView.widthAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
+
+            if (self.actionButtonStackView.axis == UILayoutConstraintAxisVertical) {
+                [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
+            } else {
+                [separatorView.widthAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
+            }
+
             [self.actionButtonStackView addArrangedSubview:separatorView];
         }
 
