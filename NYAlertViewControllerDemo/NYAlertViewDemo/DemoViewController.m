@@ -55,46 +55,62 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 }
 
 - (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-    alertViewController.title = NSLocalizedString(@"Example Title", nil);
-    alertViewController.message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
-    
-    alertViewController.view.tintColor = self.view.tintColor;
-    alertViewController.backgroundTapDismissalGestureEnabled = YES;
-    alertViewController.swipeDismissalGestureEnabled = YES;
-    alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleFade;
+    NSMutableArray<NYAlertAction *> *mutableActions = [NSMutableArray array];
 
-    for (int i = 0; i < actionCount; i++) {
+    for (NSInteger i = 0; i < actionCount; i++) {
         NSString *actionTitle = [NSString stringWithFormat:NSLocalizedString(@"Action %d", nil), i + 1];
         UIAlertActionStyle actionStyle = UIAlertActionStyleDefault;
-        
+
         // Set up the final action as a cancel button
         if (i == actionCount - 1) {
             actionTitle = NSLocalizedString(@"Cancel", nil);
             actionStyle = UIAlertActionStyleCancel;
         }
-        
-        [alertViewController addAction:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:^(NYAlertAction *action) {
+
+        [mutableActions addObject:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:^(NYAlertAction *action) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }]];
     }
+
+    NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
+    configuration.transitionStyle = NYAlertViewControllerTransitionStyleFade;
+    configuration.backgroundTapDismissalGestureEnabled = YES;
+    configuration.swipeDismissalGestureEnabled = YES;
+
+    NSString *title = NSLocalizedString(@"Example Title", nil);
+    NSString *message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:[NSArray arrayWithArray:mutableActions]];
+    alertViewController.view.tintColor = self.view.tintColor;
+
     
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
 - (void)showTextFieldAlertView {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-    alertViewController.title = NSLocalizedString(@"Login", nil);
-    alertViewController.message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
-    
+    NSString *title = NSLocalizedString(@"Login", nil);
+    NSString *message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
+
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(NYAlertAction *action) {
                                                              [self dismissViewControllerAnimated:YES completion:nil];
                                                          }];
     submitAction.enabled = NO;
-    [alertViewController addAction:submitAction];
-    
+
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:@[submitAction, cancelAction]];
+
     // Disable the submit action until the user has filled out both text fields
     [[NSNotificationCenter defaultCenter] addObserverForName:UITextFieldTextDidChangeNotification
                                                       object:nil
@@ -105,13 +121,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                       
                                                       submitAction.enabled = ([usernameTextField.text length] && [passwordTextField.text length]);
                                                   }];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
+
     [alertViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Username", nil);
     }];
@@ -125,23 +135,23 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 }
 
 - (void)showMapViewAlertView {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
-                                                            style:UIAlertActionStyleDestructive
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
-    alertViewController.title = NSLocalizedString(@"Content View", nil);
-    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
-    
+    NSString *title = NSLocalizedString(@"Content View", nil);
+    NSString *message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    NYAlertAction *deleteAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
+                                                           style:UIAlertActionStyleDestructive
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:@[deleteAction, cancelAction]];
+
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
@@ -170,23 +180,35 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 }
 
 - (void)showDatePickerAlertView {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    NSString *title = NSLocalizedString(@"Content View", nil);
+    NSString *message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    NYAlertAction *selectAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(NYAlertAction *action) {
+                                                         [self dismissViewControllerAnimated:YES completion:nil];
+                                                     }];
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:@[selectAction, cancelAction]];
     
-    alertViewController.title = NSLocalizedString(@"Content View", nil);
-    alertViewController.message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
+//    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
+//                                                            style:UIAlertActionStyleDefault
+//                                                          handler:^(NYAlertAction *action) {
+//                                                              [self dismissViewControllerAnimated:YES completion:nil];
+//                                                          }]];
+//
+//    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+//                                                            style:UIAlertActionStyleCancel
+//                                                          handler:^(NYAlertAction *action) {
+//                                                              [self dismissViewControllerAnimated:YES completion:nil];
+//                                                          }]];
+
     UIDatePicker *datePicker = [[UIDatePicker alloc] init];
     
     alertViewController.alertViewContentView = datePicker;
@@ -195,61 +217,64 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 }
 
 - (void)showLongMessageAlertView {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
+    configuration.transitionStyle = NYAlertViewControllerTransitionStyleSlideFromBottom;
+    NSString *title = NSLocalizedString(@"Long Message", nil);
+    NSString *message = NSLocalizedString(@"This alert view uses the slide from bottom transition style!\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna.", nil);
 
-    alertViewController.title = NSLocalizedString(@"Long Message", nil);
-    alertViewController.message = NSLocalizedString(@"This alert view uses the slide from bottom transition style!\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna.", nil);
-    alertViewController.transitionStyle = NYAlertViewControllerTransitionStyleSlideFromBottom;
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
+    NSArray<NYAlertAction *> *actions = @[[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(NYAlertAction *action) {
+                                                                     [self dismissViewControllerAnimated:YES completion:nil];
+                                                                 }]];
+
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:actions];
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
 - (void)showCustomUIAlertView {
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
+    NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
+    configuration.buttonTitleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    configuration.cancelButtonTitleColor = [UIColor lightGrayColor];
+    configuration.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    configuration.backgroundTapDismissalGestureEnabled = YES;
+    configuration.swipeDismissalGestureEnabled = YES;
 
-    alertViewController.backgroundTapDismissalGestureEnabled = YES;
-    alertViewController.swipeDismissalGestureEnabled = YES;
+    NSString *title = NSLocalizedString(@"Custom UI", nil);
+    NSString *message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+    NYAlertAction *okAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(NYAlertAction *action) {
+                                                         [self dismissViewControllerAnimated:YES completion:nil];
+                                                     }];
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(NYAlertAction *action) {
+                                                             [self dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:@[okAction, cancelAction]];
     
-    alertViewController.title = NSLocalizedString(@"Custom UI", nil);
-    alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
-    
-    alertViewController.buttonCornerRadius = 20.0f;
     alertViewController.view.tintColor = self.view.tintColor;
     
     alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
     alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
     alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
     alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
-    
-    alertViewController.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+
     alertViewController.alertViewCornerRadius = 10.0f;
     
     alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
     
     alertViewController.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    alertViewController.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
     
     alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    alertViewController.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
-    
-    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(NYAlertAction *action) {
-                                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                                          }]];
     
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
