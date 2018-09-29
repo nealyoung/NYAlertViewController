@@ -5,6 +5,7 @@
 #import "NYAlertViewDismissalAnimationController.h"
 #import "NYAlertViewPresentationAnimationController.h"
 #import "NYAlertViewPresentationController.h"
+#import "UIButton+BackgroundColor.h"
 
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 

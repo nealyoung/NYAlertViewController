@@ -1,11 +1,5 @@
 #import <UIKit/UIKit.h>
 
-@interface UIButton (BackgroundColor)
-
-- (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state;
-
-@end
-
 @interface NYAlertView : UIView
 
 @property UILabel *titleLabel;

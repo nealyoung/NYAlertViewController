@@ -1,60 +1,7 @@
 #import "NYAlertView.h"
+#import "NYAlertTextView.h"
 #import "NYAlertAction.h"
 #import "NYAlertViewController.h"
-
-@interface NYAlertTextView : UITextView
-
-@end
-
-@implementation NYAlertTextView
-
-- (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
-    self = [super initWithFrame:frame textContainer:textContainer];
-    
-    self.textContainerInset = UIEdgeInsetsZero;
-    
-    return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    if (!CGSizeEqualToSize(self.bounds.size, [self intrinsicContentSize])) {
-        [self invalidateIntrinsicContentSize];
-    }
-}
-
-- (CGSize)intrinsicContentSize {
-    if ([self.text length]) {
-        return self.contentSize;
-    } else {
-        return CGSizeZero;
-    }
-}
-
-@end
-
-@implementation UIButton (BackgroundColor)
-
-- (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state {
-//    [self setBackgroundImage:[self imageWithColor:color] forState:state];
-}
-
-- (UIImage *)imageWithColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
-
-@end
 
 @interface NYAlertView ()
 
@@ -354,11 +301,6 @@
 
     // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
     self.actionButtonStackView.axis = actionButtons.count == 2 ? UILayoutConstraintAxisHorizontal : UILayoutConstraintAxisVertical;
-//    self.actionButtonStackView.spacing = actionButtons.count == 2 ? 16.0f : 0.0f;
-
-//    for (UIButton *button in actionButtons) {
-//        [self.actionButtonStackView addArrangedSubview:button];
-//    }
 
     [actionButtons enumerateObjectsUsingBlock:^(UIButton *  _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 0) {
