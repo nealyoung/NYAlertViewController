@@ -325,10 +325,7 @@
         
         // Pin the first text field to the top of the text field container view
         if (i == 0) {
-            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[textField]"
-                                                                                                options:0
-                                                                                                metrics:nil
-                                                                                                  views:NSDictionaryOfVariableBindings(_contentViewContainerView, textField)]];
+            [textField.topAnchor constraintEqualToAnchor:self.contentViewContainerView.layoutMarginsGuide.topAnchor].active = YES;
         } else {
             UITextField *previousTextField = textFields[i - 1];
             
