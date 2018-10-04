@@ -3,13 +3,11 @@
 
 @interface NYAlertView : UIView
 
-@property UILabel *titleLabel;
-@property UITextView *messageTextView;
+@property (nonatomic, readonly) UILabel *titleLabel;
+@property (nonatomic, readonly) UITextView *messageTextView;
 @property (nonatomic) UIView *contentView;
 
 @property (nonatomic) CGFloat maximumWidth;
-
-@property (nonatomic, readonly) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 

@@ -7,6 +7,7 @@
 
 @property (nonatomic) NYAlertViewControllerConfiguration *configuration;
 @property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
+@property (nonatomic, readonly) UIView *alertBackgroundView;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
@@ -229,7 +230,7 @@
         
         // Pin the first text field to the top of the text field container view
         if (i == 0) {
-            [textField.topAnchor constraintEqualToAnchor:self.contentViewContainerView.layoutMarginsGuide.topAnchor].active = YES;
+            [textField.topAnchor constraintEqualToAnchor:self.textFieldContainerView.layoutMarginsGuide.topAnchor].active = YES;
         } else {
             UITextField *previousTextField = textFields[i - 1];
             
