@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NYAlertViewControllerConfiguration.h"
 
 @interface NYAlertView : UIView
 
@@ -6,29 +7,20 @@
 @property UITextView *messageTextView;
 @property (nonatomic) UIView *contentView;
 
-@property (nonatomic) UIFont *buttonTitleFont;
-@property (nonatomic) UIFont *cancelButtonTitleFont;
-@property (nonatomic) UIFont *destructiveButtonTitleFont;
-
-@property (nonatomic) UIColor *separatorColor;
-
-@property (nonatomic) UIColor *buttonColor;
-@property (nonatomic) UIColor *buttonTitleColor;
-@property (nonatomic) UIColor *cancelButtonColor;
-@property (nonatomic) UIColor *cancelButtonTitleColor;
-@property (nonatomic) UIColor *destructiveButtonColor;
-@property (nonatomic) UIColor *destructiveButtonTitleColor;
-
-@property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 
-//@property (nonatomic) NSArray *actions;
 @property (nonatomic) NSArray *actionButtons;
-
 @property (nonatomic) NSArray *textFields;
+
+- (instancetype)initWithConfiguration:(NYAlertViewControllerConfiguration *)configuration;
+
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 
 @end

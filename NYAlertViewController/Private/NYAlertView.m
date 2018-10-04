@@ -5,6 +5,7 @@
 
 @interface NYAlertView ()
 
+@property (nonatomic) NYAlertViewControllerConfiguration *configuration;
 @property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
@@ -15,15 +16,18 @@
 
 @implementation NYAlertView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+- (instancetype)initWithConfiguration:(NYAlertViewControllerConfiguration *)configuration {
+    self = [super init];
     
     if (self) {
         self.maximumWidth = 480.0f;
-        
+
+        _configuration = configuration;
+
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
+        self.alertBackgroundView.layer.cornerRadius = configuration.alertViewCornerRadius;
+        self.alertBackgroundView.backgroundColor = configuration.alertViewBackgroundColor;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -69,7 +73,7 @@
         [self.actionButtonContainerView addSubview:self.actionButtonStackView];
 
         UIView *separatorView = [[UIView alloc] init];
-        separatorView.backgroundColor = self.separatorColor;
+        separatorView.backgroundColor = self.configuration.separatorColor;
         [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.alertBackgroundView addSubview:separatorView];
         [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
@@ -206,52 +210,6 @@
     }
 }
 
-//- (void)actionButtonPressed:(NYAlertViewButton *)button {
-//    NYAlertAction *action = self.actions[button.tag];
-//    action.handler(action);
-//}
-
-//- (void)setActions:(NSArray *)actions {
-////    _actions = actions;
-////    
-//    NSMutableArray *buttons = [NSMutableArray array];
-//    
-//    // Create buttons for each action
-//    for (int i = 0; i < [actions count]; i++) {
-//        UIAlertAction *action = actions[i];
-//        
-//        NYAlertViewButton *button = [[NYAlertViewButton alloc] initWithFrame:CGRectZero];
-//        
-//        button.tag = i;
-//        [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        button.cornerRadius = self.buttonCornerRadius;
-//        [button setTranslatesAutoresizingMaskIntoConstraints:NO];
-//        [button setTitle:action.title forState:UIControlStateNormal];
-//        
-//        if (action.style == UIAlertActionStyleCancel) {
-//            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.cancelButtonColor;
-//            button.titleLabel.font = self.cancelButtonTitleFont;
-//        } else if (action.style == UIAlertActionStyleDestructive) {
-//            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.destructiveButtonColor;
-//            button.titleLabel.font = self.destructiveButtonTitleFont;
-//        } else {
-//            [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.buttonColor;
-//            button.titleLabel.font = self.buttonTitleFont;
-//        }
-//        
-//        [buttons addObject:button];
-//    }
-//    
-//    self.actionButtons = buttons;
-//}
-
 - (void)setTextFields:(NSArray *)textFields {
     for (UITextField *textField in self.textFields) {
         [textField removeFromSuperview];
@@ -305,7 +263,7 @@
         if (idx > 0) {
             // Add separator view
             UIView *separatorView = [[UIView alloc] init];
-            separatorView.backgroundColor = self.separatorColor;
+            separatorView.backgroundColor = self.configuration.separatorColor;
             [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
             if (self.actionButtonStackView.axis == UILayoutConstraintAxisVertical) {

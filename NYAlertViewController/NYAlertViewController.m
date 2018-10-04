@@ -63,14 +63,7 @@
 }
 
 - (void)loadView {
-    self.view = [[NYAlertView alloc] init];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.alertBackgroundView.backgroundColor = self.configuration.alertViewBackgroundColor;
-    self.view.alertBackgroundView.layer.cornerRadius = self.configuration.alertViewCornerRadius;
-    self.view.separatorColor = self.configuration.separatorColor;
+    self.view = [[NYAlertView alloc] initWithConfiguration:self.configuration];
 }
 
 - (BOOL)prefersStatusBarHidden {
