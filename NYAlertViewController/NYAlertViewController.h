@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NYAlertView.h"
 
 @interface NYAlertAction : NSObject
 
@@ -27,10 +28,21 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  */
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
 
+- (instancetype)initWithAlertViewStyle:(NYAlertViewStyle)style;
+
+@property (nonatomic) NYAlertView *view;
+
+@property (nonatomic) NYAlertViewStyle alertViewStyle;
+
 /**
  The message displayed under the alert view's title
  */
 @property (nonatomic) NSString *message;
+
+/**
+ The attributed message displayed under the alert view's title
+ */
+@property (nonatomic) NSAttributedString *attributedMessage;
 
 /**
  A Boolean value that determines whether the status bar is visible when the alert view is presented
@@ -117,6 +129,36 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  @see message
  */
 @property (nonatomic) UIColor *messageColor;
+
+/**
+ The border color for the alert view's buttons corresponsing to default style actions
+ */
+@property (nonatomic) UIColor *buttonBorderColor;
+
+/**
+ The border color for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) UIColor *cancelButtonBorderColor;
+
+/**
+ The border color for the alert view's buttons corresponsing to destructive style actions
+ */
+@property (nonatomic) UIColor *destructiveButtonBorderColor;
+
+/**
+ The border width for the alert view's buttons corresponsing to default style actions
+ */
+@property (nonatomic) CGFloat buttonBorderWidth;
+
+/**
+ The border width for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) CGFloat cancelButtonBorderWidth;
+
+/**
+ The border width for the alert view's buttons corresponsing to cancel style actions
+ */
+@property (nonatomic) CGFloat destructiveButtonBorderWidth;
 
 /**
  The background color for the alert view's buttons corresponsing to default style actions

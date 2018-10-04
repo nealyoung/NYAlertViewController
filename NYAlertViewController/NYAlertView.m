@@ -141,30 +141,6 @@
     self.layer.cornerRadius = cornerRadius;
 }
 
-//- (void)setEnabled:(BOOL)enabled {
-//    [super setEnabled:enabled];
-//
-//    if (enabled) {
-//        self.layer.backgroundColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    } else {
-//        self.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
-//        [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    }
-//}
-
-//- (void)setType:(NYAlertViewButtonType)type {
-//    _type = type;
-//    
-//    if (type == NYAlertViewButtonTypeBordered) {
-//        self.layer.backgroundColor = [UIColor clearColor].CGColor;
-//        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
-//    } else {
-//        self.layer.backgroundColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    }
-//}
-
 - (CGSize)intrinsicContentSize {
     if (self.hidden) {
         return CGSizeZero;
@@ -191,10 +167,10 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-    self.layer.borderColor = self.tintColor.CGColor;
+    self.layer.borderColor = _borderColor ? _borderColor.CGColor : self.tintColor.CGColor;
     
     if (self.type == NYAlertViewButtonTypeBordered) {
-        self.layer.borderWidth = 1.0f;
+        self.layer.borderWidth = (_borderWidth > 0) ? _borderWidth : 1.0f;
     } else {
         self.layer.borderWidth = 0.0f;
     }
@@ -205,7 +181,7 @@
     } else {
         if (self.type == NYAlertViewButtonTypeBordered) {
             self.layer.backgroundColor = nil;
-            [self setTitleColor:self.tintColor forState:UIControlStateNormal];
+            [self setTitleColor:_borderedTitleColor ? _borderedTitleColor : self.tintColor forState:UIControlStateNormal];
         } else {
             //            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
@@ -220,6 +196,7 @@
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
+@property (nonatomic) UITextField *activeTextField;
 
 @end
 
@@ -229,131 +206,212 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.maximumWidth = 480.0f;
-        
-        _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        self.alertBackgroundView.layer.cornerRadius = 6.0f;
-        [self addSubview:_alertBackgroundView];
-        
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.titleLabel.numberOfLines = 2;
-        self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textColor = [UIColor darkGrayColor];
-        self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
-        [self.alertBackgroundView addSubview:self.titleLabel];
-        
-        _messageTextView = [[NYAlertTextView alloc] initWithFrame:CGRectZero];
-        [self.messageTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.messageTextView.backgroundColor = [UIColor clearColor];
-        [self.messageTextView setContentHuggingPriority:0 forAxis:UILayoutConstraintAxisVertical];
-        [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
-        self.messageTextView.editable = NO;
-        self.messageTextView.textAlignment = NSTextAlignmentCenter;
-        self.messageTextView.textColor = [UIColor darkGrayColor];
-        self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-        self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
-        [self.alertBackgroundView addSubview:self.messageTextView];
-        
-        _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        [self.alertBackgroundView addSubview:self.contentViewContainerView];
-        
-        _textFieldContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.textFieldContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        [self.alertBackgroundView addSubview:self.textFieldContainerView];
-        
-        _actionButtonContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        [self.alertBackgroundView addSubview:self.actionButtonContainerView];
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                         attribute:NSLayoutAttributeCenterX
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeCenterX
-                                                        multiplier:1.0f
-                                                          constant:0.0f]];
-        
-        CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
-                                               CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
-        
-        if (alertBackgroundViewWidth > self.maximumWidth) {
-            alertBackgroundViewWidth = self.maximumWidth;
-        }
-        
-        _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:0.0f
-                                                                        constant:alertBackgroundViewWidth];
-        
-        [self addConstraint:self.alertBackgroundWidthConstraint];
-        
-        _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                                  attribute:NSLayoutAttributeCenterY
-                                                                                  relatedBy:NSLayoutRelationEqual
-                                                                                     toItem:self
-                                                                                  attribute:NSLayoutAttributeCenterY
-                                                                                 multiplier:1.0f
-                                                                                   constant:0.0f];
-        
-        [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
-        
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                         attribute:NSLayoutAttributeHeight
-                                                         relatedBy:NSLayoutRelationLessThanOrEqual
-                                                            toItem:self
-                                                         attribute:NSLayoutAttributeHeight
-                                                        multiplier:0.9f
-                                                          constant:0.0f]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_titleLabel]-|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_titleLabel)]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_messageTextView]-|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_messageTextView)]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentViewContainerView]|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textFieldContainerView]|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_textFieldContainerView)]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_actionButtonContainerView]|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
-        
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|"
-                                                                                         options:0
-                                                                                         metrics:nil
-                                                                                           views:NSDictionaryOfVariableBindings(_titleLabel,
-                                                                                                                                _messageTextView,
-                                                                                                                                _contentViewContainerView,
-                                                                                                                                _textFieldContainerView,
-                                                                                                                                _actionButtonContainerView)]];
+        [self commonInit];
     }
     
     return self;
 }
 
+- (instancetype)initWithStyle:(NYAlertViewStyle)style
+{
+    self = [super initWithFrame:CGRectZero];
+    
+    if (self) {
+        self.style = style;
+        [self commonInit];
+    }
+    
+    return self;
+}
+
+- (void)commonInit
+{
+    self.maximumWidth = 480.0f;
+    
+    _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
+    self.alertBackgroundView.layer.cornerRadius = 6.0f;
+    [self addSubview:_alertBackgroundView];
+    
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.titleLabel.numberOfLines = 2;
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.textColor = [UIColor darkGrayColor];
+    self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
+    [self.alertBackgroundView addSubview:self.titleLabel];
+    
+    _messageTextView = [[NYAlertTextView alloc] initWithFrame:CGRectZero];
+    [self.messageTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.messageTextView.backgroundColor = [UIColor clearColor];
+    [self.messageTextView setContentHuggingPriority:0 forAxis:UILayoutConstraintAxisVertical];
+    [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    self.messageTextView.editable = NO;
+    self.messageTextView.textAlignment = NSTextAlignmentCenter;
+    self.messageTextView.textColor = [UIColor darkGrayColor];
+    self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
+    self.messageTextView.textContainerInset = (self.style == NYAlertViewStyleIOSCustom) ? UIEdgeInsetsMake(7, 0, 0, 0) : self.messageTextView.textContainerInset;
+    [self.alertBackgroundView addSubview:self.messageTextView];
+    
+    _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.alertBackgroundView addSubview:self.contentViewContainerView];
+    
+    _textFieldContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.textFieldContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.alertBackgroundView addSubview:self.textFieldContainerView];
+    
+    _actionButtonContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.alertBackgroundView addSubview:self.actionButtonContainerView];
+    
+    UIView *topSeparatorView;
+    UIView *bottomSeparatorView;
+    
+    if (self.style == NYAlertViewStyleIOSCustom) {
+        topSeparatorView = [UIView new];
+        [topSeparatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        topSeparatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        [self.alertBackgroundView addSubview:topSeparatorView];
+        
+        bottomSeparatorView = [UIView new];
+        [bottomSeparatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        bottomSeparatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        [self.alertBackgroundView addSubview:bottomSeparatorView];
+    }
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                     attribute:NSLayoutAttributeCenterX
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeCenterX
+                                                    multiplier:1.0f
+                                                      constant:0.0f]];
+    
+    CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
+                                           CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+    
+    if (alertBackgroundViewWidth > self.maximumWidth) {
+        alertBackgroundViewWidth = self.maximumWidth;
+    }
+    
+    _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:0.0f
+                                                                    constant:alertBackgroundViewWidth];
+    
+    [self addConstraint:self.alertBackgroundWidthConstraint];
+    
+    _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                              attribute:NSLayoutAttributeCenterY
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self
+                                                                              attribute:NSLayoutAttributeCenterY
+                                                                             multiplier:1.0f
+                                                                               constant:0.0f];
+    
+    [self addConstraint:self.backgroundViewVerticalCenteringConstraint];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationLessThanOrEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeHeight
+                                                    multiplier:0.9f
+                                                      constant:0.0f]];
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_titleLabel]-|"
+                                             options:0
+                                             metrics:nil
+                                               views:NSDictionaryOfVariableBindings(_titleLabel)]];
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_messageTextView]-|"
+                                             options:0
+                                             metrics:nil
+                                               views:NSDictionaryOfVariableBindings(_messageTextView)]];
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentViewContainerView]|"
+                                             options:0
+                                             metrics:nil
+                                               views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textFieldContainerView]|"
+                                             options:0
+                                             metrics:nil
+                                               views:NSDictionaryOfVariableBindings(_textFieldContainerView)]];
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_actionButtonContainerView]|"
+                                             options:0
+                                             metrics:nil
+                                               views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
+    
+    NSString *format = (self.style == NYAlertViewStyleIOSCustom)
+    ? @"V:|-[_titleLabel]-[topSeparatorView]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][bottomSeparatorView][_actionButtonContainerView]-0-|"
+    : @"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|";
+    NSDictionary *views = (topSeparatorView)
+    ? NSDictionaryOfVariableBindings(_titleLabel, topSeparatorView, _messageTextView, _contentViewContainerView, _textFieldContainerView, bottomSeparatorView, _actionButtonContainerView)
+    : NSDictionaryOfVariableBindings(_titleLabel, _messageTextView, _contentViewContainerView, _textFieldContainerView, _actionButtonContainerView);
+    
+    [self.alertBackgroundView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:format
+                                             options:0
+                                             metrics:nil
+                                               views:views]];
+    
+    if (self.style == NYAlertViewStyleIOSCustom) {
+        [self.alertBackgroundView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topSeparatorView(1)]"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(topSeparatorView)]];
+        [self.alertBackgroundView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[topSeparatorView]-0-|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(topSeparatorView)]];
+        [self.alertBackgroundView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomSeparatorView(1)]"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(bottomSeparatorView)]];
+        [self.alertBackgroundView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[bottomSeparatorView]-0-|"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(bottomSeparatorView)]];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShowNotification:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHideNotification:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldDidBeginEditingNotification:)
+                                                 name:UITextFieldTextDidBeginEditingNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldDidEndEditingNotification:)
+                                                 name:UITextFieldTextDidEndEditingNotification
+                                               object:nil];
+}
 
 // Pass through touches outside the backgroundView for the presentation controller to handle dismissal
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -391,52 +449,6 @@
                                                                                                 views:NSDictionaryOfVariableBindings(_contentView)]];
     }
 }
-
-//- (void)actionButtonPressed:(NYAlertViewButton *)button {
-//    NYAlertAction *action = self.actions[button.tag];
-//    action.handler(action);
-//}
-
-//- (void)setActions:(NSArray *)actions {
-////    _actions = actions;
-////    
-//    NSMutableArray *buttons = [NSMutableArray array];
-//    
-//    // Create buttons for each action
-//    for (int i = 0; i < [actions count]; i++) {
-//        UIAlertAction *action = actions[i];
-//        
-//        NYAlertViewButton *button = [[NYAlertViewButton alloc] initWithFrame:CGRectZero];
-//        
-//        button.tag = i;
-//        [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        button.cornerRadius = self.buttonCornerRadius;
-//        [button setTranslatesAutoresizingMaskIntoConstraints:NO];
-//        [button setTitle:action.title forState:UIControlStateNormal];
-//        
-//        if (action.style == UIAlertActionStyleCancel) {
-//            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.cancelButtonColor;
-//            button.titleLabel.font = self.cancelButtonTitleFont;
-//        } else if (action.style == UIAlertActionStyleDestructive) {
-//            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.destructiveButtonColor;
-//            button.titleLabel.font = self.destructiveButtonTitleFont;
-//        } else {
-//            [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
-//            button.tintColor = self.buttonColor;
-//            button.titleLabel.font = self.buttonTitleFont;
-//        }
-//        
-//        [buttons addObject:button];
-//    }
-//    
-//    self.actionButtons = buttons;
-//}
 
 - (void)setTextFields:(NSArray *)textFields {
     for (UITextField *textField in self.textFields) {
@@ -481,9 +493,11 @@
 }
 
 - (void)setActionButtons:(NSArray *)actionButtons {
-    for (UIButton *button  in self.actionButtons) {
+    for (UIButton *button in self.actionButtons) {
         [button removeFromSuperview];
     }
+    
+    self.alertBackgroundView.clipsToBounds = (self.style == NYAlertViewStyleIOSCustom);
     
     _actionButtons = actionButtons;
     
@@ -491,70 +505,157 @@
     if ([actionButtons count] == 2) {
         UIButton *firstButton = actionButtons[0];
         UIButton *lastButton = actionButtons[1];
+        UIView *separatorView;
         
         [self.actionButtonContainerView addSubview:firstButton];
         [self.actionButtonContainerView addSubview:lastButton];
         
-        [self.actionButtonContainerView addConstraint:[NSLayoutConstraint constraintWithItem:firstButton
-                                                                                   attribute:NSLayoutAttributeWidth
-                                                                                   relatedBy:NSLayoutRelationEqual
-                                                                                      toItem:lastButton
-                                                                                   attribute:NSLayoutAttributeWidth
-                                                                                  multiplier:1.0f
-                                                                                    constant:0.0f]];
+        if (self.style == NYAlertViewStyleIOSCustom) {
+            separatorView = [UIView new];
+            [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            separatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+            [self.actionButtonContainerView addSubview:separatorView];
+            
+            [self.actionButtonContainerView addConstraints:
+             [NSLayoutConstraint constraintsWithVisualFormat:@"H:[separatorView(1)]"
+                                                     options:0
+                                                     metrics:nil
+                                                       views:NSDictionaryOfVariableBindings(separatorView)]];
+            [self.actionButtonContainerView addConstraints:
+             [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[separatorView]-0-|"
+                                                     options:0
+                                                     metrics:nil
+                                                       views:NSDictionaryOfVariableBindings(separatorView)]];
+        }
         
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[firstButton]-[lastButton]-|"
-                                                                                               options:NSLayoutFormatAlignAllCenterY
-                                                                                               metrics:nil
-                                                                                                 views:NSDictionaryOfVariableBindings(firstButton, lastButton)]];
+        [self.actionButtonContainerView addConstraint:
+         [NSLayoutConstraint constraintWithItem:firstButton
+                                      attribute:NSLayoutAttributeWidth
+                                      relatedBy:NSLayoutRelationEqual
+                                         toItem:lastButton
+                                      attribute:NSLayoutAttributeWidth
+                                     multiplier:1.0f
+                                       constant:0.0f]];
         
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[firstButton(40)]|"
-                                                                                               options:0
-                                                                                               metrics:nil
-                                                                                                 views:NSDictionaryOfVariableBindings(_contentViewContainerView, firstButton)]];
+        NSString *format = (self.style == NYAlertViewStyleIOSCustom)
+        ? @"H:|-0-[firstButton]-0-[separatorView]-0-[lastButton]-0-|"
+        : @"H:|-[firstButton]-[lastButton]-|";
         
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[lastButton(40)]"
-                                                                                               options:0
-                                                                                               metrics:nil
-                                                                                                 views:NSDictionaryOfVariableBindings(lastButton)]];
+        NSDictionary *views = (self.style == NYAlertViewStyleIOSCustom)
+        ? NSDictionaryOfVariableBindings(firstButton, separatorView, lastButton)
+        : NSDictionaryOfVariableBindings(firstButton, lastButton);
+        
+        [self.actionButtonContainerView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:format
+                                                 options:NSLayoutFormatAlignAllCenterY
+                                                 metrics:nil
+                                                   views:views]];
+        
+        format = (self.style == NYAlertViewStyleIOSCustom)
+        ? @"V:|-0-[firstButton(40)]-0-|"
+        : @"V:|-[firstButton(40)]|";
+        
+        [self.actionButtonContainerView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:format
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(_contentViewContainerView, firstButton)]];
+        
+        [self.actionButtonContainerView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[lastButton(40)]"
+                                                 options:0
+                                                 metrics:nil
+                                                   views:NSDictionaryOfVariableBindings(lastButton)]];
     } else {
         for (int i = 0; i < [actionButtons count]; i++) {
             UIButton *actionButton = actionButtons[i];
             
             [self.actionButtonContainerView addSubview:actionButton];
             
-            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[actionButton]-|"
-                                                                                                   options:0
-                                                                                                   metrics:nil
-                                                                                                     views:NSDictionaryOfVariableBindings(actionButton)]];
+            [self.actionButtonContainerView addConstraints:
+             [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[actionButton]-|"
+                                                     options:0
+                                                     metrics:nil
+                                                       views:NSDictionaryOfVariableBindings(actionButton)]];
             
-            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton(40)]"
-                                                                                                   options:0
-                                                                                                   metrics:nil
-                                                                                                     views:NSDictionaryOfVariableBindings(actionButton)]];
+            [self.actionButtonContainerView addConstraints:
+             [NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton(40)]"
+                                                     options:0
+                                                     metrics:nil
+                                                       views:NSDictionaryOfVariableBindings(actionButton)]];
             
             if (i == 0) {
-                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[actionButton]"
-                                                                                                       options:0
-                                                                                                       metrics:nil
-                                                                                                         views:NSDictionaryOfVariableBindings(_contentViewContainerView, actionButton)]];
+                [self.actionButtonContainerView addConstraints:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[actionButton]"
+                                                         options:0
+                                                         metrics:nil
+                                                           views:NSDictionaryOfVariableBindings(_contentViewContainerView, actionButton)]];
             } else {
                 UIButton *previousButton = actionButtons[i - 1];
                 
-                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[previousButton]-[actionButton]"
-                                                                                                       options:0
-                                                                                                       metrics:nil
-                                                                                                         views:NSDictionaryOfVariableBindings(previousButton, actionButton)]];
+                [self.actionButtonContainerView addConstraints:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[previousButton]-[actionButton]"
+                                                         options:0
+                                                         metrics:nil
+                                                           views:NSDictionaryOfVariableBindings(previousButton, actionButton)]];
             }
             
             if (i == ([actionButtons count] - 1)) {
-                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton]|"
-                                                                                                       options:0
-                                                                                                       metrics:nil
-                                                                                                         views:NSDictionaryOfVariableBindings(actionButton)]];
+                [self.actionButtonContainerView addConstraints:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton]|"
+                                                         options:0
+                                                         metrics:nil
+                                                           views:NSDictionaryOfVariableBindings(actionButton)]];
             }
         }
     }
+}
+
+#pragma mark - Notifications
+
+- (void)keyboardWillShowNotification:(NSNotification *)notification
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ) {
+        CGSize origKeySize = keyboardSize;
+        keyboardSize.height = origKeySize.width;
+        keyboardSize.width = origKeySize.height;
+    }
+
+    CGFloat keyboardTop = [[UIScreen mainScreen] bounds].size.height - keyboardSize.height;
+    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:_activeTextField];
+    CGFloat textFieldBottom = textFieldPosition.y + _activeTextField.frame.size.height;
+    
+    if (textFieldBottom > keyboardTop) {
+        _backgroundViewVerticalCenteringConstraint.constant = keyboardTop - textFieldBottom;
+        [self setNeedsUpdateConstraints];
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            [self layoutIfNeeded];
+        }];
+    }
+}
+
+- (void)keyboardWillHideNotification:(NSNotification *)notification
+{
+    _backgroundViewVerticalCenteringConstraint.constant = 0.0f;
+    [self setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        [self layoutIfNeeded];
+    }];
+}
+
+- (void)textFieldDidBeginEditingNotification:(NSNotification *)notification
+{
+    _activeTextField = notification.object;
+}
+
+- (void)textFieldDidEndEditingNotification:(NSNotification *)notification
+{
+    _activeTextField = nil;
 }
 
 @end
