@@ -32,10 +32,6 @@
         _actions = actions;
         _textFields = [NSArray array];
 
-        _buttonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-        _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        _destructiveButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-
         _buttonColor = [UIColor darkGrayColor];
         _cancelButtonColor = [UIColor darkGrayColor];
         _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
@@ -171,21 +167,21 @@
                 [button setTitleColor:self.configuration.buttonTitleColor forState:UIControlStateHighlighted];
                 [button setBackgroundColor:self.buttonColor forState:UIControlStateNormal];
 
-                button.titleLabel.font = self.buttonTitleFont;
+                button.titleLabel.font = self.configuration.buttonTitleFont;
                 break;
             case UIAlertActionStyleCancel:
                 [button setTitleColor:self.configuration.cancelButtonTitleColor forState:UIControlStateNormal];
                 [button setTitleColor:self.configuration.cancelButtonTitleColor forState:UIControlStateHighlighted];
                 [button setBackgroundColor:self.cancelButtonColor forState:UIControlStateNormal];
 
-                button.titleLabel.font = self.cancelButtonTitleFont;
+                button.titleLabel.font = self.configuration.cancelButtonTitleFont;
                 break;
             case UIAlertActionStyleDestructive:
                 [button setTitleColor:self.configuration.destructiveButtonTitleColor forState:UIControlStateNormal];
                 [button setTitleColor:self.configuration.destructiveButtonTitleColor forState:UIControlStateHighlighted];
                 [button setBackgroundColor:self.destructiveButtonColor forState:UIControlStateNormal];
 
-                button.titleLabel.font = self.destructiveButtonTitleFont;
+                button.titleLabel.font = self.configuration.destructiveButtonTitleFont;
                 break;
         }
 
@@ -212,58 +208,6 @@
 - (void)setMessage:(NSString *)message {
     _message = message;
     self.view.messageTextView.text = message;
-}
-
-- (UIFont *)titleFont {
-    return self.view.titleLabel.font;
-}
-
-- (void)setTitleFont:(UIFont *)titleFont {
-    self.view.titleLabel.font = titleFont;
-}
-
-- (UIFont *)messageFont {
-    return self.view.messageTextView.font;
-}
-
-- (void)setMessageFont:(UIFont *)messageFont {
-    self.view.messageTextView.font = messageFont;
-}
-
-- (void)setButtonTitleFont:(UIFont *)buttonTitleFont {
-    _buttonTitleFont = buttonTitleFont;
-    
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-        
-        if (action.style != UIAlertActionStyleCancel) {
-            button.titleLabel.font = buttonTitleFont;
-        }
-    }];
-}
-
-- (void)setCancelButtonTitleFont:(UIFont *)cancelButtonTitleFont {
-    _cancelButtonTitleFont = cancelButtonTitleFont;
-    
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-        
-        if (action.style == UIAlertActionStyleCancel) {
-            button.titleLabel.font = cancelButtonTitleFont;
-        }
-    }];
-}
-
-- (void)setDestructiveButtonTitleFont:(UIFont *)destructiveButtonTitleFont {
-    _destructiveButtonTitleFont = destructiveButtonTitleFont;
-    
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-        
-        if (action.style == UIAlertActionStyleDestructive) {
-            button.titleLabel.font = destructiveButtonTitleFont;
-        }
-    }];
 }
 
 - (UIColor *)titleColor {
@@ -329,58 +273,6 @@
         }
     }];
 }
-
-//- (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
-//    _buttonTitleColor = buttonTitleColor;
-//
-//    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-//        NYAlertAction *action = self.actions[idx];
-//
-//        if (action.style != UIAlertActionStyleCancel) {
-//            [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:buttonTitleColor forState:UIControlStateHighlighted];
-//        }
-//    }];
-//}
-//
-//- (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
-//    _cancelButtonTitleColor = cancelButtonTitleColor;
-//
-//    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-//        NYAlertAction *action = self.actions[idx];
-//
-//        if (action.style == UIAlertActionStyleCancel) {
-//            [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:cancelButtonTitleColor forState:UIControlStateHighlighted];
-//        }
-//    }];
-//}
-//
-//- (void)setDestructiveButtonTitleColor:(UIColor *)destructiveButtonTitleColor {
-//    _destructiveButtonTitleColor = destructiveButtonTitleColor;
-//
-//    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-//        NYAlertAction *action = self.actions[idx];
-//
-//        if (action.style == UIAlertActionStyleDestructive) {
-//            [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateHighlighted];
-//        }
-//    }];
-//}
-//
-//- (void)setDisabledButtonTitleColor:(UIColor *)disabledButtonTitleColor {
-//    _disabledButtonTitleColor = disabledButtonTitleColor;
-//
-//    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-//        NYAlertAction *action = self.actions[idx];
-//
-//        if (!action.enabled) {
-//            [button setTitleColor:disabledButtonTitleColor forState:UIControlStateNormal];
-//            [button setTitleColor:disabledButtonTitleColor forState:UIControlStateHighlighted];
-//        }
-//    }];
-//}
 
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];

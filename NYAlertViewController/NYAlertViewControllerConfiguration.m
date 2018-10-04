@@ -19,6 +19,12 @@
         _cancelButtonTitleColor = [UIColor darkGrayColor];
         _destructiveButtonTitleColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
         _disabledButtonTitleColor = [UIColor lightGrayColor];
+
+        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        _messageFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        _buttonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        _destructiveButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     }
 
     return self;

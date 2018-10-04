@@ -240,6 +240,10 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     configuration.buttonTitleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     configuration.cancelButtonTitleColor = [UIColor lightGrayColor];
     configuration.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    configuration.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
+    configuration.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+    configuration.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:configuration.buttonTitleFont.pointSize];
+    configuration.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:configuration.cancelButtonTitleFont.pointSize];
     configuration.alertViewCornerRadius = 10.0f;
     configuration.backgroundTapDismissalGestureEnabled = YES;
     configuration.swipeDismissalGestureEnabled = YES;
@@ -262,12 +266,6 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                                         actions:@[okAction, cancelAction]];
     
     alertViewController.view.tintColor = self.view.tintColor;
-    
-    alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
-    alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-    alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
-    alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
-    
     alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
     

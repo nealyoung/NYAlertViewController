@@ -72,6 +72,36 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) UIColor *disabledButtonTitleColor;
 
+/**
+ The font used to display the title in the alert view.
+
+ @see title
+ */
+@property (nonatomic) UIFont *titleFont;
+
+/**
+ The font used to display the messsage in the alert view.
+
+ @see message
+ */
+@property (nonatomic) UIFont *messageFont;
+
+/**
+ The font used for buttons (actions with style NYAlertActionStyleDefault) in the alert view
+ */
+@property (nonatomic) UIFont *buttonTitleFont;
+
+/**
+ The font used for cancel buttons (actions with style NYAlertActionStyleCancel) in the alert view
+ */
+@property (nonatomic) UIFont *cancelButtonTitleFont;
+
+/**
+ The font used for destructive buttons (actions with style NYAlertActionStyleDestructive) in the alert view
+ */
+@property (nonatomic) UIFont *destructiveButtonTitleFont;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

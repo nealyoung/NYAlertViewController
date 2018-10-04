@@ -2,6 +2,7 @@
 #import "NYAlertTextView.h"
 #import "NYAlertAction.h"
 #import "NYAlertViewController.h"
+#import "UIView+Additions.h"
 
 @interface NYAlertView ()
 
@@ -35,7 +36,7 @@
         [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         self.titleLabel.numberOfLines = 2;
-        self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        self.titleLabel.font = configuration.titleFont;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.textColor = [UIColor darkGrayColor];
         self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
@@ -49,7 +50,7 @@
         self.messageTextView.editable = NO;
         self.messageTextView.textAlignment = NSTextAlignmentCenter;
         self.messageTextView.textColor = [UIColor darkGrayColor];
-        self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        self.messageTextView.font = configuration.messageFont;
         self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
         [self.alertBackgroundView addSubview:self.messageTextView];
         
@@ -72,6 +73,7 @@
         [self.actionButtonStackView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.actionButtonStackView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         [self.actionButtonContainerView addSubview:self.actionButtonStackView];
+        [self.actionButtonStackView ny_pinEdgesToSuperviewEdges];
 
         UIView *separatorView = [[UIView alloc] init];
         separatorView.backgroundColor = self.configuration.separatorColor;
@@ -82,16 +84,6 @@
         [separatorView.trailingAnchor constraintEqualToAnchor:separatorView.superview.trailingAnchor].active = YES;
         [separatorView.bottomAnchor constraintEqualToAnchor:self.actionButtonStackView.topAnchor].active = YES;
 
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_actionButtonStackView]|"
-                                                                                               options:0
-                                                                                               metrics:nil
-                                                                                                 views:NSDictionaryOfVariableBindings(_actionButtonStackView)]];
-
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_actionButtonStackView]|"
-                                                                                               options:0
-                                                                                               metrics:nil
-                                                                                                 views:NSDictionaryOfVariableBindings(_actionButtonStackView)]];
-        
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                          attribute:NSLayoutAttributeCenterX
                                                          relatedBy:NSLayoutRelationEqual
