@@ -46,6 +46,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGFloat alertViewCornerRadius;
 
 /**
+ The color used to display the alert view's title
+
+ @see title
+ */
+@property (nonatomic) UIColor *titleTextColor;
+
+/**
+ The color used to display the alert view's message
+
+ @see message
+ */
+@property (nonatomic) UIColor *messageTextColor;
+
+/**
  The color used for separators between action buttons.
 
  @discussion The default value is the system light gray color

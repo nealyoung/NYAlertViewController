@@ -38,7 +38,7 @@
         self.titleLabel.numberOfLines = 2;
         self.titleLabel.font = configuration.titleFont;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textColor = [UIColor darkGrayColor];
+        self.titleLabel.textColor = configuration.titleTextColor;
         self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
         [self.alertBackgroundView addSubview:self.titleLabel];
         
@@ -49,7 +49,7 @@
         [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
         self.messageTextView.editable = NO;
         self.messageTextView.textAlignment = NSTextAlignmentCenter;
-        self.messageTextView.textColor = [UIColor darkGrayColor];
+        self.messageTextView.textColor = configuration.messageTextColor;
         self.messageTextView.font = configuration.messageFont;
         self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
         [self.alertBackgroundView addSubview:self.messageTextView];

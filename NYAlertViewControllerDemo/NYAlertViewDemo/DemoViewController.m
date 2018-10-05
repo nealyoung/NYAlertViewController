@@ -247,6 +247,8 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     configuration.alertViewCornerRadius = 10.0f;
     configuration.backgroundTapDismissalGestureEnabled = YES;
     configuration.swipeDismissalGestureEnabled = YES;
+    configuration.titleTextColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    configuration.messageTextColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
 
     NSString *title = NSLocalizedString(@"Custom UI", nil);
     NSString *message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
@@ -266,8 +268,6 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                                         actions:@[okAction, cancelAction]];
     
     alertViewController.view.tintColor = self.view.tintColor;
-    alertViewController.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    alertViewController.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
     
     alertViewController.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     

@@ -12,6 +12,8 @@
         _backgroundTapDismissalGestureEnabled = NO;
         _swipeDismissalGestureEnabled = NO;
 
+        _titleTextColor = [UIColor darkGrayColor];
+        _messageTextColor = [UIColor darkGrayColor];
         _alertViewBackgroundColor = [UIColor whiteColor];
         _alertViewCornerRadius = 6.0f;
         _separatorColor = [UIColor lightGrayColor];

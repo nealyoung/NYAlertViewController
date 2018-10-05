@@ -43,20 +43,6 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 @property (nonatomic) CGFloat maximumWidth;
 
 /**
- The color used to display the alert view's title
- 
- @see title
- */
-@property (nonatomic) UIColor *titleColor;
-
-/**
- The color used to display the alert view's message
- 
- @see message
- */
-@property (nonatomic) UIColor *messageColor;
-
-/**
  The background color for the alert view's buttons corresponsing to default style actions
  */
 @property (nonatomic) UIColor *buttonColor;

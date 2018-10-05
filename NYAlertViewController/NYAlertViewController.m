@@ -210,22 +210,6 @@
     self.view.messageTextView.text = message;
 }
 
-- (UIColor *)titleColor {
-    return self.view.titleLabel.textColor;
-}
-
-- (void)setTitleColor:(UIColor *)titleColor {
-    self.view.titleLabel.textColor = titleColor;
-}
-
-- (UIColor *)messageColor {
-    return self.view.messageTextView.textColor;
-}
-
-- (void)setMessageColor:(UIColor *)messageColor {
-    self.view.messageTextView.textColor = messageColor;
-}
-
 - (void)setButtonColor:(UIColor *)buttonColor {
     _buttonColor = buttonColor;
 
