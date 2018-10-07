@@ -75,14 +75,16 @@
         [self.actionButtonContainerView addSubview:self.actionButtonStackView];
         [self.actionButtonStackView ny_pinEdgesToSuperviewEdges];
 
-        UIView *separatorView = [[UIView alloc] init];
-        separatorView.backgroundColor = self.configuration.separatorColor;
-        [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.alertBackgroundView addSubview:separatorView];
-        [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
-        [separatorView.leadingAnchor constraintEqualToAnchor:separatorView.superview.leadingAnchor].active = YES;
-        [separatorView.trailingAnchor constraintEqualToAnchor:separatorView.superview.trailingAnchor].active = YES;
-        [separatorView.bottomAnchor constraintEqualToAnchor:self.actionButtonStackView.topAnchor].active = YES;
+        if (self.configuration.showsSeparators) {
+            UIView *separatorView = [[UIView alloc] init];
+            separatorView.backgroundColor = self.configuration.separatorColor;
+            [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [self.alertBackgroundView addSubview:separatorView];
+            [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
+            [separatorView.leadingAnchor constraintEqualToAnchor:separatorView.superview.leadingAnchor].active = YES;
+            [separatorView.trailingAnchor constraintEqualToAnchor:separatorView.superview.trailingAnchor].active = YES;
+            [separatorView.bottomAnchor constraintEqualToAnchor:self.actionButtonStackView.topAnchor].active = YES;
+        }
 
         [self addConstraint:[NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                          attribute:NSLayoutAttributeCenterX
@@ -257,7 +259,7 @@
     }
 
     [actionButtons enumerateObjectsUsingBlock:^(UIButton *  _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx > 0) {
+        if (self.configuration.showsSeparators && idx > 0) {
             // Add separator view
             UIView *separatorView = [[UIView alloc] init];
             separatorView.backgroundColor = self.configuration.separatorColor;

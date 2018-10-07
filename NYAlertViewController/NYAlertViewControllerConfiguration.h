@@ -68,9 +68,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIColor *messageTextColor;
 
 /**
+ A Boolean value that determines whether separators are shown between the action buttons.
+
+ @discussion The default value is YES
+ @see separatorColor
+ */
+@property (nonatomic) BOOL showsSeparators;
+
+/**
  The color used for separators between action buttons.
 
  @discussion The default value is the system light gray color
+ @see showsSeparators
  */
 @property (nonatomic) UIColor *separatorColor;
 

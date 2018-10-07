@@ -15,15 +15,23 @@
 
         _titleTextColor = [UIColor darkGrayColor];
         _messageTextColor = [UIColor darkGrayColor];
+
         _alertViewBackgroundColor = [UIColor whiteColor];
         _alertViewCornerRadius = 6.0f;
+
+        _showsSeparators = YES;
         _separatorColor = [UIColor lightGrayColor];
+
         _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         _messageFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 
         _buttonConfiguration = [NYAlertActionConfiguration new];
+
         _destructiveButtonConfiguration = [NYAlertActionConfiguration new];
+        _destructiveButtonConfiguration.titleColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
+
         _cancelButtonConfiguration = [NYAlertActionConfiguration new];
+        _cancelButtonConfiguration.titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     }
 
     return self;
