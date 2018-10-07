@@ -11,10 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NYAlertActionConfiguration : NSObject
 
 @property (nonatomic) NYAlertActionButtonStyle buttonStyle;
+
+/**
+ The font used to display the button title.
+ */
 @property (strong, nonatomic) UIFont *titleFont;
 
 /**
- The color used to display the title for buttons corresponding to the action.
+ The text color used to display the button title.
  */
 @property (strong, nonatomic) UIColor *titleColor;
 @property (strong, nonatomic) UIColor *disabledTitleColor;
