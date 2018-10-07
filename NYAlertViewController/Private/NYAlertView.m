@@ -250,7 +250,11 @@
     _actionButtons = actionButtons;
 
     // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
-    self.actionButtonStackView.axis = actionButtons.count == 2 ? UILayoutConstraintAxisHorizontal : UILayoutConstraintAxisVertical;
+    if (actionButtons.count == 2 && !self.configuration.alwaysArrangesActionButtonsVertically) {
+        self.actionButtonStackView.axis = UILayoutConstraintAxisHorizontal;
+    } else {
+        self.actionButtonStackView.axis = UILayoutConstraintAxisVertical;
+    }
 
     [actionButtons enumerateObjectsUsingBlock:^(UIButton *  _Nonnull button, NSUInteger idx, BOOL * _Nonnull stop) {
         if (idx > 0) {

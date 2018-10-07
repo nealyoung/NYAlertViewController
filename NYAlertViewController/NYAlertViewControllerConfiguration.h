@@ -35,6 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL swipeDismissalGestureEnabled;
 
 /**
+ A Boolean value that determines whether the action buttons are always arranged vertically. When set to NO, alert views with 2 actions will have the buttons arranged side-to-side.
+
+ @discussion The default value is NO
+ */
+@property (nonatomic) BOOL alwaysArrangesActionButtonsVertically;
+
+/**
  The background color of the alert view.
 
  @discussion The default value is opaque white

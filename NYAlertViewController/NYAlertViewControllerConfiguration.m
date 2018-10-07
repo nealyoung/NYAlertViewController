@@ -11,6 +11,7 @@
 
         _backgroundTapDismissalGestureEnabled = NO;
         _swipeDismissalGestureEnabled = NO;
+        _alwaysArrangesActionButtonsVertically = NO;
 
         _titleTextColor = [UIColor darkGrayColor];
         _messageTextColor = [UIColor darkGrayColor];
