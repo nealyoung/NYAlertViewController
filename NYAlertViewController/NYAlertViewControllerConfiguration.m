@@ -27,6 +27,10 @@
         _buttonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         _cancelButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         _destructiveButtonTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+
+        _buttonConfiguration = [NYAlertActionConfiguration new];
+        _destructiveButtonConfiguration = [NYAlertActionConfiguration new];
+        _cancelButtonConfiguration = [NYAlertActionConfiguration new];
     }
 
     return self;

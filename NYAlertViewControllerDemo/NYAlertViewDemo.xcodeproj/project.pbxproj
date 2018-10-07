@@ -17,6 +17,7 @@
 		0896996E215F1CFF00009662 /* UIButton+BackgroundColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0896996D215F1CFF00009662 /* UIButton+BackgroundColor.m */; };
 		08969971215F1D5D00009662 /* NYAlertTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08969970215F1D5D00009662 /* NYAlertTextView.m */; };
 		08969974215F1F0E00009662 /* NYAlertViewControllerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 08969973215F1F0E00009662 /* NYAlertViewControllerConfiguration.m */; };
+		08AF2871216A758A0070DA8E /* NYAlertActionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 08AF2870216A758A0070DA8E /* NYAlertActionConfiguration.m */; };
 		0EF9AD671B5B15C7000C7F1D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD661B5B15C7000C7F1D /* main.m */; };
 		0EF9AD6A1B5B15C7000C7F1D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD691B5B15C7000C7F1D /* AppDelegate.m */; };
 		0EF9AD6D1B5B15C7000C7F1D /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF9AD6C1B5B15C7000C7F1D /* DemoViewController.m */; };
@@ -58,6 +59,8 @@
 		08969970215F1D5D00009662 /* NYAlertTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertTextView.m; sourceTree = "<group>"; };
 		08969972215F1F0E00009662 /* NYAlertViewControllerConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewControllerConfiguration.h; sourceTree = "<group>"; };
 		08969973215F1F0E00009662 /* NYAlertViewControllerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewControllerConfiguration.m; sourceTree = "<group>"; };
+		08AF286F216A758A0070DA8E /* NYAlertActionConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertActionConfiguration.h; sourceTree = "<group>"; };
+		08AF2870216A758A0070DA8E /* NYAlertActionConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertActionConfiguration.m; sourceTree = "<group>"; };
 		0E8A2D4C1B9148D40057CC67 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		0EF9AD611B5B15C7000C7F1D /* NYAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NYAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF9AD651B5B15C7000C7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 				08969973215F1F0E00009662 /* NYAlertViewControllerConfiguration.m */,
 				088768B1215727E9004F427E /* NYAlertAction.h */,
 				088768B2215727E9004F427E /* NYAlertAction.m */,
+				08AF286F216A758A0070DA8E /* NYAlertActionConfiguration.h */,
+				08AF2870216A758A0070DA8E /* NYAlertActionConfiguration.m */,
 				088768B021572798004F427E /* Private */,
 			);
 			name = NYAlertViewController;
@@ -330,6 +335,7 @@
 				0EF9AD671B5B15C7000C7F1D /* main.m in Sources */,
 				0EF9AD9C1B5B1785000C7F1D /* NYAlertView.m in Sources */,
 				08969974215F1F0E00009662 /* NYAlertViewControllerConfiguration.m in Sources */,
+				08AF2871216A758A0070DA8E /* NYAlertActionConfiguration.m in Sources */,
 				08969971215F1D5D00009662 /* NYAlertTextView.m in Sources */,
 				088768AE215726E3004F427E /* NYAlertViewControllerTransitionStyle.h in Sources */,
 				0EF9AD9D1B5B1785000C7F1D /* NYAlertViewController.m in Sources */,

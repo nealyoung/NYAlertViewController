@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NYAlertActionConfiguration.h"
 #import "NYAlertViewControllerTransitionStyle.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -115,6 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) UIFont *destructiveButtonTitleFont;
 
+@property (nonatomic, strong) NYAlertActionConfiguration *buttonConfiguration;
+@property (nonatomic, strong) NYAlertActionConfiguration *destructiveButtonConfiguration;
+@property (nonatomic, strong) NYAlertActionConfiguration *cancelButtonConfiguration;
 
 @end
 

@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "NYAlertActionConfiguration.h"
 
 @interface NYAlertAction : NSObject
 
@@ -9,6 +10,7 @@
 @property (nonatomic) NSString *title;
 @property (nonatomic) UIAlertActionStyle style;
 @property (nonatomic, strong) void (^handler)(NYAlertAction *action);
+@property (nonatomic, strong, nullable) NYAlertActionConfiguration *configuration;
 @property (nonatomic) BOOL enabled;
 
 @end

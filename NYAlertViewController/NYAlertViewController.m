@@ -261,15 +261,12 @@
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.borderStyle = UITextBorderStyleRoundedRect;
-    
-    configurationHandler(textField);
-    
-    _textFields = [self.textFields arrayByAddingObject:textField];
-}
 
-- (void)buttonPressed:(UIButton *)sender {
-    NYAlertAction *action = self.actions[sender.tag];
-    action.handler(action);
+    if (configurationHandler) {
+        configurationHandler(textField);
+    }
+
+    _textFields = [self.textFields arrayByAddingObject:textField];
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate

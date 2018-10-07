@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 - (instancetype)initWithOptions:(nullable NYAlertViewControllerConfiguration *)configuration
                           title:(nullable NSString *)title
                         message:(nullable NSString *)message
-                        actions:(NSArray<NYAlertAction *> *)actions NS_DESIGNATED_INITIALIZER;
+                        actions:(NSArray<NYAlertAction *> *)actions;
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
