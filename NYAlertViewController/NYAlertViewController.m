@@ -157,33 +157,30 @@
         
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
         [button setTitle:action.title forState:UIControlStateNormal];
-        
-        [button setTitleColor:self.configuration.disabledButtonTitleColor forState:UIControlStateDisabled];
-        [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
 
-        switch (action.style) {
-            case UIAlertActionStyleDefault:
-                [button setTitleColor:self.configuration.buttonTitleColor forState:UIControlStateNormal];
-                [button setTitleColor:self.configuration.buttonTitleColor forState:UIControlStateHighlighted];
-                [button setBackgroundColor:self.buttonColor forState:UIControlStateNormal];
-
-                button.titleLabel.font = self.configuration.buttonTitleFont;
-                break;
-            case UIAlertActionStyleCancel:
-                [button setTitleColor:self.configuration.cancelButtonTitleColor forState:UIControlStateNormal];
-                [button setTitleColor:self.configuration.cancelButtonTitleColor forState:UIControlStateHighlighted];
-                [button setBackgroundColor:self.cancelButtonColor forState:UIControlStateNormal];
-
-                button.titleLabel.font = self.configuration.cancelButtonTitleFont;
-                break;
-            case UIAlertActionStyleDestructive:
-                [button setTitleColor:self.configuration.destructiveButtonTitleColor forState:UIControlStateNormal];
-                [button setTitleColor:self.configuration.destructiveButtonTitleColor forState:UIControlStateHighlighted];
-                [button setBackgroundColor:self.destructiveButtonColor forState:UIControlStateNormal];
-
-                button.titleLabel.font = self.configuration.destructiveButtonTitleFont;
-                break;
+        NYAlertActionConfiguration *buttonConfiguration;
+        if (action.configuration) {
+            buttonConfiguration = action.configuration;
+        } else {
+            switch (action.style) {
+                case UIAlertActionStyleDefault:
+                    buttonConfiguration = self.configuration.buttonConfiguration;
+                    break;
+                case UIAlertActionStyleCancel:
+                    buttonConfiguration = self.configuration.cancelButtonConfiguration;
+                    break;
+                case UIAlertActionStyleDestructive:
+                    buttonConfiguration = self.configuration.destructiveButtonConfiguration;
+                    break;
+            }
         }
+        
+        [button setTitleColor:buttonConfiguration.disabledTitleColor forState:UIControlStateDisabled];
+//        [button setBackgroundColor:buttonConfiguration.backgroundColor forState:UIControlStateDisabled];
+        [button setTitleColor:buttonConfiguration.titleColor forState:UIControlStateNormal];
+        [button setTitleColor:buttonConfiguration.titleColor forState:UIControlStateHighlighted];
+        [button setBackgroundColor:buttonConfiguration.backgroundColor forState:UIControlStateNormal];
+        button.titleLabel.font = buttonConfiguration.titleFont;
 
         [buttons addObject:button];
         action.actionButton = button;

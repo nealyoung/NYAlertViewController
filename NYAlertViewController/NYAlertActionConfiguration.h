@@ -12,8 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NYAlertActionButtonStyle buttonStyle;
 @property (strong, nonatomic) UIFont *titleFont;
-@property (strong, nonatomic) UIColor *textColor;
-@property (strong, nonatomic) UIColor *disabledTextColor;
+
+/**
+ The color used to display the title for buttons corresponding to the action.
+ */
+@property (strong, nonatomic) UIColor *titleColor;
+@property (strong, nonatomic) UIColor *disabledTitleColor;
 @property (strong, nonatomic) UIColor *backgroundColor;
 @property (nonatomic) CGFloat cornerRadius;
 @property (strong, nonatomic, nullable) Class buttonClass;

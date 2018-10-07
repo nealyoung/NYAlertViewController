@@ -68,26 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIColor *separatorColor;
 
 /**
- The color used to display the title for buttons corresponsing to default style actions.
- */
-@property (nonatomic) UIColor *buttonTitleColor;
-
-/**
- The color used to display the title for buttons corresponding to cancel style actions.
- */
-@property (nonatomic) UIColor *cancelButtonTitleColor;
-
-/**
- The color used to display the title for buttons corresponsing to destructive style actions.
- */
-@property (nonatomic) UIColor *destructiveButtonTitleColor;
-
-/**
- The color used to display the title for buttons corresponsing to disabled actions.
- */
-@property (nonatomic) UIColor *disabledButtonTitleColor;
-
-/**
  The font used to display the title in the alert view.
 
  @see title
@@ -104,17 +84,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The font used for buttons (actions with style NYAlertActionStyleDefault) in the alert view
  */
-@property (nonatomic) UIFont *buttonTitleFont;
+//@property (nonatomic) UIFont *buttonTitleFont;
 
 /**
  The font used for cancel buttons (actions with style NYAlertActionStyleCancel) in the alert view
  */
-@property (nonatomic) UIFont *cancelButtonTitleFont;
+//@property (nonatomic) UIFont *cancelButtonTitleFont;
 
 /**
  The font used for destructive buttons (actions with style NYAlertActionStyleDestructive) in the alert view
  */
-@property (nonatomic) UIFont *destructiveButtonTitleFont;
+//@property (nonatomic) UIFont *destructiveButtonTitleFont;
 
 @property (nonatomic, strong) NYAlertActionConfiguration *buttonConfiguration;
 @property (nonatomic, strong) NYAlertActionConfiguration *destructiveButtonConfiguration;
