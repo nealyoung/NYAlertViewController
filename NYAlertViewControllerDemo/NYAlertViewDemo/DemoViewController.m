@@ -76,6 +76,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     configuration.transitionStyle = NYAlertViewControllerTransitionStyleFade;
     configuration.backgroundTapDismissalGestureEnabled = YES;
     configuration.swipeDismissalGestureEnabled = YES;
+    configuration.alwaysArrangesActionButtonsVertically = YES;
 
     NSString *title = NSLocalizedString(@"Example Title", nil);
     NSString *message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
@@ -85,7 +86,6 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                                         message:message
                                                                                         actions:[NSArray arrayWithArray:mutableActions]];
     alertViewController.view.tintColor = self.view.tintColor;
-
     
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
@@ -130,7 +130,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
         textField.placeholder = NSLocalizedString(@"Password", nil);
         textField.secureTextEntry = YES;
     }];
-    
+
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 
@@ -168,7 +168,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                         options:0
                                                                         metrics:nil
                                                                           views:NSDictionaryOfVariableBindings(mapView)]];
-    
+
     [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[mapView]-|"
                                                                         options:0
                                                                         metrics:nil
@@ -236,23 +236,31 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
 }
 
 - (void)showCustomUIAlertView {
+    NYAlertActionConfiguration *buttonConfiguration = [NYAlertActionConfiguration new];
+    buttonConfiguration.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    buttonConfiguration.titleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:19.0f];
+
+    NYAlertActionConfiguration *cancelButtonConfiguration = [NYAlertActionConfiguration new];
+    cancelButtonConfiguration.titleColor = [UIColor lightGrayColor];
+    cancelButtonConfiguration.titleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:17.0f];
+
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
-    configuration.buttonTitleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    configuration.cancelButtonTitleColor = [UIColor lightGrayColor];
+    configuration.buttonConfiguration = buttonConfiguration;
+    configuration.cancelButtonConfiguration = cancelButtonConfiguration;
     configuration.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    configuration.showsSeparators = NO;
     configuration.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
     configuration.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-    configuration.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:configuration.buttonTitleFont.pointSize];
-    configuration.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:configuration.cancelButtonTitleFont.pointSize];
     configuration.alertViewCornerRadius = 10.0f;
     configuration.backgroundTapDismissalGestureEnabled = YES;
     configuration.swipeDismissalGestureEnabled = YES;
+    configuration.alwaysArrangesActionButtonsVertically = YES;
     configuration.titleTextColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     configuration.messageTextColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
 
     NSString *title = NSLocalizedString(@"Custom UI", nil);
     NSString *message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
+    NYAlertAction *okAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Subscribe", nil)
                                                        style:UIAlertActionStyleDefault
                                                      handler:^(NYAlertAction *action) {
                                                          [self dismissViewControllerAnimated:YES completion:nil];

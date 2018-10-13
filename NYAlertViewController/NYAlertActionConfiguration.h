@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  The text color used to display the button title.
  */
 @property (strong, nonatomic) UIColor *titleColor;
+
+/**
+ The text color used to display the button title when the action is disabled.
+ */
 @property (strong, nonatomic) UIColor *disabledTitleColor;
 @property (strong, nonatomic) UIColor *backgroundColor;
 @property (nonatomic) CGFloat cornerRadius;
