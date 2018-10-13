@@ -276,11 +276,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                                         actions:@[okAction, cancelAction]];
     
     alertViewController.view.tintColor = self.view.tintColor;
-    
-    alertViewController.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    
-    alertViewController.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    
+
     [self presentViewController:alertViewController animated:YES completion:nil];
 }
 

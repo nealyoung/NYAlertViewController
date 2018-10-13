@@ -43,26 +43,6 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 @property (nonatomic) CGFloat maximumWidth;
 
 /**
- The background color for the alert view's buttons corresponsing to default style actions
- */
-@property (nonatomic) UIColor *buttonColor;
-
-/**
- The background color for the alert view's buttons corresponsing to cancel style actions
- */
-@property (nonatomic) UIColor *cancelButtonColor;
-
-/**
- The background color for the alert view's buttons corresponsing to destructive style actions
- */
-@property (nonatomic) UIColor *destructiveButtonColor;
-
-/**
- The background color for the alert view's buttons corresponsing to disabled actions
- */
-@property (nonatomic) UIColor *disabledButtonColor;
-
-/**
  An array of NYAlertAction objects representing the actions that the user can take in response to the alert view
  */
 @property (nonatomic, readonly) NSArray<NYAlertAction *> *actions;

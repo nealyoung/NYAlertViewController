@@ -5,7 +5,6 @@
 #import "NYAlertViewDismissalAnimationController.h"
 #import "NYAlertViewPresentationAnimationController.h"
 #import "NYAlertViewPresentationController.h"
-#import "UIButton+BackgroundColor.h"
 
 @interface NYAlertViewController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate>
 
@@ -31,11 +30,6 @@
         _configuration = [configuration copy] ?: [NYAlertViewControllerConfiguration new];
         _actions = actions;
         _textFields = [NSArray array];
-
-        _buttonColor = [UIColor darkGrayColor];
-        _cancelButtonColor = [UIColor darkGrayColor];
-        _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
-        _disabledButtonColor = [UIColor lightGrayColor];
 
         self.modalPresentationStyle = UIModalPresentationCustom;
         self.transitioningDelegate = self;
@@ -176,10 +170,8 @@
         }
         
         [button setTitleColor:buttonConfiguration.disabledTitleColor forState:UIControlStateDisabled];
-//        [button setBackgroundColor:buttonConfiguration.backgroundColor forState:UIControlStateDisabled];
         [button setTitleColor:buttonConfiguration.titleColor forState:UIControlStateNormal];
         [button setTitleColor:buttonConfiguration.titleColor forState:UIControlStateHighlighted];
-        [button setBackgroundColor:buttonConfiguration.backgroundColor forState:UIControlStateNormal];
         button.titleLabel.font = buttonConfiguration.titleFont;
 
         [buttons addObject:button];
@@ -205,54 +197,6 @@
 - (void)setMessage:(NSString *)message {
     _message = message;
     self.view.messageTextView.text = message;
-}
-
-- (void)setButtonColor:(UIColor *)buttonColor {
-    _buttonColor = buttonColor;
-
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-
-        if (action.style != UIAlertActionStyleCancel) {
-            [button setBackgroundColor:buttonColor forState:UIControlStateNormal];
-        }
-    }];
-}
-
-- (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
-    _cancelButtonColor = cancelButtonColor;
-
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-
-        if (action.style == UIAlertActionStyleCancel) {
-            [button setBackgroundColor:cancelButtonColor forState:UIControlStateNormal];
-        }
-    }];
-}
-
-- (void)setDestructiveButtonColor:(UIColor *)destructiveButtonColor {
-    _destructiveButtonColor = destructiveButtonColor;
-
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-
-        if (action.style == UIAlertActionStyleDestructive) {
-            [button setBackgroundColor:destructiveButtonColor forState:UIControlStateNormal];
-        }
-    }];
-}
-
-- (void)setDisabledButtonColor:(UIColor *)disabledButtonColor {
-    _disabledButtonColor = disabledButtonColor;
-
-    [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-        NYAlertAction *action = self.actions[idx];
-
-        if (!action.enabled) {
-            [button setBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
-        }
-    }];
 }
 
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
