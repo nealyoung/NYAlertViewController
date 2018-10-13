@@ -152,29 +152,17 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
                                                                                         message:message
                                                                                         actions:@[deleteAction, cancelAction]];
 
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
-    
+
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectZero];
-    [mapView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    mapView.translatesAutoresizingMaskIntoConstraints = NO;
     mapView.zoomEnabled = NO;
     mapView.scrollEnabled = NO;
-    mapView.layer.cornerRadius = 6.0f;
+    [mapView.heightAnchor constraintEqualToConstant:160.0f].active = YES;
+
     
     CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
     mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
-    [contentView addSubview:mapView];
-    
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapView(160)]|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
-
-    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[mapView]-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(mapView)]];
-    
-    alertViewController.alertViewContentView = contentView;
+    alertViewController.alertViewContentView = mapView;
     
     [self presentViewController:alertViewController animated:YES completion:nil];
 }

@@ -28,6 +28,7 @@
 
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        self.alertBackgroundView.clipsToBounds = YES;
         self.alertBackgroundView.layer.cornerRadius = configuration.alertViewCornerRadius;
         self.alertBackgroundView.backgroundColor = configuration.alertViewBackgroundColor;
         [self addSubview:_alertBackgroundView];
@@ -154,7 +155,7 @@
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView]-8-[_actionButtonContainerView]|"
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentViewContainerView]-[_titleLabel]-2-[_messageTextView][_textFieldContainerView]-8-[_actionButtonContainerView]|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_titleLabel,
@@ -190,18 +191,8 @@
     _contentView = contentView;
     
     if (contentView) {
-        [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.contentViewContainerView addSubview:self.contentView];
-        
-        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|"
-                                                                                              options:0
-                                                                                              metrics:nil
-                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
-        
-        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[_contentView]-2-|"
-                                                                                              options:0
-                                                                                              metrics:nil
-                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
+        [self.contentView ny_pinEdgesToSuperviewEdges];
     }
 }
 
