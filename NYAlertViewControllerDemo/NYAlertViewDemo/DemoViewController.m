@@ -3,26 +3,54 @@
 #import <MapKit/MapKit.h>
 #import "NYAlertViewController.h"
 
-@interface DemoViewController ()
+@interface DemoItem: NSObject
 
-- (void)showStandardAlertView;
-- (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount;
-- (void)showTextFieldAlertView;
-- (void)showMapViewAlertView;
-- (void)showDatePickerAlertView;
-- (void)showLongMessageAlertView;
-- (void)showCustomUIAlertView;
+@property (nonatomic, strong, readonly) NSString *title;
+@property (nonatomic, strong, readonly) NYAlertViewController *alertViewController;
+
+- (instancetype)initWithTitle:(NSString *)title alertViewController:(NYAlertViewController *)alertViewController;
 
 @end
 
-static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIdentifier";
+@implementation DemoItem
+
+- (instancetype)initWithTitle:(NSString *)title alertViewController:(NYAlertViewController *)alertViewController {
+    self = [super init];
+
+    if (self) {
+        _title = title;
+        _alertViewController = alertViewController;
+    }
+
+    return self;
+}
+
+@end
+
+@interface DemoViewController ()
+
+@property (nonatomic, strong) NSArray<DemoItem *> *demoItems;
+
+@end
 
 @implementation DemoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kTableViewCellReuseIdentifier];
+
+    self.title = @"NYAlertViewController Demo";
+
+    self.demoItems = @[[[DemoItem alloc] initWithTitle:@"No Actions" alertViewController:[self createCustomAlertViewWithActionCount:0]],
+                       [[DemoItem alloc] initWithTitle:@"1 Action" alertViewController:[self createCustomAlertViewWithActionCount:1]],
+                       [[DemoItem alloc] initWithTitle:@"2 Actions" alertViewController:[self createCustomAlertViewWithActionCount:2]],
+                       [[DemoItem alloc] initWithTitle:@"3 Actions" alertViewController:[self createCustomAlertViewWithActionCount:3]],
+                       [[DemoItem alloc] initWithTitle:@"Text Fields" alertViewController:[self createTextFieldAlertView]],
+                       [[DemoItem alloc] initWithTitle:@"Long Message" alertViewController:[self createLongMessageAlertView]],
+                       [[DemoItem alloc] initWithTitle:@"Custom Content View" alertViewController:[self createMapViewAlertView]],
+                       [[DemoItem alloc] initWithTitle:@"Custom UI" alertViewController:[self createCustomUIAlertView]],
+                       [[DemoItem alloc] initWithTitle:@"Icon Image" alertViewController:[self createIconImageAlertView]]];
+
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
 }
 
 - (void)showStandardAlertView {
@@ -41,20 +69,39 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Destroy", nil)
                                                         style:UIAlertActionStyleDestructive
-                                                      handler:^(UIAlertAction *action) {
-                                                          [self dismissViewControllerAnimated:YES completion:nil];
-                                                      }]];
+                                                      handler:nil]];
     
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                         style:UIAlertActionStyleCancel
-                                                      handler:^(UIAlertAction *action) {
-                                                          [self dismissViewControllerAnimated:YES completion:nil];
-                                                      }]];
+                                                      handler:nil]];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)showCustomAlertViewWithActionCount:(NSInteger)actionCount {
+- (NYAlertViewController *)createIconImageAlertView {
+    NSString *title = NSLocalizedString(@"Low Battery", nil);
+    NSString *message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Close", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+
+    NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
+    configuration.contentViewInset = UIEdgeInsetsMake(8.0f, 8.0f, 8.0f, 8.0f);
+
+    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
+                                                                                          title:title
+                                                                                        message:message
+                                                                                        actions:@[cancelAction]];
+
+    UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BatteryIcon"]];
+    iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [iconImageView.heightAnchor constraintEqualToConstant:48.0f].active = YES;
+    alertViewController.alertViewContentView = iconImageView;
+
+    return alertViewController;
+}
+
+- (NYAlertViewController *)createCustomAlertViewWithActionCount:(NSInteger)actionCount {
     NSMutableArray<NYAlertAction *> *mutableActions = [NSMutableArray array];
 
     for (NSInteger i = 0; i < actionCount; i++) {
@@ -67,9 +114,7 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
             actionStyle = UIAlertActionStyleCancel;
         }
 
-        [mutableActions addObject:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:^(NYAlertAction *action) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }]];
+        [mutableActions addObject:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:nil]];
     }
 
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
@@ -81,31 +126,24 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     NSString *title = NSLocalizedString(@"Example Title", nil);
     NSString *message = NSLocalizedString(@"This alert uses the fade transition style! Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
 
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
-                                                                                          title:title
-                                                                                        message:message
-                                                                                        actions:[NSArray arrayWithArray:mutableActions]];
-    alertViewController.view.tintColor = self.view.tintColor;
-    
-    [self presentViewController:alertViewController animated:YES completion:nil];
+    return [[NYAlertViewController alloc] initWithOptions:configuration
+                                                    title:title
+                                                  message:message
+                                                  actions:[NSArray arrayWithArray:mutableActions]];
 }
 
-- (void)showTextFieldAlertView {
+- (NYAlertViewController *)createTextFieldAlertView {
     NSString *title = NSLocalizedString(@"Login", nil);
     NSString *message = NSLocalizedString(@"The submit action is disabled until text is entered in both text fields", nil);
 
     NYAlertAction *submitAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Submit", nil)
                                                            style:UIAlertActionStyleDefault
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
+                                                         handler:nil];
     submitAction.enabled = NO;
 
     NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                            style:UIAlertActionStyleCancel
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
+                                                         handler:nil];
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
                                                                                           title:title
                                                                                         message:message
@@ -131,22 +169,18 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
         textField.secureTextEntry = YES;
     }];
 
-    [self presentViewController:alertViewController animated:YES completion:nil];
+    return alertViewController;
 }
 
-- (void)showMapViewAlertView {
+- (NYAlertViewController *)createMapViewAlertView {
     NSString *title = NSLocalizedString(@"Content View", nil);
     NSString *message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
     NYAlertAction *deleteAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
                                                            style:UIAlertActionStyleDestructive
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
+                                                         handler:nil];
     NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                            style:UIAlertActionStyleCancel
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
+                                                         handler:nil];
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
                                                                                           title:title
                                                                                         message:message
@@ -159,71 +193,34 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     mapView.scrollEnabled = NO;
     [mapView.heightAnchor constraintEqualToConstant:160.0f].active = YES;
 
-    
     CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
     mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
     alertViewController.alertViewContentView = mapView;
-    
-    [self presentViewController:alertViewController animated:YES completion:nil];
+
+    return alertViewController;
 }
 
-- (void)showDatePickerAlertView {
-    NSString *title = NSLocalizedString(@"Content View", nil);
-    NSString *message = NSLocalizedString(@"Set the alertViewContentView property to add custom views to the alert view", nil);
-    NYAlertAction *selectAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(NYAlertAction *action) {
-                                                         [self dismissViewControllerAnimated:YES completion:nil];
-                                                     }];
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
-                                                                                          title:title
-                                                                                        message:message
-                                                                                        actions:@[selectAction, cancelAction]];
-    
-//    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Select", nil)
-//                                                            style:UIAlertActionStyleDefault
-//                                                          handler:^(NYAlertAction *action) {
-//                                                              [self dismissViewControllerAnimated:YES completion:nil];
-//                                                          }]];
-//
-//    [alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-//                                                            style:UIAlertActionStyleCancel
-//                                                          handler:^(NYAlertAction *action) {
-//                                                              [self dismissViewControllerAnimated:YES completion:nil];
-//                                                          }]];
-
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    
-    alertViewController.alertViewContentView = datePicker;
-    
-    [self presentViewController:alertViewController animated:YES completion:nil];
-}
-
-- (void)showLongMessageAlertView {
+- (NYAlertViewController *)createLongMessageAlertView {
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
     configuration.transitionStyle = NYAlertViewControllerTransitionStyleSlideFromBottom;
-    NSString *title = NSLocalizedString(@"Long Message", nil);
+    NSString *title = NSLocalizedString(@"Terms and Conditions", nil);
     NSString *message = NSLocalizedString(@"This alert view uses the slide from bottom transition style!\n\nNullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna.", nil);
 
-    NSArray<NYAlertAction *> *actions = @[[NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                                   style:UIAlertActionStyleCancel
-                                                                 handler:^(NYAlertAction *action) {
-                                                                     [self dismissViewControllerAnimated:YES completion:nil];
-                                                                 }]];
+    NYAlertAction *acceptAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Accept", nil)
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
 
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
-                                                                                          title:title
-                                                                                        message:message
-                                                                                        actions:actions];
-    [self presentViewController:alertViewController animated:YES completion:nil];
+    NYAlertAction *declineAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Decline", nil)
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:nil];
+
+    return [[NYAlertViewController alloc] initWithOptions:configuration
+                                                    title:title
+                                                  message:message
+                                                  actions:@[acceptAction, declineAction]];
 }
 
-- (void)showCustomUIAlertView {
+- (NYAlertViewController *)createCustomUIAlertView {
     NYAlertActionConfiguration *buttonConfiguration = [NYAlertActionConfiguration new];
     buttonConfiguration.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     buttonConfiguration.titleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:19.0f];
@@ -250,65 +247,35 @@ static NSString * const kTableViewCellReuseIdentifier = @"kTableViewCellReuseIde
     NSString *message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
     NYAlertAction *okAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Subscribe", nil)
                                                        style:UIAlertActionStyleDefault
-                                                     handler:^(NYAlertAction *action) {
-                                                         [self dismissViewControllerAnimated:YES completion:nil];
-                                                     }];
+                                                     handler:nil];
     NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                            style:UIAlertActionStyleCancel
-                                                         handler:^(NYAlertAction *action) {
-                                                             [self dismissViewControllerAnimated:YES completion:nil];
-                                                         }];
-    NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
-                                                                                          title:title
-                                                                                        message:message
-                                                                                        actions:@[okAction, cancelAction]];
-    
-    alertViewController.view.tintColor = self.view.tintColor;
+                                                         handler:nil];
+    return [[NYAlertViewController alloc] initWithOptions:configuration
+                                                    title:title
+                                                  message:message
+                                                  actions:@[okAction, cancelAction]];
+}
 
-    [self presentViewController:alertViewController animated:YES completion:nil];
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.demoItems.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
+    cell.textLabel.text = self.demoItems[indexPath.row].title;
+
+    return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case 0:
-            [self showCustomAlertViewWithActionCount:0];
-            break;
-            
-        case 1:
-            [self showCustomAlertViewWithActionCount:1];
-            break;
-            
-        case 2:
-            [self showCustomAlertViewWithActionCount:2];
-            break;
-            
-        case 3:
-            [self showCustomAlertViewWithActionCount:3];
-            break;
-            
-        case 4:
-            [self showTextFieldAlertView];
-            break;
-            
-        case 5:
-            [self showMapViewAlertView];
-            break;
-            
-        case 6:
-            [self showDatePickerAlertView];
-            break;
-            
-        case 7:
-            [self showLongMessageAlertView];
-            break;
-            
-        case 8:
-            [self showCustomUIAlertView];
-            break;
-    }
-    
+    [self presentViewController:self.demoItems[indexPath.row].alertViewController
+                       animated:YES
+                     completion:nil];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
