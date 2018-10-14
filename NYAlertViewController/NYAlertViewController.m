@@ -183,7 +183,12 @@
 
 - (void)actionButtonPressed:(UIButton *)button {
     NYAlertAction *action = self.actions[button.tag];
-    action.handler(action);
+
+    if (action.handler) {
+        action.handler(action);
+    }
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Getters/Setters
