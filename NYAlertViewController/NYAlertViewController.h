@@ -2,12 +2,6 @@
 #import "NYAlertAction.h"
 #import "NYAlertViewControllerConfiguration.h"
 
-typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
-    NYAlertViewButtonStyleDefault,
-    NYAlertViewButtonStyleDefaultWithSeparators,
-    NYAlertViewButtonStyleRoundRect
-};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NYAlertViewController : UIViewController
