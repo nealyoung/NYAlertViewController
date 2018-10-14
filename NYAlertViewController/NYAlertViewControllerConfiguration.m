@@ -39,6 +39,8 @@
     return self;
 }
 
+#pragma mark - NSCopying
+
 - (id)copyWithZone:(nullable NSZone *)zone {
     // TODO: Implement this
     return self;

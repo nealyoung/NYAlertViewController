@@ -8,6 +8,8 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
     NYAlertViewButtonStyleRoundRect
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NYAlertViewController : UIViewController
 
 - (instancetype)initWithOptions:(nullable NYAlertViewControllerConfiguration *)configuration
@@ -17,25 +19,25 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 
 /**
- The configuration object used to initialize the alert view controller.
+ The configuration object used to initialize the alert view controller, or the default configuration if the alert view controller was initialized without a configuration.
  */
 @property (nonatomic, readonly) NYAlertViewControllerConfiguration *configuration;
 
 /**
  The message displayed under the alert view's title.
  */
-@property (nonatomic) NSString *message;
+@property (nonatomic, nullable) NSString *message;
 
 /**
  The custom view displayed in the presented alert view
  
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
  */
-@property (nonatomic) UIView *alertViewContentView;
+@property (nonatomic, nullable) UIView *alertViewContentView;
 
 /**
  The maximum width at which to display the presented alert view.
@@ -62,3 +64,5 @@ typedef NS_ENUM(NSInteger, NYAlertViewButtonStyle) {
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END
