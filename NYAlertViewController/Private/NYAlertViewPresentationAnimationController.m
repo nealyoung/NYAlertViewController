@@ -29,7 +29,7 @@ static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
         if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop) {
             CATransform3D transform = CATransform3DIdentity;
             transform.m34 = -1.0f / 600.0f;
-            transform = CATransform3DRotate(transform,  M_PI_4 * 1.3f, 1.0f, 0.0f, 0.0f);
+            transform = CATransform3DRotate(transform, M_PI_4 * 1.3f, 1.0f, 0.0f, 0.0f);
 
             toViewController.view.layer.zPosition = 100.0f;
             toViewController.view.layer.transform = transform;
