@@ -153,7 +153,7 @@
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentViewContainerView]-[_titleLabel]-2-[_messageTextView][_textFieldContainerView]-8-[_actionButtonContainerView]|"
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentViewContainerView(0@250)]-[_titleLabel]-2-[_messageTextView][_textFieldContainerView(0@250)]-8-[_actionButtonContainerView]|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_titleLabel,

@@ -1,28 +1,44 @@
 #import "NYAlertTextView.h"
 
+@interface NYAlertTextView ()
+
+@property (strong, nonatomic) NSLayoutConstraint *heightConstraint;
+
+@end
+
 @implementation NYAlertTextView
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
     self = [super initWithFrame:frame textContainer:textContainer];
 
-    self.textContainerInset = UIEdgeInsetsZero;
+    if (self) {
+        self.heightConstraint = [self.heightAnchor constraintEqualToConstant:0.0f];
+        self.heightConstraint.priority = UILayoutPriorityDefaultHigh;
+        self.heightConstraint.active = YES;
+
+        self.textContainerInset = UIEdgeInsetsZero;
+    }
 
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setText:(NSString *)text {
+    [super setText:text];
 
-    if (!CGSizeEqualToSize(self.bounds.size, [self intrinsicContentSize])) {
-        [self invalidateIntrinsicContentSize];
-    }
+    [self updateHeightConstraint];
 }
 
-- (CGSize)intrinsicContentSize {
-    if ([self.text length]) {
-        return self.contentSize;
-    } else {
-        return CGSizeZero;
+- (void)updateHeightConstraint {
+    self.heightConstraint.constant = [self sizeThatFits:CGSizeMake(self.frame.size.width, CGFLOAT_MAX)].height;
+}
+
+- (void)setBounds:(CGRect)bounds {
+    CGRect oldBounds = self.bounds;
+
+    [super setBounds:bounds];
+
+    if (!CGSizeEqualToSize(oldBounds.size, bounds.size)) {
+        [self updateHeightConstraint];
     }
 }
 
