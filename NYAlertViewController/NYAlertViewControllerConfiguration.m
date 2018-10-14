@@ -22,6 +22,8 @@
         _showsSeparators = YES;
         _separatorColor = [UIColor lightGrayColor];
 
+        _contentViewInset = UIEdgeInsetsZero;
+
         _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         _messageFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 

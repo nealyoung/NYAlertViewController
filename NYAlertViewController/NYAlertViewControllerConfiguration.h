@@ -84,6 +84,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIColor *separatorColor;
 
 /**
+ The insets applied to the content view.
+
+ @discussion The default value is UIEdgeInsetsZero
+ */
+@property (nonatomic) UIEdgeInsets contentViewInset;
+
+/**
  The font used to display the title in the alert view.
 
  @see title
