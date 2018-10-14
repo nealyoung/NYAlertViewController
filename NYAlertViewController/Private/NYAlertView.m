@@ -27,24 +27,23 @@
         _configuration = configuration;
 
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.clipsToBounds = YES;
         self.alertBackgroundView.layer.cornerRadius = configuration.alertViewCornerRadius;
         self.alertBackgroundView.backgroundColor = configuration.alertViewBackgroundColor;
+        self.alertBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [self.titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         self.titleLabel.numberOfLines = 2;
         self.titleLabel.font = configuration.titleFont;
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.textColor = configuration.titleTextColor;
         self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
+        self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.alertBackgroundView addSubview:self.titleLabel];
         
         _messageTextView = [[NYAlertTextView alloc] initWithFrame:CGRectZero];
-        [self.messageTextView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.messageTextView.backgroundColor = [UIColor clearColor];
         [self.messageTextView setContentHuggingPriority:0 forAxis:UILayoutConstraintAxisVertical];
         [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
@@ -53,25 +52,24 @@
         self.messageTextView.textColor = configuration.messageTextColor;
         self.messageTextView.font = configuration.messageFont;
         self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
+        self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.alertBackgroundView addSubview:self.messageTextView];
         
         _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        self.contentViewContainerView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.alertBackgroundView addSubview:self.contentViewContainerView];
         
         _textFieldContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.textFieldContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        self.textFieldContainerView .translatesAutoresizingMaskIntoConstraints = NO;
         [self.alertBackgroundView addSubview:self.textFieldContainerView];
         
         _actionButtonContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        self.actionButtonContainerView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.alertBackgroundView addSubview:self.actionButtonContainerView];
 
         _actionButtonStackView = [[UIStackView alloc] init];
-        [self.actionButtonStackView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.actionButtonStackView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
         [self.actionButtonContainerView addSubview:self.actionButtonStackView];
         [self.actionButtonStackView ny_pinEdgesToSuperviewEdges];
@@ -79,7 +77,7 @@
         if (self.configuration.showsSeparators) {
             UIView *separatorView = [[UIView alloc] init];
             separatorView.backgroundColor = self.configuration.separatorColor;
-            [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            separatorView.translatesAutoresizingMaskIntoConstraints = NO;
             [self.alertBackgroundView addSubview:separatorView];
             [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
             [separatorView.leadingAnchor constraintEqualToAnchor:separatorView.superview.leadingAnchor].active = YES;
@@ -191,8 +189,9 @@
     _contentView = contentView;
     
     if (contentView) {
+        self.contentViewContainerView.layoutMargins = self.configuration.contentViewInset;
         [self.contentViewContainerView addSubview:self.contentView];
-        [self.contentView ny_pinEdgesToSuperviewEdges];
+        [self.contentView ny_pinEdgesToSuperviewMargins];
     }
 }
 
@@ -205,7 +204,7 @@
     
     for (int i = 0; i < [textFields count]; i++) {
         UITextField *textField = textFields[i];
-        [textField setTranslatesAutoresizingMaskIntoConstraints:NO];
+        textField.translatesAutoresizingMaskIntoConstraints = NO;
         [self.textFieldContainerView addSubview:textField];
         
         [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[textField]-|"
@@ -254,7 +253,7 @@
             // Add separator view
             UIView *separatorView = [[UIView alloc] init];
             separatorView.backgroundColor = self.configuration.separatorColor;
-            [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            separatorView.translatesAutoresizingMaskIntoConstraints = NO;
 
             if (self.actionButtonStackView.axis == UILayoutConstraintAxisVertical) {
                 [separatorView.heightAnchor constraintEqualToConstant:1.0f / [UIScreen mainScreen].scale].active = YES;
