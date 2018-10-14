@@ -48,7 +48,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     // Necessary to avoid retain cycle - http://stackoverflow.com/a/21218703/1227862
-    self.transitioningDelegate = nil;
+//    self.transitioningDelegate = nil;
     [super viewDidDisappear:animated];
 }
 
@@ -110,7 +110,9 @@
                                  [self.view layoutIfNeeded];
                              }
                              completion:^(BOOL finished) {
-                                 [self dismissViewControllerAnimated:YES completion:nil];
+                                 [self dismissViewControllerAnimated:YES completion:^{
+                                     self.view.backgroundViewVerticalCenteringConstraint.constant = 0.0f;
+                                 }];
                              }];
         } else {
             self.view.backgroundViewVerticalCenteringConstraint.constant = 0.0f;
