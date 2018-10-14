@@ -1,15 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface NYAlertAction : NSObject
-
-+ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler;
-
-@property (nonatomic) NSString *title;
-@property (nonatomic) UIAlertActionStyle style;
-@property (nonatomic, strong) void (^handler)(NYAlertAction *action);
-@property (nonatomic) BOOL enabled;
-
-@end
+#import "NYAlertAction.h"
 
 typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
     /** Fade in the alert view */
@@ -28,6 +19,16 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message;
 
 /**
+ Creates an alert view controller with the specified backgroundView
+ */
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil backgroundView:(UIView *)backgroundView;
+
+/**
+ Creates an alert view controller with the specified title ,message, and backgroundView
+ */
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message backgroundView:(UIView *)backgroundView;
+
+/**
  The message displayed under the alert view's title
  */
 @property (nonatomic) NSString *message;
@@ -36,6 +37,16 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  A Boolean value that determines whether the status bar is visible when the alert view is presented
  */
 @property (nonatomic) BOOL showsStatusBar;
+
+/**
+ A Boolean value that determines whether the buttons should be stacked always vertically even if there are just two buttons
+*/
+@property (nonatomic) BOOL showButtonsAlwaysVertically;
+
+/**
+ A Boolean value that determines whether the width of the alert should be flexible or not
+ */
+@property (nonatomic) BOOL flexibleWidth;
 
 /**
  The custom view displayed in the presented alert view
@@ -64,6 +75,10 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  @discussion The default value is NO
  */
 @property (nonatomic) BOOL swipeDismissalGestureEnabled;
+
+@property (nonatomic) UIColor *dimViewColor;
+
+@property (nonatomic) CGFloat dimViewAlpha;
 
 /**
  The background color of the alert view

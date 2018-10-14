@@ -225,16 +225,27 @@
 
 @implementation NYAlertView
 
+- (instancetype)initWithFrame:(CGRect)frame backgroundView:(UIView *)backgroundView{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.alertBackgroundView = backgroundView;
+        self = [self initWithFrame:frame];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
         self.maximumWidth = 480.0f;
         
-        _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+        if (!_alertBackgroundView) {
+            _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+            self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
+            self.alertBackgroundView.layer.cornerRadius = 6.0f;
+        }
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-        self.alertBackgroundView.layer.cornerRadius = 6.0f;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -281,22 +292,7 @@
                                                         multiplier:1.0f
                                                           constant:0.0f]];
         
-        CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
-                                               CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
-        
-        if (alertBackgroundViewWidth > self.maximumWidth) {
-            alertBackgroundViewWidth = self.maximumWidth;
-        }
-        
-        _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:0.0f
-                                                                        constant:alertBackgroundViewWidth];
-        
-        [self addConstraint:self.alertBackgroundWidthConstraint];
+        [self setFlexibleWidth:NO];
         
         _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
                                                                                   attribute:NSLayoutAttributeCenterY
@@ -354,7 +350,6 @@
     return self;
 }
 
-
 // Pass through touches outside the backgroundView for the presentation controller to handle dismissal
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     for (UIView *subview in self.subviews) {
@@ -364,6 +359,33 @@
     }
     
     return NO;
+}
+
+- (void)setFlexibleWidth:(BOOL)flexibleWidth {
+    if (flexibleWidth) {
+        if (_alertBackgroundWidthConstraint) {
+            [self removeConstraint:_alertBackgroundWidthConstraint];
+            
+            _alertBackgroundWidthConstraint= NULL;
+        }
+    }else{
+        CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
+                                               CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+        
+        if (alertBackgroundViewWidth > self.maximumWidth) {
+            alertBackgroundViewWidth = self.maximumWidth;
+        }
+        
+        _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:0.0f
+                                                                        constant:alertBackgroundViewWidth];
+        
+        [self addConstraint:self.alertBackgroundWidthConstraint];
+    }
 }
 
 - (void)setMaximumWidth:(CGFloat)maximumWidth {
@@ -487,8 +509,8 @@
     
     _actionButtons = actionButtons;
     
-    // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
-    if ([actionButtons count] == 2) {
+    // If there are 2 actions and showsButtonsAlwaysVertically is set to NO, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
+    if ([actionButtons count] == 2 && !self.showButtonsAlwaysVertically) {
         UIButton *firstButton = actionButtons[0];
         UIButton *lastButton = actionButtons[1];
         
