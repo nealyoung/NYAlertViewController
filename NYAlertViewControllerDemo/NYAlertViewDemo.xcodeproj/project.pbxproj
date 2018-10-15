@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08624A0321740FA100EB9252 /* NYAlertAction+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NYAlertAction+Private.h"; sourceTree = "<group>"; };
 		088768A421572405004F427E /* NYAlertViewPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationController.h; sourceTree = "<group>"; };
 		088768A521572405004F427E /* NYAlertViewPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NYAlertViewPresentationController.m; sourceTree = "<group>"; };
 		088768A7215725FC004F427E /* NYAlertViewPresentationAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NYAlertViewPresentationAnimationController.h; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 				088768A8215725FC004F427E /* NYAlertViewPresentationAnimationController.m */,
 				088768AA2157263F004F427E /* NYAlertViewDismissalAnimationController.h */,
 				088768AB2157263F004F427E /* NYAlertViewDismissalAnimationController.m */,
+				08624A0321740FA100EB9252 /* NYAlertAction+Private.h */,
 				08969969215F13FD00009662 /* UIView+Additions.h */,
 				0896996A215F13FD00009662 /* UIView+Additions.m */,
 			);

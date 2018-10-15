@@ -17,11 +17,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-// TODO: Move this to private header
-@interface NYAlertAction ()
-
-@property (weak, nonatomic) UIButton *actionButton;
-
-@end
-
 NS_ASSUME_NONNULL_END

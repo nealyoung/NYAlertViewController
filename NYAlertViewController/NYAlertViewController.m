@@ -1,6 +1,7 @@
 #import "NYAlertViewController.h"
 
 #import "NYAlertView.h"
+#import "NYAlertAction+Private.h"
 #import "NYAlertViewButton.h"
 #import "NYAlertViewDismissalAnimationController.h"
 #import "NYAlertViewPresentationAnimationController.h"

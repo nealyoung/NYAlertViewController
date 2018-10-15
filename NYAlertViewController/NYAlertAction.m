@@ -1,4 +1,5 @@
 #import "NYAlertAction.h"
+#import "NYAlertAction+Private.h"
 
 @implementation NYAlertAction
 
