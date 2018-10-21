@@ -18,7 +18,7 @@ Add the files to your project manually by dragging the NYAlertViewController dir
 #### CocoaPods
 Add `pod 'NYAlertViewController'` to your Podfile, and run `pod install`.
 
-### Usage Examples
+### Usage Example
 An Objective-C example project demonstrating customization options is included in the NYAlertViewControllerDemo directory.
 
 #### Objective-C
@@ -29,76 +29,47 @@ An Objective-C example project demonstrating customization options is included i
 
 // ...
 
-NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
-
 // Set a title and message
-alertViewController.title = NSLocalizedString(@"Custom UI", nil);
-alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.", nil);
+NSString *title = @"Location Permission";
+NSString *message = @"Set the alertViewContentView property to add custom views to the alert view";
 
 // Customize appearance as desired
-alertViewController.buttonCornerRadius = 20.0f;
-alertViewController.view.tintColor = self.view.tintColor;
+NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
+configuration.contentViewInset = UIEdgeInsetsMake(12.0f, 8.0f, 8.0f, 8.0f);
+configuration.alertViewBackgroundColor = [UIColor colorWithRed:0.23f green:0.23f blue:0.27f alpha:1.0f];
+configuration.separatorColor = [UIColor colorWithRed:0.16f green:0.16f blue:0.2f alpha:1.0f];
+configuration.titleTextColor = [UIColor whiteColor];
+configuration.messageTextColor = [UIColor whiteColor];
 
-alertViewController.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:19.0f];
-alertViewController.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-alertViewController.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:alertViewController.buttonTitleFont.pointSize];
-alertViewController.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:alertViewController.cancelButtonTitleFont.pointSize];
+configuration.buttonConfiguration = [NYAlertActionConfiguration new];
+configuration.buttonConfiguration.titleColor = [UIColor whiteColor];
 
-alertViewController.swipeDismissalGestureEnabled = YES;
-alertViewController.backgroundTapDismissalGestureEnabled = YES;
+configuration.cancelButtonConfiguration.titleColor = [UIColor whiteColor];
 
-// Add alert actions
-[alertViewController addAction:[NYAlertAction actionWithTitle:NSLocalizedString(@"Done", nil)
-                                                        style:UIAlertActionStyleCancel
-                                                      handler:^(NYAlertAction *action) {
-                                                          [self dismissViewControllerAnimated:YES completion:nil];
-                                                      }]];
+// Set up alert actions
+NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
+                                                       style:UIAlertActionStyleCancel
+                                                     handler:nil];
+NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
+                                                   style:UIAlertActionStyleDefault
+                                                 handler:^(NYAlertAction *action) {
+                                                     [self doSomething];
+                                                 }]];
+
+NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
+                                                                                      title:title
+                                                                                    message:message
+                                                                                    actions:@[cancelAction, okAction]];
+
+// Optionally add a content view
+UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MapIcon"]];
+iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+[iconImageView.heightAnchor constraintEqualToConstant:60.0f].active = YES;
+alertViewController.alertViewContentView = iconImageView;
 
 // Present the alert view controller
 [self presentViewController:alertViewController animated:YES completion:nil];
 ```
-
-#### Swift
-
-```swift
-import NYAlertViewController
-
-// ...
-
-let alertViewController = NYAlertViewController()
-
-// Set a title and message
-alertViewController.title = "Custom UI"
-alertViewController.message = "Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus."
-
-// Customize appearance as desired
-alertViewController.buttonCornerRadius = 20.0
-alertViewController.view.tintColor = self.view.tintColor
-
-alertViewController.titleFont = UIFont(name: "AvenirNext-Bold", size: 19.0)
-alertViewController.messageFont = UIFont(name: "AvenirNext-Medium", size: 16.0)
-alertViewController.cancelButtonTitleFont = UIFont(name: "AvenirNext-Medium", size: 16.0)
-alertViewController.cancelButtonTitleFont = UIFont(name: "AvenirNext-Medium", size: 16.0)
-
-alertViewController.swipeDismissalGestureEnabled = true
-alertViewController.backgroundTapDismissalGestureEnabled = true
-
-// Add alert actions
-let cancelAction = NYAlertAction(
-    title: "Done",
-    style: .Cancel,
-    handler: { (action: NYAlertAction!) -> Void in
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-)
-alertViewController.addAction(cancelAction)
-
-// Present the alert view controller
-self.presentViewController(alertViewController, animated: true, completion: nil)
-```
-
-### To-Dos
-* Add different transition options (fade in, slide from top, etc.)
 
 ### License
 This project is released under the MIT License.
