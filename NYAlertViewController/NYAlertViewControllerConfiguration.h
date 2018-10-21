@@ -104,8 +104,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) UIFont *messageFont;
 
+/**
+ The alert action configuration used to display alert actions with the default style. This configuration is used unless the action has a configuration object.
+ */
 @property (nonatomic, strong) NYAlertActionConfiguration *buttonConfiguration;
+
+/**
+ The alert action configuration used to display alert actions with the destructive style. This configuration is used unless the action has a configuration object.
+ */
 @property (nonatomic, strong) NYAlertActionConfiguration *destructiveButtonConfiguration;
+
+/**
+ The alert action configuration used to display alert actions with the cancel style. This configuration is used unless the action has a configuration object.
+ */
 @property (nonatomic, strong) NYAlertActionConfiguration *cancelButtonConfiguration;
 
 @end

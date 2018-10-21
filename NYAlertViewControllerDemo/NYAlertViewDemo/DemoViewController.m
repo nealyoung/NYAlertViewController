@@ -47,7 +47,7 @@
                        [[DemoItem alloc] initWithTitle:@"Text Fields" alertViewController:[self createTextFieldAlertView]],
                        [[DemoItem alloc] initWithTitle:@"Long Message" alertViewController:[self createLongMessageAlertView]],
                        [[DemoItem alloc] initWithTitle:@"Custom Content View" alertViewController:[self createMapViewAlertView]],
-                       [[DemoItem alloc] initWithTitle:@"Custom UI" alertViewController:[self createCustomUIAlertView]],
+                       [[DemoItem alloc] initWithTitle:@"Custom Fonts" alertViewController:[self createCustomFontAlertView]],
                        [[DemoItem alloc] initWithTitle:@"Banner Image" alertViewController:[self createBannerImageAlertView]],
                        [[DemoItem alloc] initWithTitle:@"Icon Image" alertViewController:[self createIconImageAlertView]],
                        [[DemoItem alloc] initWithTitle:@"Dark Style" alertViewController:[self createDarkIconImageAlertView]]];
@@ -289,7 +289,7 @@
                                                   actions:@[acceptAction, declineAction]];
 }
 
-- (NYAlertViewController *)createCustomUIAlertView {
+- (NYAlertViewController *)createCustomFontAlertView {
     NYAlertActionConfiguration *buttonConfiguration = [NYAlertActionConfiguration new];
     buttonConfiguration.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     buttonConfiguration.titleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:19.0f];
@@ -312,7 +312,7 @@
     configuration.titleTextColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
     configuration.messageTextColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
 
-    NSString *title = @"Custom UI";
+    NSString *title = @"Custom Fonts";
     NSString *message = @"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.";
     NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Subscribe"
                                                        style:UIAlertActionStyleDefault
