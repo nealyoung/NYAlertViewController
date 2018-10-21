@@ -137,13 +137,6 @@
 - (NYAlertViewController *)createDarkIconImageAlertView {
     NSString *title = @"Location Permission";
     NSString *message = @"Set the alertViewContentView property to add custom views to the alert view";
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
-
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
-                                                       style:UIAlertActionStyleCancel
-                                                     handler:nil];
 
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
     configuration.contentViewInset = UIEdgeInsetsMake(12.0f, 8.0f, 8.0f, 8.0f);
@@ -156,6 +149,13 @@
     configuration.buttonConfiguration.titleColor = [UIColor whiteColor];
 
     configuration.cancelButtonConfiguration.titleColor = [UIColor whiteColor];
+
+    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil];
+    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
+                                                       style:UIAlertActionStyleCancel
+                                                     handler:nil];
 
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
                                                                                           title:title
