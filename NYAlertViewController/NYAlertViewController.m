@@ -80,7 +80,7 @@
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
     
-    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
+    NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController *)self.presentationController;
     
     CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
     presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
