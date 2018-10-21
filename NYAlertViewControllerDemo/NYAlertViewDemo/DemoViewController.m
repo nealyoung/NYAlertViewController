@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"NYAlertViewController Demo";
+    self.title = @"NYAlertViewController";
 
     self.demoItems = @[[[DemoItem alloc] initWithTitle:@"No Actions" alertViewController:[self createCustomAlertViewWithActionCount:0]],
                        [[DemoItem alloc] initWithTitle:@"1 Action" alertViewController:[self createCustomAlertViewWithActionCount:1]],
@@ -327,6 +327,10 @@
 }
 
 #pragma mark - UITableViewDataSource
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Alert View Examples";
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.demoItems.count;

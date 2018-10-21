@@ -4,7 +4,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    DemoViewController *demoViewController = [[DemoViewController alloc] init];
+    DemoViewController *demoViewController = [[DemoViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:demoViewController];
 
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
