@@ -146,7 +146,7 @@
         NYAlertAction *action = self.actions[i];
         
         NYAlertViewButton *button = [NYAlertViewButton buttonWithType:UIButtonTypeCustom];
-        
+
         button.tag = i;
         [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         

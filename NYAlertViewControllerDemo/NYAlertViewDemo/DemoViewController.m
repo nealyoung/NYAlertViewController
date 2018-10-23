@@ -84,13 +84,13 @@
 - (NYAlertViewController *)createBannerImageAlertView {
     NSString *title = @"Banner Image";
     NSString *message = @"Set the alertViewContentView property to add custom views to the alert view";
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Later"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil];
 
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
-                                                       style:UIAlertActionStyleCancel
-                                                     handler:nil];
+    NYAlertAction *okAction = [[NYAlertAction alloc] initWithTitle:@"Ok"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
 
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
                                                                                           title:title
@@ -109,13 +109,13 @@
 - (NYAlertViewController *)createIconImageAlertView {
     NSString *title = @"Location Permission";
     NSString *message = @"Set the alertViewContentView property to add custom views to the alert view";
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Later"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil];
 
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
-                                                       style:UIAlertActionStyleCancel
-                                                     handler:nil];
+    NYAlertAction *okAction = [[NYAlertAction alloc] initWithTitle:@"Ok"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
 
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
     configuration.contentViewInset = UIEdgeInsetsMake(12.0f, 8.0f, 8.0f, 8.0f);
@@ -149,12 +149,12 @@
 
     configuration.cancelButtonConfiguration.titleColor = [UIColor whiteColor];
 
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
-                                                       style:UIAlertActionStyleCancel
-                                                     handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Later"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil];
+    NYAlertAction *okAction = [[NYAlertAction alloc] initWithTitle:@"Ok"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
 
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
                                                                                           title:title
@@ -182,7 +182,7 @@
             actionStyle = UIAlertActionStyleCancel;
         }
 
-        [mutableActions addObject:[NYAlertAction actionWithTitle:actionTitle style:actionStyle handler:nil]];
+        [mutableActions addObject:[[NYAlertAction alloc] initWithTitle:actionTitle style:actionStyle handler:nil]];
     }
 
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
@@ -204,14 +204,14 @@
     NSString *title = @"Login";
     NSString *message = @"The submit action is disabled until text is entered in both text fields";
 
-    NYAlertAction *submitAction = [NYAlertAction actionWithTitle:@"Submit"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
+    NYAlertAction *submitAction = [[NYAlertAction alloc] initWithTitle:@"Submit"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil];
     submitAction.enabled = NO;
 
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Cancel"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:nil];
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
                                                                                           title:title
                                                                                         message:message
@@ -243,12 +243,12 @@
 - (NYAlertViewController *)createMapViewAlertView {
     NSString *title = @"Content View";
     NSString *message = @"Set the alertViewContentView property to add custom views to the alert view";
-    NYAlertAction *deleteAction = [NYAlertAction actionWithTitle:@"Delete"
-                                                           style:UIAlertActionStyleDestructive
-                                                         handler:nil];
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Cancel"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:nil];
+    NYAlertAction *deleteAction = [[NYAlertAction alloc] initWithTitle:@"Delete"
+                                                                 style:UIAlertActionStyleDestructive
+                                                               handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:nil];
     NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:nil
                                                                                           title:title
                                                                                         message:message
@@ -261,8 +261,8 @@
     mapView.scrollEnabled = NO;
     [mapView.heightAnchor constraintEqualToConstant:160.0f].active = YES;
 
-    CLLocationCoordinate2D infiniteLoopCoordinate = CLLocationCoordinate2DMake(37.331693, -122.030457);
-    mapView.region = MKCoordinateRegionMakeWithDistance(infiniteLoopCoordinate, 1000.0f, 1000.0f);
+    CLLocationCoordinate2D appleParkCoordinate = CLLocationCoordinate2DMake(37.3348869014372, -122.008995604656);
+    mapView.region = MKCoordinateRegionMakeWithDistance(appleParkCoordinate, 1000.0f, 1000.0f);
     alertViewController.alertViewContentView = mapView;
 
     return alertViewController;
@@ -272,15 +272,15 @@
     NYAlertViewControllerConfiguration *configuration = [NYAlertViewControllerConfiguration new];
     configuration.transitionStyle = NYAlertViewControllerTransitionStyleSlideFromBottom;
     NSString *title = @"Terms and Conditions";
-    NSString *message = @"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna.";
+    NSString *message = @"Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Donec ullamcorper nulla non metus auctor fringilla. Nullam quis risus eget urna mollis ornare vel eu leo. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Aenean lacinia bibendum nulla sed consectetur. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla.";
 
-    NYAlertAction *acceptAction = [NYAlertAction actionWithTitle:@"Accept"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil];
+    NYAlertAction *acceptAction = [[NYAlertAction alloc] initWithTitle:@"Accept"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:nil];
 
-    NYAlertAction *declineAction = [NYAlertAction actionWithTitle:@"Decline"
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:nil];
+    NYAlertAction *declineAction = [[NYAlertAction alloc] initWithTitle:@"Decline"
+                                                                  style:UIAlertActionStyleDefault
+                                                                handler:nil];
 
     return [[NYAlertViewController alloc] initWithOptions:configuration
                                                     title:title
@@ -313,12 +313,12 @@
 
     NSString *title = @"Custom Fonts";
     NSString *message = @"Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.";
-    NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Subscribe"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:nil];
-    NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Cancel"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:nil];
+    NYAlertAction *okAction = [[NYAlertAction alloc] initWithTitle:@"Subscribe"
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:nil];
+    NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Cancel"
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:nil];
     return [[NYAlertViewController alloc] initWithOptions:configuration
                                                     title:title
                                                   message:message

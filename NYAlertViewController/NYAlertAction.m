@@ -3,13 +3,25 @@
 
 @implementation NYAlertAction
 
-+ (instancetype)actionWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction *action))handler {
-    NYAlertAction *action = [[NYAlertAction alloc] init];
-    action.title = title;
-    action.style = style;
-    action.handler = handler;
+- (instancetype)initWithTitle:(NSString *)title style:(UIAlertActionStyle)style handler:(void (^)(NYAlertAction * _Nonnull))handler {
+    return [self initWithTitle:title style:style handler:handler configuration:nil];
+}
 
-    return action;
+- (instancetype)initWithTitle:(NSString *)title
+                        style:(UIAlertActionStyle)style
+                      handler:(void (^__nullable)(NYAlertAction *action))handler
+                configuration:(nullable NYAlertActionConfiguration *)configuration {
+    self = [super init];
+
+    if (self) {
+        _title = title;
+        _style= style;
+        _handler = handler;
+        _configuration = configuration;
+        _enabled = YES;
+    }
+
+    return self;
 }
 
 - (instancetype)init {
