@@ -47,14 +47,14 @@ configuration.buttonConfiguration.titleColor = [UIColor whiteColor];
 configuration.cancelButtonConfiguration.titleColor = [UIColor whiteColor];
 
 // Set up alert actions
-NYAlertAction *cancelAction = [NYAlertAction actionWithTitle:@"Later"
-                                                       style:UIAlertActionStyleCancel
-                                                     handler:nil];
-NYAlertAction *okAction = [NYAlertAction actionWithTitle:@"Ok"
-                                                   style:UIAlertActionStyleDefault
-                                                 handler:^(NYAlertAction *action) {
-                                                     [self doSomething];
-                                                 }]];
+NYAlertAction *cancelAction = [[NYAlertAction alloc] initWithTitle:@"Later"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
+NYAlertAction *okAction = [[NYAlertAction alloc] initWithTitle:@"Ok"
+                                                         style:UIAlertActionStyleDefault
+                                                       handler:^(NYAlertAction *action) {
+                                                           [self doSomething];
+                                                       }]];
 
 NYAlertViewController *alertViewController = [[NYAlertViewController alloc] initWithOptions:configuration
                                                                                       title:title
