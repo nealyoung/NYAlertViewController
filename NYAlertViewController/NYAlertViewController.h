@@ -14,7 +14,7 @@
 
 @property (nonatomic) NSString *title;
 @property (nonatomic) UIAlertActionStyle style;
-@property (nonatomic, strong) void (^handler)(NYAlertAction *action);
+@property (nonatomic) void (^handler)(NYAlertAction *action);
 @property (nonatomic) BOOL enabled;
 
 @end
@@ -242,5 +242,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  @param configurationHandler A block used to configure the text field. The block takes the text field object as a parameter, and can modify the properties of the text field prior to being displayed.
  */
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
+
+- (void)clearActions;
 
 @end

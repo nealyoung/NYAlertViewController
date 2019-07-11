@@ -289,7 +289,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)gestureRecognizer {
     if (self.backgroundTapDismissalGestureEnabled) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            // clear actions to break retain cycle in action.handler property
+            NYAlertViewController *vc = (NYAlertViewController *) self.presentedViewController;
+            [vc clearActions];
+        }];
     }
 }
 
@@ -467,7 +471,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                                  [self.view layoutIfNeeded];
                              }
                              completion:^(BOOL finished) {
-                                 [self dismissViewControllerAnimated:YES completion:nil];
+                                 [self dismissViewControllerAnimated:YES completion:^{
+                                     // clear actions to break retain cycle in action.handler property
+                                     [self clearActions];
+                                 }];
                              }];
         } else {
             self.view.backgroundViewVerticalCenteringConstraint.constant = 0.0f;
@@ -851,6 +858,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     configurationHandler(textField);
     
     _textFields = [self.textFields arrayByAddingObject:textField];
+}
+
+- (void)clearActions
+{
+    _actions = [NSArray new];
 }
 
 - (void)buttonPressed:(UIButton *)sender {
