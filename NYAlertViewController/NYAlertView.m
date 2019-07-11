@@ -204,6 +204,8 @@
 @property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
 @property (nonatomic) UITextField *activeTextField;
+@property (nonatomic) BOOL keyboardIsVisible;
+@property (nonatomic) CGSize keyboardSize;
 
 @end
 
@@ -574,7 +576,7 @@
                                                  metrics:nil
                                                    views:NSDictionaryOfVariableBindings(lastButton)]];
     } else {
-        for (int i = 0; i < [actionButtons count]; i++) {
+        for (NSUInteger i = 0; i < [actionButtons count]; i++) {
             UIButton *actionButton = actionButtons[i];
             
             [self.actionButtonContainerView addSubview:actionButton];
@@ -618,35 +620,56 @@
     }
 }
 
-#pragma mark - Notifications
-
-- (void)keyboardWillShowNotification:(NSNotification *)notification
+- (void)adjustVerticalPosition
 {
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ) {
-        CGSize origKeySize = keyboardSize;
-        keyboardSize.height = origKeySize.width;
-        keyboardSize.width = origKeySize.height;
+    if (CGSizeEqualToSize(self.keyboardSize, CGSizeZero)) {
+        return;
     }
 
-    CGFloat keyboardTop = [[UIScreen mainScreen] bounds].size.height - keyboardSize.height;
-    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:_activeTextField];
-    CGFloat textFieldBottom = textFieldPosition.y + _activeTextField.frame.size.height;
-    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight ) {
+        self.keyboardSize = CGSizeMake(self.keyboardSize.height, self.keyboardSize.width);
+    }
+
+    UIView *activeView = self.keyboardEscapingView ? self.keyboardEscapingView : _activeTextField;
+
+    CGFloat keyboardTop = [[UIScreen mainScreen] bounds].size.height - self.keyboardSize.height;
+    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:activeView];
+    CGFloat textFieldBottom = textFieldPosition.y + activeView.frame.size.height;
+
     if (textFieldBottom > keyboardTop) {
         _backgroundViewVerticalCenteringConstraint.constant = keyboardTop - textFieldBottom;
         [self setNeedsUpdateConstraints];
-        
+
         [UIView animateWithDuration:0.2f animations:^{
             [self layoutIfNeeded];
         }];
     }
 }
 
+#pragma mark - Notifications
+
+- (void)keyboardWillShowNotification:(NSNotification *)notification
+{
+    if (self.keyboardIsVisible) {
+        return;
+    }
+
+    self.keyboardIsVisible = YES;
+
+    // use max keyboard size here because begin/end keys can contain different values
+    // in different use cases (selecting input or navigation with Next button)
+    CGSize beginSize = [[notification userInfo][UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize endSize = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    self.keyboardSize = CGSizeMake(beginSize.width, MAX(beginSize.height, endSize.height));
+
+    [self adjustVerticalPosition];
+}
+
 - (void)keyboardWillHideNotification:(NSNotification *)notification
 {
+    self.keyboardIsVisible = NO;
     _backgroundViewVerticalCenteringConstraint.constant = 0.0f;
     [self setNeedsUpdateConstraints];
     
@@ -658,6 +681,9 @@
 - (void)textFieldDidBeginEditingNotification:(NSNotification *)notification
 {
     _activeTextField = notification.object;
+
+    // call here for the case if we press Next on keyboard and go to the next (possibly) hidden text field
+    [self adjustVerticalPosition];
 }
 
 - (void)textFieldDidEndEditingNotification:(NSNotification *)notification
