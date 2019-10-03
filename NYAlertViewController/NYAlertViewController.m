@@ -353,6 +353,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     // call here instead of in commonInit to allow initWithAlertViewStyle: to set style
     // before loadView: call
     if (self.panGestureRecognizer) {
