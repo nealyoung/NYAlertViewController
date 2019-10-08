@@ -89,6 +89,9 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  */
 @property (nonatomic) UIColor *alertViewBackgroundColor;
 
+
+@property (nonatomic) UIColor *backgroundDimmingViewBackgroundColor;
+
 /**
  The maximum width at which to display the presented alert view
  */

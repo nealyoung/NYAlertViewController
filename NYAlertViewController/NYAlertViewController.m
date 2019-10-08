@@ -121,12 +121,13 @@ static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
     switch (self.transitionStyle) {
         case NYAlertViewControllerTransitionStyleFade:
             return 0.3f;
-            break;
             
         case NYAlertViewControllerTransitionStyleSlideFromTop:
         case NYAlertViewControllerTransitionStyleSlideFromBottom:
             return 0.6f;
     }
+
+    return 0.0f;
 }
 
 @end
@@ -187,12 +188,14 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     switch (self.transitionStyle) {
         case NYAlertViewControllerTransitionStyleFade:
             return 0.3f;
-            break;
             
         case NYAlertViewControllerTransitionStyleSlideFromTop:
         case NYAlertViewControllerTransitionStyleSlideFromBottom:
             return 0.6f;
-    }}
+    }
+
+    return 0.0f;
+}
 
 @end
 
@@ -214,13 +217,16 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @implementation NYAlertViewPresentationController
 
 - (void)presentationTransitionWillBegin {
-    self.presentedViewController.view.layer.cornerRadius = 6.0f;
-    self.presentedViewController.view.layer.masksToBounds = YES;
+    NYAlertViewController *presentedViewController = (NYAlertViewController *) self.presentedViewController;
+    presentedViewController.view.layer.cornerRadius = 6.0f;
+    presentedViewController.view.layer.masksToBounds = YES;
     
     self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.backgroundDimmingView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.backgroundDimmingView.alpha = 0.0f;
-    self.backgroundDimmingView.backgroundColor = [UIColor blackColor];
+    self.backgroundDimmingView.backgroundColor = presentedViewController.backgroundDimmingViewBackgroundColor
+        ? presentedViewController.backgroundDimmingViewBackgroundColor
+        : [UIColor blackColor];
     [self.containerView addSubview:self.backgroundDimmingView];
     
     [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundDimmingView]|"
@@ -502,6 +508,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (UIColor *)alertViewBackgroundColor {
     return self.view.alertBackgroundView.backgroundColor;
+}
+
+- (void)setBackgroundDimmingViewBackgroundColor:(UIColor *)backgroundDimmingViewBackgroundColor
+{
+    _backgroundDimmingViewBackgroundColor = backgroundDimmingViewBackgroundColor;
 }
 
 - (void)setAlertViewBackgroundColor:(UIColor *)alertViewBackgroundColor {
