@@ -622,6 +622,7 @@
 
 - (void)adjustVerticalPosition
 {
+#ifndef TARGET_IS_EXTENSION
     if (CGSizeEqualToSize(self.keyboardSize, CGSizeZero)) {
         return;
     }
@@ -646,6 +647,7 @@
             [self layoutIfNeeded];
         }];
     }
+#endif
 }
 
 #pragma mark - Notifications
