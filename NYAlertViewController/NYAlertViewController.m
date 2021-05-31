@@ -445,6 +445,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
+#ifndef TARGET_IS_EXTENSION
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
     
     NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
@@ -497,6 +498,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                              completion:nil];
         }
     }
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
