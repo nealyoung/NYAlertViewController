@@ -303,8 +303,8 @@
                                                     multiplier:1.0f
                                                       constant:0.0f]];
     
-    CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
-                                           CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+    CGFloat alertBackgroundViewWidth = MIN(CGRectGetWidth(UIScreen.mainScreen.bounds),
+                                           CGRectGetHeight(UIScreen.mainScreen.bounds)) * 0.8f;
     
     if (alertBackgroundViewWidth > self.maximumWidth) {
         alertBackgroundViewWidth = self.maximumWidth;

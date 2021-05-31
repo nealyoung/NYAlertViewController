@@ -445,12 +445,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
-#ifndef TARGET_IS_EXTENSION
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
     
     NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
     
-    CGFloat windowHeight = CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds);
+    CGFloat windowHeight = CGRectGetHeight(UIScreen.mainScreen.bounds);
     presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
@@ -498,7 +497,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                              completion:nil];
         }
     }
-#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
