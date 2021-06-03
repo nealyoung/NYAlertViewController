@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
   s.requires_arc     = true
   
   s.pod_target_xcconfig = { 
-    "APPLICATION_EXTENSION_API_ONLY" = "NO"
+    # fix for "'sharedApplication' is unavailable: not available on iOS (App Extension)"
+    "APPLICATION_EXTENSION_API_ONLY" => "NO"
   }
 end
