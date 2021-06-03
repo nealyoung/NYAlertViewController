@@ -12,4 +12,8 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/nealyoung/NYAlertViewController.git", :tag => "#{s.version}" }
   s.source_files     = "NYAlertViewController/*.{h,m}"
   s.requires_arc     = true
+  
+  s.pod_target_xcconfig = { 
+    "APPLICATION_EXTENSION_API_ONLY" = "NO"
+  }
 end
