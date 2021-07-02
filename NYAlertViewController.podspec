@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.social_media_url     = "http://nealyoung.me"
   s.platform             = :ios, "9.0"
   s.source               = { :git => "https://github.com/nealyoung/NYAlertViewController.git", :tag => "#{s.version}" }
-  s.source_files         = "NYAlertViewController/*.{h,m}"
+  s.source_files         = "NYAlertViewController/**/*.{h,m}"
   s.private_header_files = "NYAlertViewController/Private/*.h"
   s.requires_arc         = true
 end
