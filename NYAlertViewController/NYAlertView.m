@@ -447,15 +447,17 @@
         [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.contentViewContainerView addSubview:self.contentView];
         
-        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentView]|"
-                                                                                              options:0
-                                                                                              metrics:nil
-                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
-        
-        [self.contentViewContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[_contentView]-2-|"
-                                                                                              options:0
-                                                                                              metrics:nil
-                                                                                                views:NSDictionaryOfVariableBindings(_contentView)]];
+        [self.contentViewContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"H:|[_contentView]|"
+                                options:0
+                                metrics:nil
+                                  views:NSDictionaryOfVariableBindings(_contentView)]];
+
+        [self.contentViewContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"V:|-2-[_contentView]-2-|"
+                                options:0
+                                metrics:nil
+                                  views:NSDictionaryOfVariableBindings(_contentView)]];
     }
 }
 
