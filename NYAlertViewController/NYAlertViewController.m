@@ -201,8 +201,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 @interface NYAlertViewPresentationController : UIPresentationController
 
-@property CGFloat presentedViewControllerHorizontalInset;
-@property CGFloat presentedViewControllerVerticalInset;
 @property (nonatomic) BOOL backgroundTapDismissalGestureEnabled;
 @property UIView *backgroundDimmingView;
 
