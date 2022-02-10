@@ -58,6 +58,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
+@property (nonatomic) CGFloat maximumHeight;
 
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
