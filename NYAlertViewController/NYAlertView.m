@@ -472,33 +472,37 @@
         UITextField *textField = textFields[i];
         [textField setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.textFieldContainerView addSubview:textField];
-        
-        [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[textField]-|"
-                                                                                            options:0
-                                                                                            metrics:nil
-                                                                                              views:NSDictionaryOfVariableBindings(textField)]];
+
+        [self.textFieldContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"H:|-[textField]-|"
+                                options:0
+                                metrics:nil
+                                  views:NSDictionaryOfVariableBindings(textField)]];
         
         // Pin the first text field to the top of the text field container view
         if (i == 0) {
-            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[textField]"
-                                                                                                options:0
-                                                                                                metrics:nil
-                                                                                                  views:NSDictionaryOfVariableBindings(_contentViewContainerView, textField)]];
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"V:|-[textField]"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_contentViewContainerView, textField)]];
         } else {
             UITextField *previousTextField = textFields[i - 1];
-            
-            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[previousTextField]-[textField]"
-                                                                                                options:0
-                                                                                                metrics:nil
-                                                                                                  views:NSDictionaryOfVariableBindings(previousTextField, textField)]];
+
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"V:[previousTextField]-[textField]"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(previousTextField, textField)]];
         }
         
         // Pin the final text field to the bottom of the text field container view
         if (i == ([textFields count] - 1)) {
-            [self.textFieldContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[textField]|"
-                                                                                                options:0
-                                                                                                metrics:nil
-                                                                                                  views:NSDictionaryOfVariableBindings(textField)]];
+            [self.textFieldContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"V:[textField]|"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(textField)]];
         }
     }
 }
