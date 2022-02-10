@@ -430,6 +430,16 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     self.view.maximumWidth = maximumWidth;
 }
 
+- (CGFloat)maximumHeight
+{
+    return self.view.maximumHeight;
+}
+
+- (void)setMaximumHeight:(CGFloat)maximumHeight
+{
+    self.view.maximumHeight = maximumHeight;
+}
+
 - (UIView *)alertViewContentView {
     return self.view.contentView;
 }
