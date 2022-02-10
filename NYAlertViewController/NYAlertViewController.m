@@ -226,16 +226,18 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         ? presentedViewController.backgroundDimmingViewBackgroundColor
         : [UIColor blackColor];
     [self.containerView addSubview:self.backgroundDimmingView];
-    
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundDimmingView]|"
-                                                                               options:0
-                                                                               metrics:nil
-                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
-    
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_backgroundDimmingView]|"
-                                                                               options:0
-                                                                               metrics:nil
-                                                                                 views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
+
+    [self.containerView addConstraints:[NSLayoutConstraint
+        constraintsWithVisualFormat:@"H:|[_backgroundDimmingView]|"
+                            options:0
+                            metrics:nil
+                              views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
+
+    [self.containerView addConstraints:[NSLayoutConstraint
+        constraintsWithVisualFormat:@"V:|[_backgroundDimmingView]|"
+                            options:0
+                            metrics:nil
+                              views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
     [self.backgroundDimmingView addGestureRecognizer:tapGestureRecognizer];
