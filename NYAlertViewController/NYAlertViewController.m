@@ -216,7 +216,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)presentationTransitionWillBegin {
     NYAlertViewController *presentedViewController = (NYAlertViewController *) self.presentedViewController;
-    presentedViewController.view.layer.cornerRadius = 6.0f;
+    presentedViewController.view.layer.cornerRadius = 0.0f;
     presentedViewController.view.layer.masksToBounds = YES;
     
     self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
