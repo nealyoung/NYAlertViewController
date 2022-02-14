@@ -23,6 +23,9 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 
 @end
 
+@interface NYAlertTextView : UITextView
+@end
+
 @interface NYAlertViewButton : UIButton
 
 @property (nonatomic) NYAlertViewButtonType type;
@@ -42,7 +45,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 @property (nonatomic) NYAlertViewStyle style;
 
 @property UILabel *titleLabel;
-@property UITextView *messageTextView;
+@property NYAlertTextView *messageTextView;
 @property (nonatomic) UIView *contentView;
 
 @property (nonatomic) UIFont *buttonTitleFont;
@@ -66,6 +69,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
+@property (nonatomic, readonly) NSLayoutConstraint *messageTextViewHeightConstraint;
 
 //@property (nonatomic) NSArray *actions;
 @property (nonatomic) NSArray<UIButton *> *actionButtons;
@@ -74,5 +78,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 
 /// View from contentView which should be visible, overrides first responder / active text field
 @property (nonatomic) UIView *keyboardEscapingView;
+
+- (void)updateMessageTextViewHeight;
 
 @end

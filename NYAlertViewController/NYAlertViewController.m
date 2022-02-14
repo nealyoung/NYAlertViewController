@@ -601,11 +601,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)setMessage:(NSString *)message {
     _message = message;
     self.view.messageTextView.text = message;
+    [self.view updateMessageTextViewHeight];
 }
 
 - (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
     _attributedMessage = attributedMessage;
     self.view.messageTextView.attributedText = attributedMessage;
+    [self.view updateMessageTextViewHeight];
 }
 
 - (UIFont *)titleFont {

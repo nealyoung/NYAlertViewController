@@ -9,11 +9,6 @@
 
 static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroundViewHeightConstraintIdentifier";
 
-
-@interface NYAlertTextView : UITextView
-@end
-
-
 @implementation NYAlertTextView
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
@@ -269,6 +264,16 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
     self.messageTextView.textContainerInset = (self.style == NYAlertViewStyleIOSCustom) ? UIEdgeInsetsMake(7, 0, 0, 0) : self.messageTextView.textContainerInset;
     [self.alertBackgroundView addSubview:self.messageTextView];
+
+    _messageTextViewHeightConstraint = [NSLayoutConstraint
+        constraintWithItem:self.messageTextView
+                 attribute:NSLayoutAttributeHeight
+                 relatedBy:NSLayoutRelationEqual
+                    toItem:nil
+                 attribute:NSLayoutAttributeNotAnAttribute
+                multiplier:1.0
+                  constant:0];
+    [self.messageTextView addConstraint:self.messageTextViewHeightConstraint];
 
     _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -711,6 +716,11 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
             [self layoutIfNeeded];
         }];
     }
+}
+
+- (void)updateMessageTextViewHeight
+{
+    self.messageTextViewHeightConstraint.constant = self.messageTextView.intrinsicContentSize.height;
 }
 
 #pragma mark - Notifications
