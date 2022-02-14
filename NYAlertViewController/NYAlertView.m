@@ -7,11 +7,12 @@
 
 #import "NYAlertView.h"
 
-#import "NYAlertViewController.h"
+static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroundViewHeightConstraintIdentifier";
+
 
 @interface NYAlertTextView : UITextView
-
 @end
+
 
 @implementation NYAlertTextView
 
@@ -203,7 +204,7 @@
 @property (nonatomic) NSLayoutConstraint *alertBackgroundHeightConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
-@property (nonatomic) UIView *actionButtonContainerView;
+@property (nonatomic) UIStackView *actionButtonContainerView;
 @property (nonatomic) UITextField *activeTextField;
 @property (nonatomic) BOOL keyboardIsVisible;
 @property (nonatomic) CGSize keyboardSize;
@@ -240,7 +241,6 @@
     CGFloat screenHeight = CGRectGetHeight(UIScreen.mainScreen.bounds);
 
     self.maximumWidth = screenWidth;
-    self.maximumHeight = screenHeight;
 
     _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -280,7 +280,8 @@
     [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.alertBackgroundView addSubview:self.textFieldContainerView];
 
-    _actionButtonContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    _actionButtonContainerView = [UIStackView new];
+    _actionButtonContainerView.spacing = 8;
     [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.alertBackgroundView addSubview:self.actionButtonContainerView];
@@ -308,31 +309,7 @@
                                                     multiplier:1.0f
                                                       constant:0.0f]];
 
-    CGFloat alertBackgroundViewWidth = MIN(screenWidth, screenHeight) * 0.8f;
-
-    self.alertBackgroundWidthConstraint =
-        [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                     attribute:NSLayoutAttributeWidth
-                                     relatedBy:NSLayoutRelationEqual
-                                        toItem:nil
-                                     attribute:NSLayoutAttributeNotAnAttribute
-                                    multiplier:0.0f
-                                      constant:alertBackgroundViewWidth];
-
-    [self addConstraint:self.alertBackgroundWidthConstraint];
-
-    CGFloat alertBackgroundViewHeight = MAX(screenWidth, screenHeight) * 0.9f;
-
-    self.alertBackgroundHeightConstraint =
-        [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
-                                     attribute:NSLayoutAttributeHeight
-                                     relatedBy:NSLayoutRelationLessThanOrEqual
-                                        toItem:self
-                                     attribute:NSLayoutAttributeHeight
-                                    multiplier:0.9f
-                                      constant:0.0f];
-
-    [self addConstraint:self.alertBackgroundHeightConstraint];
+    self.isFullScreen = NO; // add width and height constraints via setter
 
     _backgroundViewVerticalCenteringConstraint =
         [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
@@ -445,9 +422,80 @@
     self.alertBackgroundWidthConstraint.constant = maximumWidth;
 }
 
-- (void)setMaximumHeight:(CGFloat)maximumHeight {
-    _maximumHeight = maximumHeight;
-    self.alertBackgroundHeightConstraint.constant = maximumHeight;
+- (void)setIsFullScreen:(BOOL)isFullScreen
+{
+    _isFullScreen = isFullScreen;
+
+    self.alertBackgroundView.layer.cornerRadius = isFullScreen ? 0 : 6.0f;
+
+    CGFloat statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
+    CGFloat screenWidth = CGRectGetWidth(UIScreen.mainScreen.bounds);
+    CGFloat screenHeight = CGRectGetHeight(UIScreen.mainScreen.bounds) - statusBarHeight;
+
+    CGFloat alertBackgroundViewWidth = MIN(screenWidth, screenHeight) * (isFullScreen ? 1.0f : 0.8f);
+
+    if (self.alertBackgroundWidthConstraint) {
+        [self removeConstraint:self.alertBackgroundWidthConstraint];
+    }
+
+    self.alertBackgroundWidthConstraint =
+        [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                     attribute:NSLayoutAttributeWidth
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                     attribute:NSLayoutAttributeNotAnAttribute
+                                    multiplier:0.0f
+                                      constant:alertBackgroundViewWidth];
+
+    [self addConstraint:self.alertBackgroundWidthConstraint];
+
+    void (^addRelationalConstraint)() = ^{
+        self.alertBackgroundHeightConstraint =
+            [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                         attribute:NSLayoutAttributeHeight
+                                         relatedBy:NSLayoutRelationLessThanOrEqual
+                                            toItem:self
+                                         attribute:NSLayoutAttributeHeight
+                                        multiplier:0.9f
+                                          constant:0.0f];
+
+        self.alertBackgroundHeightConstraint.identifier = kBackgroundViewHeightConstraintIdentifier;
+        [self addConstraint:self.alertBackgroundHeightConstraint];
+        self.backgroundViewVerticalCenteringConstraint.constant = 0;
+    };
+
+    if (!self.alertBackgroundHeightConstraint) {
+        addRelationalConstraint();
+        return;
+    }
+
+    for (NSLayoutConstraint *constraint in self.constraints) {
+        if ([constraint.identifier isEqualToString:kBackgroundViewHeightConstraintIdentifier]) {
+
+            [self removeConstraint:constraint];
+
+            if (isFullScreen) {
+                CGFloat alertBackgroundViewHeight = MAX(screenWidth, screenHeight);
+
+                self.alertBackgroundHeightConstraint =
+                    [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
+                                                 attribute:NSLayoutAttributeHeight
+                                                 relatedBy:NSLayoutRelationEqual
+                                                    toItem:nil
+                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                multiplier:0.0f
+                                                  constant:alertBackgroundViewHeight];
+
+                self.alertBackgroundHeightConstraint.identifier = kBackgroundViewHeightConstraintIdentifier;
+                [self addConstraint:self.alertBackgroundHeightConstraint];
+                self.backgroundViewVerticalCenteringConstraint.constant = statusBarHeight / 2;
+            } else {
+                addRelationalConstraint();
+            }
+
+            break;
+        }
+    }
 }
 
 - (void)setContentView:(UIView *)contentView {
@@ -527,42 +575,32 @@
     self.alertBackgroundView.clipsToBounds = (self.style == NYAlertViewStyleIOSCustom);
     
     _actionButtons = actionButtons;
-    
+
     // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
-    if ([actionButtons count] == 2) {
+    BOOL isHorizontalLayout = ([actionButtons count] == 2);
+    self.actionButtonContainerView.axis = UILayoutConstraintAxisHorizontal;
+
+    if (isHorizontalLayout) {
         UIButton *firstButton = actionButtons[0];
         UIButton *lastButton = actionButtons[1];
         UIView *separatorView;
-        
-        [self.actionButtonContainerView addSubview:firstButton];
-        [self.actionButtonContainerView addSubview:lastButton];
+
+        [self.actionButtonContainerView addArrangedSubview:actionButtons.firstObject];
         
         if (self.style == NYAlertViewStyleIOSCustom) {
             separatorView = [UIView new];
             [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
             separatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-            [self.actionButtonContainerView addSubview:separatorView];
+            [self.actionButtonContainerView addArrangedSubview:separatorView];
             
             [self.actionButtonContainerView addConstraints:
              [NSLayoutConstraint constraintsWithVisualFormat:@"H:[separatorView(1)]"
                                                      options:0
                                                      metrics:nil
                                                        views:NSDictionaryOfVariableBindings(separatorView)]];
-            [self.actionButtonContainerView addConstraints:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[separatorView]-0-|"
-                                                     options:0
-                                                     metrics:nil
-                                                       views:NSDictionaryOfVariableBindings(separatorView)]];
         }
-        
-        [self.actionButtonContainerView addConstraint:
-         [NSLayoutConstraint constraintWithItem:firstButton
-                                      attribute:NSLayoutAttributeWidth
-                                      relatedBy:NSLayoutRelationEqual
-                                         toItem:lastButton
-                                      attribute:NSLayoutAttributeWidth
-                                     multiplier:1.0f
-                                       constant:0.0f]];
+
+        [self.actionButtonContainerView addArrangedSubview:actionButtons.lastObject];
         
         NSString *format = (self.style == NYAlertViewStyleIOSCustom)
         ? @"H:|-0-[firstButton]-0-[separatorView]-0-[lastButton]-0-|"

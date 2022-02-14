@@ -97,10 +97,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
  */
 @property (nonatomic) CGFloat maximumWidth;
 
-/**
- The maximum width at which to display the presented alert view
- */
-@property (nonatomic) CGFloat maximumHeight;
+@property (nonatomic) BOOL isFullScreen;
 
 /**
  The font used to display the title in the alert view

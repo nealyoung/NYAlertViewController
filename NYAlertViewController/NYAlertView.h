@@ -58,7 +58,10 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
-@property (nonatomic) CGFloat maximumHeight;
+/**
+ * Shows content in full screen mode (but not covering status bar).
+ */
+@property (nonatomic) BOOL isFullScreen;
 
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
