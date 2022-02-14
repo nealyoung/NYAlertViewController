@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 //@property (nonatomic) NSArray *actions;
 @property (nonatomic) NSArray<UIButton *> *actionButtons;
 
-@property (nonatomic) NSArray *textFields;
+@property (nonatomic) NSArray<UITextField *> *textFields;
 
 /// View from contentView which should be visible, overrides first responder / active text field
 @property (nonatomic) UIView *keyboardEscapingView;

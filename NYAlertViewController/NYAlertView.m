@@ -197,6 +197,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 @property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
 @property (nonatomic) NSLayoutConstraint *alertBackgroundHeightConstraint;
+@property (nonatomic) NSLayoutConstraint *textFieldContainerViewHeightConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
 @property (nonatomic) UIView *actionButtonContainerView;
@@ -284,6 +285,15 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     [self.textFieldContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.alertBackgroundView addSubview:self.textFieldContainerView];
+    self.textFieldContainerViewHeightConstraint = [NSLayoutConstraint
+        constraintWithItem:self.textFieldContainerView
+                 attribute:NSLayoutAttributeHeight
+                 relatedBy:NSLayoutRelationEqual
+                    toItem:nil
+                 attribute:NSLayoutAttributeNotAnAttribute
+                multiplier:1.0
+                  constant:0];
+    [self.textFieldContainerView addConstraint:self.textFieldContainerViewHeightConstraint];
 
     _actionButtonContainerView = [UIView new];
     [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -525,15 +535,20 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     }
 }
 
-- (void)setTextFields:(NSArray *)textFields {
+- (void)setTextFields:(NSArray<UITextField *> *)textFields {
     for (UITextField *textField in self.textFields) {
         [textField removeFromSuperview];
     }
     
     _textFields = textFields;
+
+    NSInteger totalHeight = 0;
     
     for (int i = 0; i < [textFields count]; i++) {
         UITextField *textField = textFields[i];
+
+        totalHeight += [textField sizeThatFits:CGSizeZero].height;
+
         [textField setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.textFieldContainerView addSubview:textField];
 
@@ -569,6 +584,8 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                                       views:NSDictionaryOfVariableBindings(textField)]];
         }
     }
+
+    self.textFieldContainerViewHeightConstraint.constant = totalHeight;
 }
 
 - (void)setActionButtons:(NSArray *)actionButtons {
