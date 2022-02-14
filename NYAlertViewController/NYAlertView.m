@@ -204,7 +204,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 @property (nonatomic) NSLayoutConstraint *alertBackgroundHeightConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
-@property (nonatomic) UIStackView *actionButtonContainerView;
+@property (nonatomic) UIView *actionButtonContainerView;
 @property (nonatomic) UITextField *activeTextField;
 @property (nonatomic) BOOL keyboardIsVisible;
 @property (nonatomic) CGSize keyboardSize;
@@ -280,8 +280,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     [self.textFieldContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.alertBackgroundView addSubview:self.textFieldContainerView];
 
-    _actionButtonContainerView = [UIStackView new];
-    _actionButtonContainerView.spacing = 8;
+    _actionButtonContainerView = [UIView new];
     [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [self.alertBackgroundView addSubview:self.actionButtonContainerView];
@@ -571,106 +570,116 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     for (UIButton *button in self.actionButtons) {
         [button removeFromSuperview];
     }
-    
+
     self.alertBackgroundView.clipsToBounds = (self.style == NYAlertViewStyleIOSCustom);
-    
+
     _actionButtons = actionButtons;
 
     // If there are 2 actions, display the buttons next to each other. Otherwise, stack the buttons vertically at full width
-    BOOL isHorizontalLayout = ([actionButtons count] == 2);
-    self.actionButtonContainerView.axis = UILayoutConstraintAxisHorizontal;
-
-    if (isHorizontalLayout) {
+    if ([actionButtons count] == 2) {
         UIButton *firstButton = actionButtons[0];
         UIButton *lastButton = actionButtons[1];
         UIView *separatorView;
 
-        [self.actionButtonContainerView addArrangedSubview:actionButtons.firstObject];
-        
+        [self.actionButtonContainerView addSubview:firstButton];
+        [self.actionButtonContainerView addSubview:lastButton];
+
         if (self.style == NYAlertViewStyleIOSCustom) {
             separatorView = [UIView new];
             [separatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
             separatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-            [self.actionButtonContainerView addArrangedSubview:separatorView];
-            
-            [self.actionButtonContainerView addConstraints:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"H:[separatorView(1)]"
-                                                     options:0
-                                                     metrics:nil
-                                                       views:NSDictionaryOfVariableBindings(separatorView)]];
+            [self.actionButtonContainerView addSubview:separatorView];
+
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"H:[separatorView(1)]"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(separatorView)]];
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"V:|-0-[separatorView]-0-|"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(separatorView)]];
         }
 
-        [self.actionButtonContainerView addArrangedSubview:actionButtons.lastObject];
-        
+        [self.actionButtonContainerView addConstraint:[NSLayoutConstraint
+            constraintWithItem:firstButton
+                     attribute:NSLayoutAttributeWidth
+                     relatedBy:NSLayoutRelationEqual
+                        toItem:lastButton
+                     attribute:NSLayoutAttributeWidth
+                    multiplier:1.0f
+                      constant:0.0f]];
+
         NSString *format = (self.style == NYAlertViewStyleIOSCustom)
-        ? @"H:|-0-[firstButton]-0-[separatorView]-0-[lastButton]-0-|"
-        : @"H:|-[firstButton]-[lastButton]-|";
-        
+                           ? @"H:|-0-[firstButton]-0-[separatorView]-0-[lastButton]-0-|"
+                           : @"H:|-[firstButton]-[lastButton]-|";
+
         NSDictionary *views = (self.style == NYAlertViewStyleIOSCustom)
-        ? NSDictionaryOfVariableBindings(firstButton, separatorView, lastButton)
-        : NSDictionaryOfVariableBindings(firstButton, lastButton);
-        
-        [self.actionButtonContainerView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:format
-                                                 options:NSLayoutFormatAlignAllCenterY
-                                                 metrics:nil
-                                                   views:views]];
-        
+                              ? NSDictionaryOfVariableBindings(firstButton, separatorView, lastButton)
+                              : NSDictionaryOfVariableBindings(firstButton, lastButton);
+
+        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:format
+                                options:NSLayoutFormatAlignAllCenterY
+                                metrics:nil
+                                  views:views]];
+
         format = (self.style == NYAlertViewStyleIOSCustom)
-        ? @"V:|-0-[firstButton(40)]-0-|"
-        : @"V:|-[firstButton(40)]|";
-        
-        [self.actionButtonContainerView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:format
-                                                 options:0
-                                                 metrics:nil
-                                                   views:NSDictionaryOfVariableBindings(_contentViewContainerView, firstButton)]];
-        
-        [self.actionButtonContainerView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[lastButton(40)]"
-                                                 options:0
-                                                 metrics:nil
-                                                   views:NSDictionaryOfVariableBindings(lastButton)]];
+                 ? @"V:|-0-[firstButton(40)]-0-|"
+                 : @"V:|-[firstButton(40)]|";
+
+        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:format
+                                options:0
+                                metrics:nil
+                                  views:NSDictionaryOfVariableBindings(_contentViewContainerView, firstButton)]];
+
+        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+            constraintsWithVisualFormat:@"V:[lastButton(40)]"
+                                options:0
+                                metrics:nil
+                                  views:NSDictionaryOfVariableBindings(lastButton)]];
     } else {
         for (NSUInteger i = 0; i < [actionButtons count]; i++) {
             UIButton *actionButton = actionButtons[i];
-            
+
             [self.actionButtonContainerView addSubview:actionButton];
-            
-            [self.actionButtonContainerView addConstraints:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[actionButton]-|"
-                                                     options:0
-                                                     metrics:nil
-                                                       views:NSDictionaryOfVariableBindings(actionButton)]];
-            
-            [self.actionButtonContainerView addConstraints:
-             [NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton(40)]"
-                                                     options:0
-                                                     metrics:nil
-                                                       views:NSDictionaryOfVariableBindings(actionButton)]];
-            
+
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"H:|-[actionButton]-|"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(actionButton)]];
+
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                constraintsWithVisualFormat:@"V:[actionButton(40)]"
+                                    options:0
+                                    metrics:nil
+                                      views:NSDictionaryOfVariableBindings(actionButton)]];
+
             if (i == 0) {
-                [self.actionButtonContainerView addConstraints:
-                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[actionButton]"
-                                                         options:0
-                                                         metrics:nil
-                                                           views:NSDictionaryOfVariableBindings(_contentViewContainerView, actionButton)]];
+                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                    constraintsWithVisualFormat:@"V:|-[actionButton]"
+                                        options:0
+                                        metrics:nil
+                                          views:NSDictionaryOfVariableBindings(_contentViewContainerView, actionButton)]];
             } else {
                 UIButton *previousButton = actionButtons[i - 1];
-                
-                [self.actionButtonContainerView addConstraints:
-                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[previousButton]-[actionButton]"
-                                                         options:0
-                                                         metrics:nil
-                                                           views:NSDictionaryOfVariableBindings(previousButton, actionButton)]];
+
+                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                    constraintsWithVisualFormat:@"V:[previousButton]-[actionButton]"
+                                        options:0
+                                        metrics:nil
+                                          views:NSDictionaryOfVariableBindings(previousButton, actionButton)]];
             }
-            
+
             if (i == ([actionButtons count] - 1)) {
-                [self.actionButtonContainerView addConstraints:
-                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[actionButton]|"
-                                                         options:0
-                                                         metrics:nil
-                                                           views:NSDictionaryOfVariableBindings(actionButton)]];
+                [self.actionButtonContainerView addConstraints:[NSLayoutConstraint
+                    constraintsWithVisualFormat:@"V:[actionButton]|"
+                                        options:0
+                                        metrics:nil
+                                          views:NSDictionaryOfVariableBindings(actionButton)]];
             }
         }
     }
