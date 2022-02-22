@@ -578,7 +578,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         }
         
         [buttons addObject:button];
-        
+
+        button.enabled = action.enabled;
         action.actionButton = button;
     }
     
