@@ -235,6 +235,15 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    // call here to get actual text view content width and calculate height
+    // downside of this approach: layoutSubviews is being intensively called on text view scrolling
+    // possible workaround: disable text view scrolling for small messages
+    [self updateMessageTextViewHeight];
+}
+
 - (void)commonInit
 {
     CGFloat screenWidth = CGRectGetWidth(UIScreen.mainScreen.bounds);
@@ -277,7 +286,9 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     self.messageTextView.textColor = [UIColor darkGrayColor];
     self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
-    self.messageTextView.textContainerInset = (self.style == NYAlertViewStyleIOSCustom) ? UIEdgeInsetsMake(7, 0, 0, 0) : self.messageTextView.textContainerInset;
+    self.messageTextView.textContainerInset = (self.style == NYAlertViewStyleIOSCustom)
+                                              ? UIEdgeInsetsMake(7, 0, 0, 0)
+                                              : self.messageTextView.textContainerInset;
     [self.alertBackgroundView addSubview:self.messageTextView];
 
     _messageTextViewHeightConstraint = [NSLayoutConstraint
@@ -758,7 +769,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
 - (void)updateMessageTextViewHeight
 {
     BOOL isEmpty = (self.messageTextView.text.length == 0);
-    CGFloat height = isEmpty ? 0 : [self.messageTextView sizeThatFits:CGSizeZero].height;
+    CGFloat height = isEmpty ? 0 : [self.messageTextView sizeThatFits:CGSizeMake(self.messageTextView.intrinsicContentSize.width, CGFLOAT_MAX)].height;
 
     self.messageTextViewTopConstraint.constant = isEmpty ? 0 : kMessageTextViewTopMargin;
     self.messageTextViewHeightConstraint.constant = height;
