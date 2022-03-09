@@ -13,15 +13,15 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
     self = [super initWithFrame:frame textContainer:textContainer];
-    
+
     self.textContainerInset = UIEdgeInsetsZero;
-    
+
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     if (!CGSizeEqualToSize(self.bounds.size, [self intrinsicContentSize])) {
         [self invalidateIntrinsicContentSize];
     }
@@ -47,13 +47,13 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillRect(context, rect);
-    
+
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     return image;
 }
 
@@ -67,37 +67,37 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    
+
     if (self) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    
+
     if (self) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
 - (void)commonInit {
     self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     self.layer.shouldRasterize = YES;
-    
+
     self.layer.borderWidth = 1.0f;
-    
+
     self.cornerRadius = 4.0f;
     self.clipsToBounds = YES;
-    
+
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
-    
+
     [self tintColorDidChange];
 }
 
@@ -108,7 +108,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)setEnabled:(BOOL)enabled {
     [super setEnabled:enabled];
-    
+
 //    if (!enabled) {
 //        self.backgroundColor = [UIColor lightGrayColor];
 //        self.layer.borderColor = self.tintColor.CGColor;
@@ -122,7 +122,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)tintColorDidChange {
     [super tintColorDidChange];
-    
+
     if (self.type == NYAlertViewButtonTypeFilled) {
         if (self.enabled) {
             [self setBackgroundColor:self.tintColor];
@@ -130,9 +130,9 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     } else {
         [self setTitleColor:self.tintColor forState:UIControlStateNormal];
     }
-    
+
     self.layer.borderColor = self.tintColor.CGColor;
-    
+
     [self setNeedsDisplay];
 }
 
@@ -148,7 +148,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     if (self.hidden) {
         return CGSizeZero;
     }
-    
+
     return CGSizeMake([super intrinsicContentSize].width + 12.0f, 30.0f);
 }
 
@@ -169,15 +169,15 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
+
     self.layer.borderColor = _borderColor ? _borderColor.CGColor : self.tintColor.CGColor;
-    
+
     if (self.type == NYAlertViewButtonTypeBordered) {
         self.layer.borderWidth = (_borderWidth > 0) ? _borderWidth : 1.0f;
     } else {
         self.layer.borderWidth = 0.0f;
     }
-    
+
     if (self.state == UIControlStateHighlighted) {
         self.layer.backgroundColor = self.tintColor.CGColor;
         //        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
@@ -211,23 +211,23 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    
+
     if (self) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
 - (instancetype)initWithStyle:(NYAlertViewStyle)style
 {
     self = [super initWithFrame:CGRectZero];
-    
+
     if (self) {
         self.style = style;
         [self commonInit];
     }
-    
+
     return self;
 }
 
@@ -367,11 +367,11 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                               views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
 
     NSString *format = (self.style == NYAlertViewStyleIOSCustom)
-        ? @"V:|-[_titleLabel]-[topSeparatorView]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][bottomSeparatorView][_actionButtonContainerView]-0-|"
-        : @"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|";
+                       ? @"V:|-[_titleLabel]-[topSeparatorView]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][bottomSeparatorView][_actionButtonContainerView]-0-|"
+                       : @"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|";
     NSDictionary *views = (topSeparatorView)
-        ? NSDictionaryOfVariableBindings(_titleLabel, topSeparatorView, _messageTextView, _contentViewContainerView, _textFieldContainerView, bottomSeparatorView, _actionButtonContainerView)
-        : NSDictionaryOfVariableBindings(_titleLabel, _messageTextView, _contentViewContainerView, _textFieldContainerView, _actionButtonContainerView);
+                          ? NSDictionaryOfVariableBindings(_titleLabel, topSeparatorView, _messageTextView, _contentViewContainerView, _textFieldContainerView, bottomSeparatorView, _actionButtonContainerView)
+                          : NSDictionaryOfVariableBindings(_titleLabel, _messageTextView, _contentViewContainerView, _textFieldContainerView, _actionButtonContainerView);
 
     [self.alertBackgroundView addConstraints:[NSLayoutConstraint
         constraintsWithVisualFormat:format
@@ -514,13 +514,13 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)setContentView:(UIView *)contentView {
     [self.contentView removeFromSuperview];
-    
+
     _contentView = contentView;
-    
+
     if (contentView) {
         [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.contentViewContainerView addSubview:self.contentView];
-        
+
         [self.contentViewContainerView addConstraints:[NSLayoutConstraint
             constraintsWithVisualFormat:@"H:|[_contentView]|"
                                 options:0
@@ -539,11 +539,11 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     for (UITextField *textField in self.textFields) {
         [textField removeFromSuperview];
     }
-    
+
     _textFields = textFields;
 
     NSInteger totalHeight = 0;
-    
+
     for (int i = 0; i < [textFields count]; i++) {
         UITextField *textField = textFields[i];
 
@@ -557,7 +557,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                                 options:0
                                 metrics:nil
                                   views:NSDictionaryOfVariableBindings(textField)]];
-        
+
         // Pin the first text field to the top of the text field container view
         if (i == 0) {
             [self.textFieldContainerView addConstraints:[NSLayoutConstraint
@@ -574,7 +574,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                                     metrics:nil
                                       views:NSDictionaryOfVariableBindings(previousTextField, textField)]];
         }
-        
+
         // Pin the final text field to the bottom of the text field container view
         if (i == ([textFields count] - 1)) {
             [self.textFieldContainerView addConstraints:[NSLayoutConstraint
@@ -719,11 +719,9 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
         self.keyboardSize = CGSizeMake(self.keyboardSize.height, self.keyboardSize.width);
     }
 
-    UIView *activeView = self.keyboardEscapingView ? self.keyboardEscapingView : _activeTextField;
-
     CGFloat keyboardTop = [[UIScreen mainScreen] bounds].size.height - self.keyboardSize.height;
-    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:activeView];
-    CGFloat textFieldBottom = textFieldPosition.y + activeView.frame.size.height;
+    CGPoint textFieldPosition = [self convertPoint:CGPointZero fromView:self.activeView];
+    CGFloat textFieldBottom = textFieldPosition.y + self.activeView.frame.size.height;
 
     if (textFieldBottom > keyboardTop) {
         _backgroundViewVerticalCenteringConstraint.constant = keyboardTop - textFieldBottom;
@@ -738,6 +736,11 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 - (void)updateMessageTextViewHeight
 {
     self.messageTextViewHeightConstraint.constant = self.messageTextView.intrinsicContentSize.height;
+}
+
+- (UIView *)activeView
+{
+    return self.keyboardEscapingView ? self.keyboardEscapingView : _activeTextField;
 }
 
 #pragma mark - Notifications
@@ -764,7 +767,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     self.keyboardIsVisible = NO;
     _backgroundViewVerticalCenteringConstraint.constant = 0.0f;
     [self setNeedsUpdateConstraints];
-    
+
     [UIView animateWithDuration:0.2f animations:^{
         [self layoutIfNeeded];
     }];
