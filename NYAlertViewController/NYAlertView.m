@@ -442,9 +442,8 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
     self.alertBackgroundView.layer.cornerRadius = isFullScreen ? 0 : 6.0f;
 
-    CGFloat statusBarHeight = UIApplication.sharedApplication.statusBarFrame.size.height;
     CGFloat screenWidth = CGRectGetWidth(UIScreen.mainScreen.bounds);
-    CGFloat screenHeight = CGRectGetHeight(UIScreen.mainScreen.bounds) - statusBarHeight;
+    CGFloat screenHeight = CGRectGetHeight(UIScreen.mainScreen.bounds) - self.statusBarHeight;
 
     CGFloat alertBackgroundViewWidth = MIN(screenWidth, screenHeight) * (isFullScreen ? 1.0f : 0.8f);
 
@@ -475,7 +474,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
         self.alertBackgroundHeightConstraint.identifier = kBackgroundViewHeightConstraintIdentifier;
         [self addConstraint:self.alertBackgroundHeightConstraint];
-        self.backgroundViewVerticalCenteringConstraint.constant = 0;
+        [self updateBackgroundViewVerticalCenteringConstraint];
     };
 
     if (!self.alertBackgroundHeightConstraint) {
@@ -502,7 +501,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
                 self.alertBackgroundHeightConstraint.identifier = kBackgroundViewHeightConstraintIdentifier;
                 [self addConstraint:self.alertBackgroundHeightConstraint];
-                self.backgroundViewVerticalCenteringConstraint.constant = statusBarHeight / 2;
+                [self updateBackgroundViewVerticalCenteringConstraint];
             } else {
                 addRelationalConstraint();
             }
@@ -738,9 +737,19 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     self.messageTextViewHeightConstraint.constant = self.messageTextView.intrinsicContentSize.height;
 }
 
+- (void)updateBackgroundViewVerticalCenteringConstraint
+{
+    self.backgroundViewVerticalCenteringConstraint.constant = self.isFullScreen ? self.statusBarHeight / 2 : 0;
+}
+
 - (UIView *)activeView
 {
     return self.keyboardEscapingView ? self.keyboardEscapingView : _activeTextField;
+}
+
+- (CGFloat)statusBarHeight
+{
+    return UIApplication.sharedApplication.statusBarFrame.size.height;
 }
 
 #pragma mark - Notifications
@@ -765,7 +774,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 - (void)keyboardWillHideNotification:(NSNotification *)notification
 {
     self.keyboardIsVisible = NO;
-    _backgroundViewVerticalCenteringConstraint.constant = 0.0f;
+    [self updateBackgroundViewVerticalCenteringConstraint];
     [self setNeedsUpdateConstraints];
 
     [UIView animateWithDuration:0.2f animations:^{
