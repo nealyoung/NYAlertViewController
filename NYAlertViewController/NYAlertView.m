@@ -7,7 +7,10 @@
 
 #import "NYAlertView.h"
 
+
 static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroundViewHeightConstraintIdentifier";
+static const CGFloat kMessageTextViewTopMargin = 2.0;
+
 
 @implementation NYAlertTextView
 
@@ -197,6 +200,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 @property (nonatomic) NSLayoutConstraint *alertBackgroundWidthConstraint;
 @property (nonatomic) NSLayoutConstraint *alertBackgroundHeightConstraint;
+@property (nonatomic) NSLayoutConstraint *messageTextViewTopConstraint;
 @property (nonatomic) NSLayoutConstraint *textFieldContainerViewHeightConstraint;
 @property (nonatomic) UIView *contentViewContainerView;
 @property (nonatomic) UIView *textFieldContainerView;
@@ -242,6 +246,16 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
     [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
     self.alertBackgroundView.layer.cornerRadius = 6.0f;
+
+    // keep just default bottom inset to add padding to action buttons when view is in full screen mode
+    if (@available(iOS 11, *)) {
+        CGFloat bottomInset = self.alertBackgroundView.directionalLayoutMargins.bottom;
+        self.alertBackgroundView.directionalLayoutMargins = NSDirectionalEdgeInsetsMake(0, 0, bottomInset, 0);
+    } else {
+        CGFloat bottomInset = self.alertBackgroundView.layoutMargins.bottom;
+        self.alertBackgroundView.layoutMargins = UIEdgeInsetsMake(0, 0, bottomInset, 0);
+    }
+
     [self addSubview:_alertBackgroundView];
 
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -368,16 +382,24 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
     NSString *format = (self.style == NYAlertViewStyleIOSCustom)
                        ? @"V:|-[_titleLabel]-[topSeparatorView]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][bottomSeparatorView][_actionButtonContainerView]-0-|"
-                       : @"V:|-[_titleLabel]-2-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|";
+                       : [NSString stringWithFormat:@"V:|-[_titleLabel]-%f-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|", kMessageTextViewTopMargin];
     NSDictionary *views = (topSeparatorView)
                           ? NSDictionaryOfVariableBindings(_titleLabel, topSeparatorView, _messageTextView, _contentViewContainerView, _textFieldContainerView, bottomSeparatorView, _actionButtonContainerView)
                           : NSDictionaryOfVariableBindings(_titleLabel, _messageTextView, _contentViewContainerView, _textFieldContainerView, _actionButtonContainerView);
 
-    [self.alertBackgroundView addConstraints:[NSLayoutConstraint
+    NSArray<NSLayoutConstraint *> *verticalConstraints = [NSLayoutConstraint
         constraintsWithVisualFormat:format
                             options:0
                             metrics:nil
-                              views:views]];
+                              views:views];
+    [self.alertBackgroundView addConstraints:verticalConstraints];
+
+    for (NSLayoutConstraint *constraint in verticalConstraints) {
+        if ([constraint.firstItem isEqual:self.messageTextView] && [constraint.secondItem isEqual:self.titleLabel]) {
+            self.messageTextViewTopConstraint = constraint;
+            break;
+        }
+    }
 
     if (self.style == NYAlertViewStyleIOSCustom) {
         [self.alertBackgroundView addConstraints:[NSLayoutConstraint
@@ -526,8 +548,9 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                                 metrics:nil
                                   views:NSDictionaryOfVariableBindings(_contentView)]];
 
+        NSString *visualFormat = [NSString stringWithFormat:@"V:|-%ld-[_contentView]-2-|", self.isFullScreen ? 0 : 2];
         [self.contentViewContainerView addConstraints:[NSLayoutConstraint
-            constraintsWithVisualFormat:@"V:|-2-[_contentView]-2-|"
+            constraintsWithVisualFormat:visualFormat
                                 options:0
                                 metrics:nil
                                   views:NSDictionaryOfVariableBindings(_contentView)]];
@@ -734,7 +757,11 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)updateMessageTextViewHeight
 {
-    self.messageTextViewHeightConstraint.constant =  [self.messageTextView sizeThatFits:CGSizeZero].height;
+    BOOL isEmpty = (self.messageTextView.text.length == 0);
+    CGFloat height = isEmpty ? 0 : [self.messageTextView sizeThatFits:CGSizeZero].height;
+
+    self.messageTextViewTopConstraint.constant = isEmpty ? 0 : kMessageTextViewTopMargin;
+    self.messageTextViewHeightConstraint.constant = height;
 }
 
 - (void)updateBackgroundViewVerticalCenteringConstraint
