@@ -734,7 +734,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
 
 - (void)updateMessageTextViewHeight
 {
-    self.messageTextViewHeightConstraint.constant = self.messageTextView.intrinsicContentSize.height;
+    self.messageTextViewHeightConstraint.constant =  [self.messageTextView sizeThatFits:CGSizeZero].height;
 }
 
 - (void)updateBackgroundViewVerticalCenteringConstraint
