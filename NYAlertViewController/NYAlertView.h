@@ -44,8 +44,8 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 
 @property (nonatomic) NYAlertViewStyle style;
 
-@property UILabel *titleLabel;
-@property NYAlertTextView *messageTextView;
+@property (nonatomic) UILabel *titleLabel;
+@property (nonatomic) NYAlertTextView *messageTextView;
 @property (nonatomic) UIView *contentView;
 
 @property (nonatomic) UIFont *buttonTitleFont;
@@ -59,6 +59,7 @@ typedef NS_ENUM(NSInteger, NYAlertViewStyle) {
 @property (nonatomic) UIColor *destructiveButtonColor;
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
 
+@property (nonatomic) NSString *title;
 @property (nonatomic) CGFloat buttonCornerRadius;
 @property (nonatomic) CGFloat maximumWidth;
 /**

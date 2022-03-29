@@ -9,16 +9,13 @@
 
 
 static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroundViewHeightConstraintIdentifier";
-static const CGFloat kMessageTextViewTopMargin = 2.0;
 
 
 @implementation NYAlertTextView
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
     self = [super initWithFrame:frame textContainer:textContainer];
-
     self.textContainerInset = UIEdgeInsetsZero;
-
     return self;
 }
 
@@ -255,6 +252,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
     self.alertBackgroundView.layer.cornerRadius = 6.0f;
+    self.alertBackgroundView.accessibilityIdentifier = @"alertBackgroundView";
 
     // keep just default bottom inset to add padding to action buttons when view is in full screen mode
     if (@available(iOS 11, *)) {
@@ -274,6 +272,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.textColor = [UIColor darkGrayColor];
     self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
+    self.titleLabel.accessibilityIdentifier = @"titleLabel";
     [self.alertBackgroundView addSubview:self.titleLabel];
 
     _messageTextView = [[NYAlertTextView alloc] initWithFrame:CGRectZero];
@@ -284,11 +283,11 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     self.messageTextView.editable = NO;
     self.messageTextView.textAlignment = NSTextAlignmentCenter;
     self.messageTextView.textColor = [UIColor darkGrayColor];
-    self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
+    self.messageTextView.font = [UIFont systemFontOfSize:16];
     self.messageTextView.textContainerInset = (self.style == NYAlertViewStyleIOSCustom)
                                               ? UIEdgeInsetsMake(7, 0, 0, 0)
                                               : self.messageTextView.textContainerInset;
+    self.messageTextView.accessibilityIdentifier = @"messageTextView";
     [self.alertBackgroundView addSubview:self.messageTextView];
 
     _messageTextViewHeightConstraint = [NSLayoutConstraint
@@ -299,11 +298,14 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
                  attribute:NSLayoutAttributeNotAnAttribute
                 multiplier:1.0
                   constant:0];
+    // set low priority to allow breaking height if it is too big (higher than screen height)
+    self.messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultLow;
     [self.messageTextView addConstraint:self.messageTextViewHeightConstraint];
 
     _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.contentViewContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.contentView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    self.contentViewContainerView.accessibilityIdentifier = @"contentViewContainerView";
     [self.alertBackgroundView addSubview:self.contentViewContainerView];
 
     _textFieldContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -318,11 +320,13 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
                  attribute:NSLayoutAttributeNotAnAttribute
                 multiplier:1.0
                   constant:0];
+    self.textFieldContainerView.accessibilityIdentifier = @"textFieldContainerView";
     [self.textFieldContainerView addConstraint:self.textFieldContainerViewHeightConstraint];
 
     _actionButtonContainerView = [UIView new];
     [self.actionButtonContainerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.actionButtonContainerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    self.actionButtonContainerView.accessibilityIdentifier = @"actionButtonContainerView";
     [self.alertBackgroundView addSubview:self.actionButtonContainerView];
 
     UIView *topSeparatorView;
@@ -332,11 +336,13 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
         topSeparatorView = [UIView new];
         [topSeparatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
         topSeparatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        topSeparatorView.accessibilityIdentifier = @"topSeparatorView";
         [self.alertBackgroundView addSubview:topSeparatorView];
 
         bottomSeparatorView = [UIView new];
         [bottomSeparatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
         bottomSeparatorView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        bottomSeparatorView.accessibilityIdentifier = @"bottomSeparatorView";
         [self.alertBackgroundView addSubview:bottomSeparatorView];
     }
 
@@ -368,7 +374,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
                               views:NSDictionaryOfVariableBindings(_titleLabel)]];
 
     [self.alertBackgroundView addConstraints:[NSLayoutConstraint
-        constraintsWithVisualFormat:@"H:|-[_messageTextView]-|"
+        constraintsWithVisualFormat:@"H:|-8-[_messageTextView]-8-|"
                             options:0
                             metrics:nil
                               views:NSDictionaryOfVariableBindings(_messageTextView)]];
@@ -393,7 +399,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
 
     NSString *format = (self.style == NYAlertViewStyleIOSCustom)
                        ? @"V:|-[_titleLabel]-[topSeparatorView]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][bottomSeparatorView][_actionButtonContainerView]-0-|"
-                       : [NSString stringWithFormat:@"V:|-[_titleLabel]-%f-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|", kMessageTextViewTopMargin];
+                       : @"V:|-[_titleLabel]-0-[_messageTextView][_contentViewContainerView][_textFieldContainerView][_actionButtonContainerView]-|";
     NSDictionary *views = (topSeparatorView)
                           ? NSDictionaryOfVariableBindings(_titleLabel, topSeparatorView, _messageTextView, _contentViewContainerView, _textFieldContainerView, bottomSeparatorView, _actionButtonContainerView)
                           : NSDictionaryOfVariableBindings(_titleLabel, _messageTextView, _contentViewContainerView, _textFieldContainerView, _actionButtonContainerView);
@@ -462,6 +468,12 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     }
 
     return NO;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    self.titleLabel.text = title;
+    [self updateMessageTextViewHeight];
 }
 
 - (void)setMaximumWidth:(CGFloat)maximumWidth {
@@ -548,6 +560,7 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     [self.contentView removeFromSuperview];
 
     _contentView = contentView;
+    _contentView.accessibilityIdentifier = @"contentView";
 
     if (contentView) {
         [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -771,8 +784,17 @@ static const CGFloat kMessageTextViewTopMargin = 2.0;
     BOOL isEmpty = (self.messageTextView.text.length == 0);
     CGFloat height = isEmpty ? 0 : [self.messageTextView sizeThatFits:CGSizeMake(self.messageTextView.intrinsicContentSize.width, CGFLOAT_MAX)].height;
 
-    self.messageTextViewTopConstraint.constant = isEmpty ? 0 : kMessageTextViewTopMargin;
-    self.messageTextViewHeightConstraint.constant = height;
+    self.messageTextViewHeightConstraint.constant = 0;
+
+    CGFloat topMargin = 0;
+    BOOL isTitleEmpty = (self.titleLabel.text.length == 0);
+
+    if (!isEmpty && isTitleEmpty) {
+        topMargin = 8;
+    } else if (!isTitleEmpty) {
+        topMargin = 2;
+    }
+    self.messageTextViewTopConstraint.constant = topMargin;
 }
 
 - (void)updateBackgroundViewVerticalCenteringConstraint

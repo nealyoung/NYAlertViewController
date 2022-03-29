@@ -20,23 +20,23 @@
     action.title = title;
     action.style = style;
     action.handler = handler;
-    
+
     return action;
 }
 
 - (instancetype)init {
     self = [super init];
-    
+
     if (self) {
         _enabled = YES;
     }
-    
+
     return self;
 }
 
 - (void)setEnabled:(BOOL)enabled {
     _enabled = enabled;
-    
+
     self.actionButton.enabled = enabled;
 }
 
@@ -55,35 +55,35 @@ static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
 
 - (instancetype)init {
     self = [super init];
-    
+
     if (self) {
         self.duration = kDefaultPresentationAnimationDuration;
     }
-    
+
     return self;
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop || self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromBottom) {
         UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-        
+
         CGRect initialFrame = [transitionContext finalFrameForViewController:toViewController];
-        
+
         initialFrame.origin.y = self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop ? -(initialFrame.size.height + initialFrame.origin.y) : (initialFrame.size.height + initialFrame.origin.y);
         toViewController.view.frame = initialFrame;
-        
+
         [[transitionContext containerView] addSubview:toViewController.view];
-        
+
         // If we're using the slide from top transition, apply a 3D rotation effect to the alert view as it animates in
         if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop) {
             CATransform3D transform = CATransform3DIdentity;
             transform.m34 = -1.0f / 600.0f;
             transform = CATransform3DRotate(transform,  M_PI_4 * 1.3f, 1.0f, 0.0f, 0.0f);
-            
+
             toViewController.view.layer.zPosition = 100.0f;
             toViewController.view.layer.transform = transform;
         }
-        
+
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0f
              usingSpringWithDamping:0.76f
@@ -99,13 +99,13 @@ static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
                          }];
     } else {
         UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-        
+
         toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
         [[transitionContext containerView] addSubview:toViewController.view];
-        
+
         toViewController.view.layer.transform = CATransform3DMakeScale(1.2f, 1.2f, 1.2f);
         toViewController.view.layer.opacity = 0.0f;
-        
+
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                          animations:^{
                              toViewController.view.layer.transform = CATransform3DIdentity;
@@ -121,7 +121,7 @@ static CGFloat const kDefaultPresentationAnimationDuration = 0.7f;
     switch (self.transitionStyle) {
         case NYAlertViewControllerTransitionStyleFade:
             return 0.3f;
-            
+
         case NYAlertViewControllerTransitionStyleSlideFromTop:
         case NYAlertViewControllerTransitionStyleSlideFromBottom:
             return 0.6f;
@@ -145,21 +145,21 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (instancetype)init {
     self = [super init];
-    
+
     if (self) {
         self.duration = kDefaultDismissalAnimationDuration;
     }
-    
+
     return self;
 }
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     if (self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromTop || self.transitionStyle == NYAlertViewControllerTransitionStyleSlideFromBottom) {
         UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        
+
         CGRect finalFrame = [transitionContext finalFrameForViewController:fromViewController];
         finalFrame.origin.y = 1.2f * CGRectGetHeight([transitionContext containerView].frame);
-        
+
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0f
              usingSpringWithDamping:0.8f
@@ -173,7 +173,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                          }];
     } else {
         UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-        
+
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                          animations:^{
                              fromViewController.view.layer.opacity = 0.0f;
@@ -188,7 +188,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     switch (self.transitionStyle) {
         case NYAlertViewControllerTransitionStyleFade:
             return 0.3f;
-            
+
         case NYAlertViewControllerTransitionStyleSlideFromTop:
         case NYAlertViewControllerTransitionStyleSlideFromBottom:
             return 0.6f;
@@ -217,13 +217,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)presentationTransitionWillBegin {
     NYAlertViewController *presentedViewController = (NYAlertViewController *) self.presentedViewController;
     presentedViewController.view.layer.masksToBounds = YES;
-    
+
     self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.backgroundDimmingView setTranslatesAutoresizingMaskIntoConstraints:NO];
     self.backgroundDimmingView.alpha = 0.0f;
     self.backgroundDimmingView.backgroundColor = presentedViewController.backgroundDimmingViewBackgroundColor
-        ? presentedViewController.backgroundDimmingViewBackgroundColor
-        : [UIColor blackColor];
+                                                 ? presentedViewController.backgroundDimmingViewBackgroundColor
+                                                 : [UIColor blackColor];
     [self.containerView addSubview:self.backgroundDimmingView];
 
     [self.containerView addConstraints:[NSLayoutConstraint
@@ -237,15 +237,15 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                             options:0
                             metrics:nil
                               views:NSDictionaryOfVariableBindings(_backgroundDimmingView)]];
-    
+
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
     [self.backgroundDimmingView addGestureRecognizer:tapGestureRecognizer];
-    
+
     // Shrink the presenting view controller, and animate in the dark background view
     id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.backgroundDimmingView.alpha = 0.7f;
-    }
+         self.backgroundDimmingView.alpha = 0.7f;
+     }
                                            completion:nil];
 }
 
@@ -259,7 +259,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)presentationTransitionDidEnd:(BOOL)completed {
     [super presentationTransitionDidEnd:completed];
-    
+
     if (!completed) {
         [self.backgroundDimmingView removeFromSuperview];
     }
@@ -267,26 +267,26 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)dismissalTransitionWillBegin {
     [super dismissalTransitionWillBegin];
-    
+
     id <UIViewControllerTransitionCoordinator> transitionCoordinator = [self.presentingViewController transitionCoordinator];
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.backgroundDimmingView.alpha = 0.0f;
-        
-        self.presentingViewController.view.transform = CGAffineTransformIdentity;
-    }
+         self.backgroundDimmingView.alpha = 0.0f;
+
+         self.presentingViewController.view.transform = CGAffineTransformIdentity;
+     }
                                            completion:nil];
 }
 
 - (void)containerViewWillLayoutSubviews {
     [super containerViewWillLayoutSubviews];
-    
+
     [self presentedView].frame = [self frameOfPresentedViewInContainerView];
     self.backgroundDimmingView.frame = self.containerView.bounds;
 }
 
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
     [super dismissalTransitionDidEnd:completed];
-    
+
     if (completed) {
         [self.backgroundDimmingView removeFromSuperview];
     }
@@ -320,11 +320,11 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (instancetype)initWithAlertViewStyle:(NYAlertViewStyle)style
 {
     self = [super init]; // calls initWithNibName:bundle:
-    
+
     if (self) {
         self.alertViewStyle = style;
     }
-    
+
     return self;
 }
 
@@ -332,27 +332,27 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     NYAlertViewController *alertController = [[NYAlertViewController alloc] initWithNibName:nil bundle:nil];
     alertController.title = title;
     alertController.message = message;
-    
+
     return alertController;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
+
     if (self) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
-    
+
     if (self) {
         [self commonInit];
     }
-    
+
     return self;
 }
 
@@ -375,39 +375,39 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)commonInit {
     _actions = [NSArray array];
     _textFields = [NSArray array];
-    
+
     _showsStatusBar = YES;
-    
+
     _buttonTitleFont = [UIFont systemFontOfSize:16.0f];
     _cancelButtonTitleFont = [UIFont boldSystemFontOfSize:16.0f];
     _destructiveButtonTitleFont = [UIFont systemFontOfSize:16.0f];
-    
+
     _buttonBorderWidth = 0.0;
     _cancelButtonBorderWidth = 0.0;
     _destructiveButtonBorderWidth = 0.0;
-    
+
     _buttonBorderColor = [UIColor darkGrayColor];
     _buttonColor = [UIColor darkGrayColor];
     _buttonTitleColor = [UIColor whiteColor];
-    
+
     _cancelButtonBorderColor = [UIColor darkGrayColor];
     _cancelButtonColor = [UIColor darkGrayColor];
     _cancelButtonTitleColor = [UIColor whiteColor];
-    
+
     _destructiveButtonBorderColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
     _destructiveButtonColor = [UIColor colorWithRed:1.0f green:0.23f blue:0.21f alpha:1.0f];
     _destructiveButtonTitleColor = [UIColor whiteColor];
-    
+
     _disabledButtonColor = [UIColor lightGrayColor];
     _disabledButtonTitleColor = [UIColor whiteColor];
-    
+
     _buttonCornerRadius = 6.0f;
-    
+
     _transitionStyle = NYAlertViewControllerTransitionStyleSlideFromTop;
-    
+
     self.modalPresentationStyle = UIModalPresentationCustom;
     self.transitioningDelegate = self;
-    
+
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
     self.panGestureRecognizer.delegate = self;
     self.panGestureRecognizer.enabled = NO;
@@ -445,33 +445,33 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setSwipeDismissalGestureEnabled:(BOOL)swipeDismissalGestureEnabled {
     _swipeDismissalGestureEnabled = swipeDismissalGestureEnabled;
-    
+
     self.panGestureRecognizer.enabled = swipeDismissalGestureEnabled;
 }
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)gestureRecognizer {
     self.view.backgroundViewVerticalCenteringConstraint.constant = [gestureRecognizer translationInView:self.view].y;
-    
+
     NYAlertViewPresentationController *presentationController = (NYAlertViewPresentationController* )self.presentationController;
-    
+
     CGFloat windowHeight = CGRectGetHeight(UIScreen.mainScreen.bounds);
     presentationController.backgroundDimmingView.alpha = 0.7f - (fabs([gestureRecognizer translationInView:self.view].y) / windowHeight);
-    
+
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat verticalGestureVelocity = [gestureRecognizer velocityInView:self.view].y;
-        
+
         // If the gesture is moving fast enough, animate the alert view offscreen and dismiss the view controller. Otherwise, animate the alert view back to its initial position
         if (fabs(verticalGestureVelocity) > 500.0f) {
             CGFloat backgroundViewYPosition;
-            
+
             if (verticalGestureVelocity > 500.0f) {
                 backgroundViewYPosition = CGRectGetHeight(self.view.frame);
             } else {
                 backgroundViewYPosition = -CGRectGetHeight(self.view.frame);
             }
-            
+
             CGFloat animationDuration = 500.0f / fabs(verticalGestureVelocity);
-            
+
             self.view.backgroundViewVerticalCenteringConstraint.constant = backgroundViewYPosition;
             [UIView animateWithDuration:animationDuration
                                   delay:0.0f
@@ -506,7 +506,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [self createActionButtons];
     self.view.textFields = self.textFields;
 }
@@ -526,25 +526,25 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)createActionButtons {
     NSMutableArray *buttons = [NSMutableArray array];
-    
+
     // Create buttons for each action
     for (int i = 0; i < [self.actions count]; i++) {
         NYAlertAction *action = self.actions[i];
-        
+
         NYAlertViewButton *button = [NYAlertViewButton buttonWithType:UIButtonTypeCustom];
-        
+
         button.tag = i;
         [button addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
+
         button.enabled = action.enabled;
-        
+
         button.cornerRadius = (self.alertViewStyle == NYAlertViewStyleIOSCustom) ? 0 : self.buttonCornerRadius;
         [button setTranslatesAutoresizingMaskIntoConstraints:NO];
         [button setTitle:action.title forState:UIControlStateNormal];
-        
+
         [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
         [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             button.type = (_cancelButtonBorderWidth > 0) ? NYAlertViewButtonTypeBordered : NYAlertViewButtonTypeFilled;
             [button setBorderWidth:_cancelButtonBorderWidth];
@@ -576,13 +576,13 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
             button.titleLabel.font = self.buttonTitleFont;
         }
-        
+
         [buttons addObject:button];
 
         button.enabled = action.enabled;
         action.actionButton = button;
     }
-    
+
     self.view.actionButtons = buttons;
 }
 
@@ -595,8 +595,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setTitle:(NSString *)title {
     [super setTitle:title];
-    
-    self.view.titleLabel.text = title;
+    self.view.title = title;
 }
 
 - (void)setMessage:(NSString *)message {
@@ -629,10 +628,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonTitleFont:(UIFont *)buttonTitleFont {
     _buttonTitleFont = buttonTitleFont;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             button.titleLabel.font = buttonTitleFont;
         }
@@ -641,10 +640,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonTitleFont:(UIFont *)cancelButtonTitleFont {
     _cancelButtonTitleFont = cancelButtonTitleFont;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             button.titleLabel.font = cancelButtonTitleFont;
         }
@@ -653,10 +652,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDestructiveButtonTitleFont:(UIFont *)destructiveButtonTitleFont {
     _destructiveButtonTitleFont = destructiveButtonTitleFont;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             button.titleLabel.font = destructiveButtonTitleFont;
         }
@@ -681,10 +680,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonBorderColor:(UIColor *)buttonBorderColor {
     _buttonBorderColor = buttonBorderColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button.layer setBorderColor:buttonBorderColor.CGColor];
         }
@@ -693,10 +692,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonBorderColor:(UIColor *)cancelButtonBorderColor {
     _cancelButtonBorderColor = cancelButtonBorderColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button.layer setBorderColor:cancelButtonBorderColor.CGColor];
         }
@@ -705,10 +704,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDestructiveButtonBorderColor:(UIColor *)destructiveButtonBorderColor {
     _destructiveButtonBorderColor = destructiveButtonBorderColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button.layer setBorderColor:destructiveButtonBorderColor.CGColor];
         }
@@ -717,10 +716,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonBorderWidth:(CGFloat)buttonBorderWidth {
     _buttonBorderWidth = buttonBorderWidth;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button.layer setBorderWidth:buttonBorderWidth];
         }
@@ -729,10 +728,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonBorderWidth:(CGFloat)cancelButtonBorderWidth {
     _cancelButtonBorderWidth = cancelButtonBorderWidth;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button.layer setBorderWidth:cancelButtonBorderWidth];
         }
@@ -741,10 +740,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDestructiveButtonBorderWidth:(CGFloat)destructiveButtonBorderWidth {
     _destructiveButtonBorderWidth = destructiveButtonBorderWidth;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button.layer setBorderWidth:destructiveButtonBorderWidth];
         }
@@ -753,10 +752,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonColor:(UIColor *)buttonColor {
     _buttonColor = buttonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button setBackgroundColor:buttonColor forState:UIControlStateNormal];
         }
@@ -765,10 +764,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonColor:(UIColor *)cancelButtonColor {
     _cancelButtonColor = cancelButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button setBackgroundColor:cancelButtonColor forState:UIControlStateNormal];
         }
@@ -777,10 +776,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDestructiveButtonColor:(UIColor *)destructiveButtonColor {
     _destructiveButtonColor = destructiveButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button setBackgroundColor:destructiveButtonColor forState:UIControlStateNormal];
         }
@@ -789,10 +788,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDisabledButtonColor:(UIColor *)disabledButtonColor {
     _disabledButtonColor = disabledButtonColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (!action.enabled) {
             [button setBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
         }
@@ -801,10 +800,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonTitleColor:(UIColor *)buttonTitleColor {
     _buttonTitleColor = buttonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style != UIAlertActionStyleCancel) {
             [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:buttonTitleColor forState:UIControlStateHighlighted];
@@ -814,10 +813,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setCancelButtonTitleColor:(UIColor *)cancelButtonTitleColor {
     _cancelButtonTitleColor = cancelButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:cancelButtonTitleColor forState:UIControlStateHighlighted];
@@ -827,10 +826,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDestructiveButtonTitleColor:(UIColor *)destructiveButtonTitleColor {
     _destructiveButtonTitleColor = destructiveButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:destructiveButtonTitleColor forState:UIControlStateHighlighted];
@@ -840,10 +839,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setDisabledButtonTitleColor:(UIColor *)disabledButtonTitleColor {
     _disabledButtonTitleColor = disabledButtonTitleColor;
-    
+
     [self.view.actionButtons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
         NYAlertAction *action = self.actions[idx];
-        
+
         if (!action.enabled) {
             [button setTitleColor:disabledButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:disabledButtonTitleColor forState:UIControlStateHighlighted];
@@ -861,7 +860,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)setButtonCornerRadius:(CGFloat)buttonCornerRadius {
     _buttonCornerRadius = buttonCornerRadius;
-    
+
     for (NYAlertViewButton *button in self.view.actionButtons) {
         button.cornerRadius = buttonCornerRadius;
     }
@@ -874,9 +873,9 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.borderStyle = UITextBorderStyleRoundedRect;
-    
+
     configurationHandler(textField);
-    
+
     _textFields = [self.textFields arrayByAddingObject:textField];
 }
 
@@ -922,7 +921,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     if (([touch.view isKindOfClass:[UIButton class]])) {
         return NO;
     }
-    
+
     return YES;
 }
 
