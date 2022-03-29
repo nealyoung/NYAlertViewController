@@ -514,7 +514,7 @@ static NSString * const kBackgroundViewHeightConstraintIdentifier = @"kBackgroun
                                          relatedBy:NSLayoutRelationLessThanOrEqual
                                             toItem:self
                                          attribute:NSLayoutAttributeHeight
-                                        multiplier:0.9f
+                                        multiplier:0.87f
                                           constant:0.0f];
 
         self.alertBackgroundHeightConstraint.identifier = kBackgroundViewHeightConstraintIdentifier;
