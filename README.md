@@ -18,6 +18,17 @@ Add the files to your project manually by dragging the NYAlertViewController dir
 #### CocoaPods
 Add `pod 'NYAlertViewController'` to your Podfile, and run `pod install`.
 
+#### Swift Package Manager
+Open your project in Xcode
+
+1. Click "File" -> "Add Packages..."
+2. Paste the following URL: https://github.com/gallinaettore/NYAlertViewController
+
+You can specify the dependency in `Package.swift` by adding this:
+```swift
+.package(url: "https://github.com/gallinaettore/NYAlertViewController.git", .upToNextMajor(from: "1.4.0"))
+```
+
 ### Usage Examples
 An Objective-C example project demonstrating customization options is included in the NYAlertViewControllerDemo directory.
 
