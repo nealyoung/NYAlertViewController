@@ -40,6 +40,11 @@ typedef NS_ENUM(NSInteger, NYAlertViewControllerTransitionStyle) {
 @property (nonatomic) NSString *message;
 
 /**
+ The attributed message displayed under the alert view's title
+ */
+@property (nonatomic, strong) NSAttributedString *attributedMessage;
+
+/**
  A Boolean value that determines whether the status bar is visible when the alert view is presented
  */
 @property (nonatomic) BOOL showsStatusBar;
