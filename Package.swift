@@ -24,8 +24,7 @@ let package = Package(
         .target(
             name: "NYAlertViewController",
             dependencies: [],
-            path: "NYAlertViewController",
-            publicHeadersPath: "../NYAlertViewController"
+            path: "NYAlertViewController"
         )
     ]
 )
