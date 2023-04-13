@@ -207,6 +207,11 @@
     self.view.messageTextView.text = message;
 }
 
+- (void)setAttributedMessage:(NSAttributedString *)attributedMessage {
+    _attributedMessage = attributedMessage;
+    self.view.messageTextView.attributedText = attributedMessage;
+}
+
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.borderStyle = UITextBorderStyleRoundedRect;

@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable) NSString *message;
 
 /**
+ The attributed message displayed under the alert view's title
+ */
+@property (nonatomic, strong) NSAttributedString *attributedMessage;
+
+/**
  The custom view displayed in the presented alert view
  
  @discussion The default value of this property is nil. Set this property to a view that you create to add the custom view to the displayed alert view.
